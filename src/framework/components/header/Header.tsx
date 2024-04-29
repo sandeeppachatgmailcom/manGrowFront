@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaPowerOff } from "react-icons/fa";
  
 import { useNavigate } from 'react-router-dom';
-import { toggleTheme } from '../../store/themeSlice';
-import { logout } from '../../store/activeUser';
+import { toggleTheme } from '../../ReduxStore/themeSlice';
+import { logout } from '../../ReduxStore/activeUser';
 //import ProfileImageBox from './ProfileImage';
 
 function Header() {

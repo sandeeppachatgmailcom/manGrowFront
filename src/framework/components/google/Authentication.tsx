@@ -6,7 +6,7 @@ import axiosApi from '../../../api/axios';
 import { userApi } from '../../../api/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
-import { login } from '../../store/activeUser';
+import { login } from '../../ReduxStore/activeUser';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../../interfaces/pages/modalOnLoad';  
 const GAuth = () => {

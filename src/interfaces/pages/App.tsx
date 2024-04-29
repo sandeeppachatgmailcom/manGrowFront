@@ -2,7 +2,7 @@ import  { useEffect,   } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Header from '../../framework/components/header/Header'; 
 import { Provider, useSelector } from 'react-redux';
-import appStore from '../../framework/store/appStore';  
+import appStore from '../../framework/ReduxStore/appStore';  
 import { GoogleOAuthProvider } from '@react-oauth/google';
 const App = () => {
   const navigate = useNavigate()
