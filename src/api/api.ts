@@ -1,4 +1,10 @@
-export const userApi: Record<string, string> = {
+
+
+
+
+
+
+export const userApi: userApi_route = {
     signUp: '/auth/create',
     login: '/auth/login',
     getlogin: '/auth/getlogin',
@@ -18,5 +24,7 @@ export const adminApis: Record<string,string> = {
 };
 
 export const utilityApis: Record<string, string> = {
-    listAllBatches: '/utils/listBatches'
+    listAllBatches: '/utils/listBatches',
+    listAllVenues: '/utils/getActiveVenues',
+    listActiveTrainers:'/utils/getActiveTrainers'
 };

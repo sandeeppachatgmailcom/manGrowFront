@@ -12,14 +12,20 @@ const themeSlice = createSlice({
         inputtext:''
     },
     reducers: {
-        toggleTheme: (state:any) => {
+        toggleTheme: (state) => {
             state.Themedark = !state.Themedark;  
             state.theme = state.Themedark ? state.darkTheme : state.lightTheme;  
             state.border=state.Themedark ? ' border-stone-950 ': ' border-stone-600 ';
-            state.inputtext = state.Themedark ?' bg-gray-800 text-slate-50 ':' bg-white-800 text-white-800 '
+            state.inputtext = state.Themedark ?'bg-gray-800 text-slate-50 ':' bg-white-800 text-white-800 '
+        },
+        switchDarkTheme:(state,actions)=>{
+            state.Themedark = !actions.payload;  
+            state.theme = state.Themedark ? state.darkTheme : state.lightTheme;  
+            state.border=state.Themedark ? ' border-stone-950 ': ' border-stone-600 ';
+            state.inputtext = state.Themedark ?'bg-gray-800 text-slate-50 ':' bg-white-800 text-white-800 '
         }
     }
 });
 
-export const { toggleTheme } = themeSlice.actions;
+export const { toggleTheme,switchDarkTheme } = themeSlice.actions;
 export default themeSlice.reducer;

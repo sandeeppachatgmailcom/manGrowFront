@@ -34,11 +34,15 @@ const AdminContent :React.FC<{}> = () => {
     })
      
     return (
-        <div className={`${darkTheme} flex  w-full border rounded-xl`}>
-            <div className='w-1/6 m-1 rounded block '>
-                <div className='w-full  h-[290px] m-1 rounded block' >
+        <div className={`${darkTheme} xl:flex sm:block   w-full border border-opacity-90 rounded-xl`}>
+            <div className='xl:w-1/6  m-1 rounded '>
+                <div className='w-full xl:block    m-1 rounded sm:flex lg:flex md:flex  sm:flex-wrap flex-wrap ' >
                     {batch.map((item, index) => {
-                        if (index < page * 5 && index >= (page - 1) * 5) return <button onClick={    () =>{  setMenu(item?.batchName as string);   setActiveBatch(item)}} className={menu == item.batchName ? 'w-5/6 font-bold text-blue-800 rounded-e-full bg-blue-200 flex m-1 rounded h-[50px] justify-start p-2 items-center ' : 'rounded-e-full justify-start p-2 items-center bg-blue-000 flex m-1 rounded h-[50px]'} key={item.batchName} > {item?.batchName?.toUpperCase()} </button>
+                        if (index < page * 5 && index >= (page - 1) * 5) return <button onClick={    () =>{  setMenu(item?.batchName as string);   setActiveBatch(item)}} className={`
+                         font-bold  flex m-1 p-2 text-start items-center  
+                        ${menu === item.batchName ? 'bg-blue-200 text-blue-500 shadow-sm shadow-blue-200 ' : 'text-gray-400 shadow-inner  bg-blue-000  '}
+                          xl:w-5/6 rounded-full xl:rounded-s
+                      `} key={item.batchName} > {item?.batchName?.toUpperCase()} </button>
                     })}
                     
                 </div>
@@ -57,7 +61,8 @@ const AdminContent :React.FC<{}> = () => {
                 </div>
                 
             </div>
-            <div className='w-5/6    '>
+            <div className='w-full   '>
+                
                 { menu==activebatch?.batchName? <Batch activebatchs ={activebatch  } />:''} 
             </div>
         </div>

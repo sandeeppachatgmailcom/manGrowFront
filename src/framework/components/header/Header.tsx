@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaPowerOff } from "react-icons/fa";
  
 import { useNavigate } from 'react-router-dom';
-import { toggleTheme } from '../../ReduxStore/themeSlice';
+import { switchDarkTheme, toggleTheme } from '../../ReduxStore/themeSlice';
 import { logout } from '../../ReduxStore/activeUser';
 //import ProfileImageBox from './ProfileImage';
 
@@ -17,13 +17,15 @@ function Header() {
   const darkTheme = useSelector((state:any) => state.theme.Themedark)
   const activeUser = useSelector((state:any) => state.activeUser.user)
   const company = useSelector((state:any) => state.company.info.companyName)
-
   const navigate = useNavigate()
   const toggleDarkMode = () => {
     dispatch(toggleTheme())
     console.log(theme, 'theme')
 
   }
+
+  
+ 
 
   function deleteCookie(cookieName:any) {
     document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;

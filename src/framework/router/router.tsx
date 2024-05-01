@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../../interfaces/pages/App";
 import ProfilePage from "../../interfaces/pages/ProfilePage";
 import SignupPage from "../../interfaces/pages/SignupPage";
-import Login from "../../interfaces/pages/Pages";
+import Login from "../../interfaces/pages/Login"; 
 import HomePage from "../../interfaces/pages/HomePage";
 import AdminHomePage from "../../interfaces/pages/AdminHomePage";
 import TrainerHomePage from "../../interfaces/pages/TrainerHomePage";

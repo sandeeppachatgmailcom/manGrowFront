@@ -1,11 +1,11 @@
-import React from "react"
+import SignupPage from "../../framework/components/user/SignupPage"
 
-const SignupPage:React.FC<{}> = ()=>{
+const SignUp = ()=>{
     return(
         <div>
-
+             <SignupPage/>
         </div>
     )
 }
 
-export default SignupPage
+export default SignUp
