@@ -9,7 +9,7 @@ import { userApi } from '../../../api/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../../../interfaces/pages/modalOnLoad';
-
+import { FcGoogle } from "react-icons/fc";
 
 
 
@@ -22,6 +22,7 @@ const SignupPage = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const imagePath = '../src/images/sugc.png'
   const navigate = useNavigate()
+  const [role,setRole] = useState('')
   const [modal,setModal] = useState(false)
   useEffect(()=>{console.log(darkTheme.theme,'test')},[darkTheme])
   const [formData, setFormData] = useState({
@@ -128,8 +129,8 @@ const validatePassword = (password:string) => {
             </div>
             
             <div className='flex items-center pt-3'>
-              <label className="inline-flex items-center" htmlFor="Student"> <input type="radio" required name='type' id='Student' value='Student' className="form-radio h-4 w-4 text-indigo-600 text-sm"   checked={formData.type === "Student"}  onChange={handleChange} />  <span className="text-sm ml-2"> Student   </span></label>  
-              <label className="inline-flex items-center" htmlFor="Trainer"> <input type="radio" required name='type' id='Trainer' value='Trainer' className="form-radio h-4 w-4 text-indigo-600"   checked={formData.type === "Trainer"}  onChange={handleChange} />  <span className="ml-2 text-sm"> Trainer </span></label>
+              <label className="inline-flex items-center" htmlFor="Student"> <input type="radio" required name='type' id='Student' value='Student' className="form-radio h-4 w-4 text-indigo-600 text-sm"   checked={formData.type === "Student"}  onChange={(e)=>{handleChange(e);setRole('Student')} } />  <span className="text-sm ml-2"> Student   </span></label>  
+              <label className="inline-flex items-center" htmlFor="Trainer"> <input type="radio" required name='type' id='Trainer' value='Trainer' className="form-radio h-4 w-4 text-indigo-600"   checked={formData.type === "Trainer"}  onChange={(e)=>{handleChange(e);setRole('Trainer')} } />  <span className="ml-2 text-sm"> Trainer </span></label>
             </div>
             <div>
               <label htmlFor="password" className="text-sm">Password</label>
@@ -162,9 +163,9 @@ const validatePassword = (password:string) => {
           
             <br />
              <h1 className='w-full text-center '> or </h1>
-            <div>
-                  <GAuth/>
-            </div>
+             <div className='flex align-center justify-center   h-[50px] ' aria-disabled={role.length ? false : true}>
+                {role.length ? <GAuth role={role} /> : <h1 className='text-red-500 font-semibold  w-full flex justify-center align-middle  h-100 '>  <FcGoogle /> Choose a role to sign in </h1>}
+             </div>
             <div className='container flex justify-end'>
             <Link to="/signin"> Sign in </Link>
 

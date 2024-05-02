@@ -8,6 +8,7 @@ import ChatBox from "../../framework/components/chatBox/chatBox";
 import AdminSubmenu from "../../framework/components/Admin/AdminMenuBar";
 import AdminContent from "../../framework/components/Admin/AdminContent";
 import ApproveStaff from "../../framework/components/Admin/StaffApproval"; 
+import Events from "../../framework/components/Admin/Events";
 
 const AdminHomePage = () => {
     const darkTheme = useSelector((state:any) => state.theme) 
@@ -34,7 +35,8 @@ const AdminHomePage = () => {
         <div className={`block h-100 xl:w-4/6 xl:m-1 mt-2 sm:w-full md-w-full    ${darkTheme.theme + divlign}`}>
             <AdminSubmenu/>
             {selectedSubMenu == 'batches'?<AdminContent/>:
-            selectedSubMenu == 'Approve'?<ApproveStaff/>:''} 
+            selectedSubMenu == 'Approve'?<ApproveStaff/>:
+            selectedSubMenu == 'programs'?<Events/>:''} 
         </div>
         <div className={`xl:w-1/6 md:w-2/6 sm:w-full ${darkTheme.theme + divlign} border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
             <ChatBox/>  

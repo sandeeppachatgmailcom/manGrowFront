@@ -10,11 +10,11 @@ const DropdownMenu: React.FC<DropdownMenuComponent> = (props) => {
     return (
         <div className="dropdown w-full">
             <select name={name} value={value} className={`${dartText} w-full`} onChange={onChange}>
-                {items.map((item: any,index) => (
-                    <option key={index} value={item.id}>
-                        {item.name}
-                    </option>
-                ))}
+            <option selected  key={'select'}  > Select </option>   
+                {items.map((item: any,index) => {
+                 
+                  return  <option key={index} value={item.id} selected={item.id === value}> {item.name} </option>
+                })}
             </select>
         </div>
     );

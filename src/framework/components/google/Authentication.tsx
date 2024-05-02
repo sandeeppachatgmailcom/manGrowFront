@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { login } from '../../ReduxStore/activeUser';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../../interfaces/pages/modalOnLoad';  
-const GAuth = () => {
+const GAuth = (props:any) => {
     const dispatch = useDispatch() 
     const navigate = useNavigate()
     const [modal,setModal] = useState(false)
@@ -52,7 +52,9 @@ const GAuth = () => {
     return (
         <div className='flex items-center justify-center text-center rounded-xl p-5'>
             {modal?<Modal/>:''}
-            <GoogleLogin  
+            <GoogleLogin  onClick ={()=>{
+            !props.role.length?toast.error('Choose a role to Continue'):''
+        }} 
                 onSuccess={credentialResponse => {
                     console.log(credentialResponse);
                     const decoded :any= jwtDecode(credentialResponse.credential as string);

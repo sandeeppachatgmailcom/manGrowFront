@@ -7,9 +7,11 @@ import { FaSave } from "react-icons/fa";
 import { MdCancelScheduleSend } from "react-icons/md";
 import axiosApi from "../../../api/axios";
 import { MdAddHome } from "react-icons/md";
-import { utilityApis } from "../../../api/api";
+import { adminApis, utilityApis } from "../../../api/api";
+import { ToastContainer, toast } from "react-toastify";
 type props ={
-    activebatchs:BatchComponent 
+    activebatchs:BatchComponent
+    setActiveBatch:any 
 }
 
 
@@ -17,7 +19,7 @@ const Batch = (props:props) => {
     
     const darkTheme = useSelector((state:any) => state.theme.theme)
     const darkText = useSelector((state:any) => state.theme.inputtext)
-    
+    const blank = {BatchType:"",active:false,batchId:"",batchName:"",cordinator:"",deleted:false,edited:false,location:"",maxCapacity:0,trainer:"",venue:""}
     const [venue,setVenue] = useState()
     const [trainers,setTrainers] = useState()
     const getVenues = async()=>{
@@ -36,20 +38,38 @@ const Batch = (props:props) => {
         console.log(data,'trainers')
         setTrainers(data)
     }
-
+    const getStudents =async ()=>{
+        const trainers = await axiosApi.get(utilityApis.listActiveTrainers)
+        const data =JSON.parse(JSON.stringify(trainers.data)).map((item:any)=>{
+            return{ name:item.firstName,id:item.email}
+         })
+        console.log(data,'trainers')
+        setTrainers(data)
+    }
+    const saveBatch =async ()=> {
+        console.log(activebatch,'activebatch')
+        const result =await axiosApi.post(adminApis.createBatch,activebatch)
+        console.log(result.data,'batch')
+        if(!result.data.status) toast.error(result.data.message)
+        else{
+            props.setActiveBatch(activebatch)
+            toast.success(result.data.message)
+    }    
+    }
 
 
     useEffect(()=>{
         getVenues() 
         getTrainers()
+        getStudents()
     },[])
     const [activebatch, setActivebatch] = useState <BatchComponent> (props.activebatchs)
    
     const handleChange = (e:any): void => {
-        let { name , value } :{name:any ,value:any } = e.target;
-        value=='true'?value=true:value=false;
+        let { name , value } = e.target;
+        console.log( name , value,'keypress found ')
         setActivebatch({
-          ...activebatch as any,
+          ...activebatch,
           [name]: value
         });
       };
@@ -67,13 +87,15 @@ const Batch = (props:props) => {
     return (
         <div className='xl:flex  w-full h-[100%] rounded rounded-e-xl border md:block  border-gray-300  border-opacity-45 '>
             {
-                Object.keys(activebatch).length ?
+                
                     <>
                         <div className={`xl:w-3/6    sm:w-full md:w-full lg:w-full  block ${darkTheme} m-1 rounded-xl  justify-between   `}>
+                
+                        <ToastContainer/>
                             <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
                                 <label className=' w-2/4' htmlFor="">Batch </label>
                                 
-                                <input className={`w-2/4   flex  ${darkText}`} onChange={handleChange} type="text" name="name" value={activebatch.batchName} id="" />
+                                <input className={`w-2/4 uppercase   flex  ${darkText}`} onChange={handleChange}  type="text" name="batchName" value={activebatch.batchName} id="" />
                             </div>
                             <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
                                 <label className=' w-2/4' htmlFor="">Start Date </label>
@@ -85,23 +107,23 @@ const Batch = (props:props) => {
                             </div>
                             <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
                                 <label className=' w-2/4' htmlFor="">Max Student </label>
-                                <input className={`w-2/4  ${darkText}`} onClick={() => { }} onChange={handleChange}  type="number" name="MaxStdCount" value={activebatch.maxCapacity} id="" />
+                                <input className={`w-2/4  ${darkText}`} onClick={() => { }} onChange={handleChange}  type="number" name="maxCapacity" value={activebatch.maxCapacity} id="" />
                             </div>
                             <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
                                 <label className=' w-2/4' htmlFor="">Location </label>
                                 <div className='justify-between align-middle w-2/4  '>
-                                    {venue? <DropdownMenu name='venue' value={activebatch?.venue  ? activebatch?.venue : 'select'} onChange={handleChange} items={venue} />:''}
+                                    {venue? <DropdownMenu name='location' value={activebatch?.location  ? activebatch?.location : ''} onChange={handleChange} items={venue} />:''}
                                 </div>
                             </div>
 
                         </div>
-                    </> : null
+                    </>  
             }
             <div className={`xl:w-3/6  sm:w-full md:w-full lg:w-full block ${darkTheme} m-1 rounded-xl  justify-between   `}>
                 <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
                     <label className=' w-2/4' htmlFor="">Type </label>
                     <div className='justify-between align-middle w-2/4  '>
-                        <DropdownMenu name='type' onChange={handleChange}  value={activebatch.BatchType ? activebatch?.BatchType : 'Remote'}  items={[{ name: 'Remote', id: 'TY0001' }, { name: 'BroCamp', id: 'TR0002' }]} />
+                        <DropdownMenu name='BatchType' onChange={handleChange}  value={activebatch.BatchType ? activebatch?.BatchType : 'Remote'}  items={[{ name: 'Remote', id: 'TY0001' }, { name: 'BroCamp', id: 'TR0002' }]} />
                     </div>
                 </div>
                 <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
@@ -126,8 +148,7 @@ const Batch = (props:props) => {
                             <button disabled className="bg-orange-600 flex justify-center items-center  text-gray-100 rounded rounded-s-full w-24 h-full">
                                 <MdOutlineRadioButtonChecked />
                             </button>
-                            <button
-                                onClick={handleChange}
+                            <button     onClick={handleChange}
                                 name="active"
                                 value = {true}
                                 className="text-blue-600 flex justify-center rounded items-center  rounded-r-full w-24 h-full"
@@ -142,22 +163,23 @@ const Batch = (props:props) => {
                 <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
                     <label className=' w-2/4' htmlFor="">Trainer </label>
                     <div className='w-2/4 m-2 justify-between align-middle '>
-                                    {trainers?  <DropdownMenu name='trainer' onChange={handleChange} value ={activebatch.trainer}  items={trainers} />:''}
+                                    {trainers?  <DropdownMenu name='trainer' onChange={handleChange} value={activebatch.trainer ? activebatch.trainer : 'Select'}   items={trainers} />:''}
                     </div>
                 </div>
                 <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
                     <label className=' w-2/4' htmlFor="">Cordinator </label>
                     <div className='w-2/4 m-2 justify-between align-middle '>
-                    {trainers? <DropdownMenu name='Cordinator' onChange={handleChange}  value={activebatch.cordinator} items={trainers} />:''}
+                    {trainers? <DropdownMenu name='cordinator' onChange={handleChange}  value={activebatch.cordinator} items={trainers} />:''}
                     </div>
                 </div>
                 <div className="flex m-1 justify-end">
-                        <button onClick={()=>{setActivebatch({})}} className="flex m-1 border  w-1/6 shadow-md shadow-blue-200 h-10 bg-blue-500 items-center justify-between p-2 text-white rounded-lg ">
-                           <MdAddHome  />  Add 
+                         <button onClick={()=>{setActivebatch(blank);console.log('hello')}} className="flex m-1 border  w-1/6 shadow-md shadow-blue-200 h-10 bg-blue-500 items-center justify-between p-2 text-white rounded-lg ">,                           <MdAddHome  />  Create  
                         </button>
-                        <button className="flex m-1 border  w-1/6 shadow-md shadow-blue-200 h-10 bg-blue-500 items-center justify-between p-2 text-white rounded-lg ">
+                        <button onClick={()=>{saveBatch()}} className="flex m-1 border  w-1/6 shadow-md shadow-blue-200 h-10 bg-blue-500 items-center justify-between p-2 text-white rounded-lg ">
                         <FaSave />  Save 
-                        </button>
+                        </button> 
+                        
+                        
                         <button className="flex m-1 border w-1/6 shadow-md shadow-gray-200 h-10 bg-gray-600 items-center justify-between p-2 text-white rounded-lg ">
                         <MdCancelScheduleSend />  Cancel 
                         </button>
