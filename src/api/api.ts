@@ -32,5 +32,5 @@ export const utilityApis: utilsApis_route = {
     listAllVenues: '/utils/getActiveVenues',
     listActiveTrainers:'/utils/getActiveTrainers',
     listActiveStudemts:'/utils/getActiveTrainers',
-    listActiveEvents:'/utils/getActiveEvents'
+    listActiveEvents:'/utils/listActiveEvents'
 };

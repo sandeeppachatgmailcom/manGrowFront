@@ -143,8 +143,8 @@ const ProfilePage = () => {
                     <div className={`${theme}  block w-full justify-center items-center rounded-xl m-1 `}>
                         <div className="justify-center   rounded-2xl  ">
                             <h5 className=" text-2xl text-center  "> Basic info   </h5>
-                            <div className="border bg-yello h-100 flex w-full sm:block md:flex lg:flex justify-center text-center" >
-                            <div className="border w-2/6 block">
+                            <div className="border block bg-yello h-100  w-full sm:block md:flex lg:flex justify-center text-center" >
+                            <div className="border w-full  md:w-2/6 block">
                                 <div className="flex text-center border  m-1 rounded-sm h-10 items-center  justify-between p-1">
                                     <label className='w-1/4 text-left ' htmlFor="">Name</label>
 
@@ -194,7 +194,7 @@ const ProfilePage = () => {
                                 </div>
                                 </div>
                                 
-                                <div className="border w-2/6 block">
+                                <div className="border w-full  md:w-2/6 block">
                                
                                 
                                 <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
@@ -253,7 +253,7 @@ const ProfilePage = () => {
                                 
                                 </div>
 
-                                <div className="border w-2/6 block">
+                                <div className="border w-full  md:w-2/6 block">
                                 
                                 <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
                                     <label className='w-1/4 text-left' htmlFor="">streetName</label>

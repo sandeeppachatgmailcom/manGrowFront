@@ -85,7 +85,7 @@ const Batch = (props:props) => {
     }, [props])
 
     return (
-        <div className='xl:flex  w-full h-[100%] rounded rounded-e-xl border md:block  border-gray-300  border-opacity-45 '>
+        <div className='xl:flex  w-full h-[100%] rounded rounded-e-xl   md:block     '>
             {
                 
                     <>
