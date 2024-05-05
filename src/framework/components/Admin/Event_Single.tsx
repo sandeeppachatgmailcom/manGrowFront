@@ -10,11 +10,8 @@ const Event_Single = (props: { event: Event_Model, index: number }) => {
 
     return (
 
-        <div   className={`m-1  cursor-pointer flex    w-full   ` }>
-            
-            <div  className="block w-5/6 p-2 ">
-                <h1 className="font-semibold flex flex-nowrap text-nowrap ">{formData?.eventName} </h1> {/* Access properties using optional chaining */}
-            </div>
+        <div   className={`cursor-pointer flex w-full ` }>
+            {formData?.eventName?.trim()}
         </div>
 
     );

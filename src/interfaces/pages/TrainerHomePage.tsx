@@ -7,6 +7,8 @@ import Typing from "../../framework/components/task/TaskTyping";
 import AudioTask from "../../framework/components/task/audioTask";
 import ChatBox from "../../framework/components/chatBox/chatBox";
 import SingleChat from "../../framework/components/header/SingleChat";
+import TrainerMenuPanel from "../../framework/components/trainer/TrainerMenuPanel";
+import PendingEvents from "../../framework/components/trainer/PendingEvents";
 
 const TrainerHomePage = () => {
     const darkTheme = useSelector((state:any) => state.theme) 
@@ -30,6 +32,8 @@ const TrainerHomePage = () => {
                 </div>
             </div>
             <div className={`block h-100 xl:w-4/6 xl:m-1 xl:mt-2  sm:w-full md-w-full   ${darkTheme.theme + divlign}`}>
+                <TrainerMenuPanel/> 
+                <PendingEvents/>
                 <Typing/>
                 <AudioTask/>
             </div>

@@ -1,29 +1,29 @@
-interface ValidationResult {
-    valid: boolean;
+ 
+ 
+  export class ValidateOBject implements validateObject_Utils {
+     
+    
+    validateObject(obj1: any, obj2: any): boolean {
+      if(Object.keys(obj1).length ==Object.keys(obj2).length  ){
+        for (let key in obj1){
+            
+           if( typeof(obj1[key]) !== 'object' && typeof(obj2[key]) !== 'object'  ){
+               if(obj1[key] !== obj2[key])  return false
+           }
+           else if ( typeof(obj1[key]) == 'object' && typeof(obj2[key]) == 'object'  ){
+              const result =  this.validateObject(obj1[key],obj2[key])
+              if(!result) return false
+           }
+           else return false
+            
+        }       
+     }
+     else return false 
+     return true
+ }
   }
   
-  interface ValidateObjectUtils {
-    validateObject(object1: any, object2: any): ValidationResult;
-  }
-  
-  export class ValidateOBject implements ValidateObjectUtils {
-    validateObject(object1: any, object2: any): ValidationResult {
-        for (const key in object1) {
-        
-        if (typeof object1[key]!='object' && key!= 'status' && key!='message'){
-        if (object1[key] !== object2[key]) {
-        
-          return { valid: false };
-        }
-      }  
-
-      }
-  
-      return { valid: true };
-    }
-  }
-  
-export const validateO = new ValidateOBject()
-
+export const validateObj = new ValidateOBject()
+ 
  
   

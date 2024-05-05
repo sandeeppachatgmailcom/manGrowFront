@@ -1,4 +1,4 @@
-import { utilsApis_route } from "../entity/router/router";
+import { adminApi_route, utilsApis_route } from "../entity/router/router";
 
 
 
@@ -19,7 +19,7 @@ export const publicApi: Record<string, string> = {
     getPincode: 'https://api.postalpincode.in/pincode/'
 };
 
-export const adminApis: Record<string,string> = {
+export const adminApis: adminApi_route = {
     listAllstaffpendingApprovals: '/admin/listpendingStaff',
     approveStaff: '/admin/approveStaff',
     createBatch:'/admin/createBatch',

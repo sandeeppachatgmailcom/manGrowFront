@@ -19,9 +19,10 @@ export default function MuiBasicSelect(props:{name:string,value:any,onChange:any
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">{props.name}</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
+        <label id="demo-simple-select-label">{props.name}</label>
+        <select
+         
+           
           id="demo-simple-select"
           value={props.value}
           label={props.name}
@@ -29,11 +30,11 @@ export default function MuiBasicSelect(props:{name:string,value:any,onChange:any
           onChange={  props.onChange }
         >
           {options?.map((item:any)=>(
-            <MenuItem selected={props.value==item.id?true:false} value={item?.id }>{item?.name}</MenuItem>
+            <option selected={props.value==item.id?true:false} value={item?.id }>{item?.name}</option>
           ))}
           
            
-        </Select>
+        </select>
       </FormControl>
     </Box>
   );

@@ -8,12 +8,12 @@ const DropdownMenu: React.FC<DropdownMenuComponent> = (props) => {
     const dartText = useSelector((state:any) => state.theme.inputtext);
     
     return (
-        <div className="dropdown w-full">
-            <select name={name} value={value} className={`${dartText} w-full`} onChange={onChange}>
-            <option selected  key={'select'}  > Select </option>   
+        <div className="border border-gray-200  rounded h-[50px] align-middle block dropdown w-full">
+            <select   name={name} value={value} className={`${dartText} h-full border w-full`} onChange={onChange}>
+            <option selected  key={'select'} className='flex h-10 text-white '  > Select </option>   
                 {items.map((item: any,index) => {
                  
-                  return  <option key={index} value={item.id} selected={item.id === value}> {item.name} </option>
+                  return  <option className=' h-[100px] border m-1' key={index} value={item.id} selected={item.id === value}> {item.name} </option>
                 })}
             </select>
         </div>

@@ -6,13 +6,15 @@ export interface Event_Model{
     repeat?:repeat ;
     location?:string;
     timeFixed?:boolean;
-    startDateTime?:Date;
-    endDateTime?:Date;
+    startDateTime?:string;
+    endDateTime?:string;
     taskID?:string;
     eventId?:string;
     cancelled?:boolean;
     active?:boolean;
     deleted?:boolean;
     audienceType?:audienceType,
-    prority?:priority
+    prority?:priority;
+    startDate?:Date;
+    description?:string
 }

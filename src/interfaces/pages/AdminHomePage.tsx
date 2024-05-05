@@ -20,9 +20,9 @@ const AdminHomePage = () => {
     const divlign = ''
 
     return (
-        <div  className={`xl:flex w-full md:flex lg:flex sm:block content-start mx-auto h-100  ${darkTheme.theme}`}>
+        <div  className={`xl:flex w-full   lg:flex block content-start mx-auto h-100  ${darkTheme.theme}`}>
 
-        <div className={`xl:w-1/6 md:w-2/6 sm:w-full  ${darkTheme.theme + divlign} border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`}>
+        <div className={`xl:w-1/6  sm:w-full  ${darkTheme.theme + divlign} border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`}>
             <div >
             <h6 className="font-bold text-2xl text-blue-500 ps-2">Admin</h6>
                 <Profile />
@@ -38,7 +38,7 @@ const AdminHomePage = () => {
             selectedSubMenu == 'Approve'?<ApproveStaff/>:
             selectedSubMenu == 'programs'?<Events/>:''} 
         </div>
-        <div className={`xl:w-1/6 md:w-2/6 sm:w-full ${darkTheme.theme + divlign} border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
+        <div className={`xl:w-1/6 sm:w-full ${darkTheme.theme + divlign} border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
             <ChatBox/>  
               {/* <SingleChat nameObj ={{name:'chandhini'}} />  */}
 

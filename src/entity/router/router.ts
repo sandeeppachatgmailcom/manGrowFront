@@ -15,3 +15,11 @@ export interface utilsApis_route{
     listActiveStudemts:string,
     listActiveEvents:string
 }
+
+export interface adminApi_route{
+listAllstaffpendingApprovals:string,
+approveStaff:string,
+createBatch:string,
+createEvent:string,
+deleteEvent:string
+}
