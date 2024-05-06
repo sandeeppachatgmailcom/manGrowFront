@@ -1,4 +1,4 @@
-import { adminApi_route, utilsApis_route } from "../entity/router/router";
+import { TrainerApi_route, adminApi_route, trainerApi_route, utilsApis_route } from "../entity/router/router";
 
 
 
@@ -34,3 +34,7 @@ export const utilityApis: utilsApis_route = {
     listActiveStudemts:'/utils/getActiveTrainers',
     listActiveEvents:'/utils/listActiveEvents'
 };
+
+export const trainerApi: TrainerApi_route ={
+    getPending:'/trainer/postTrainerPendingEvents'
+}

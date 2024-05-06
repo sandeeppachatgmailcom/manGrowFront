@@ -23,3 +23,7 @@ createBatch:string,
 createEvent:string,
 deleteEvent:string
 }
+
+export interface TrainerApi_route{
+    getPending:string,
+}

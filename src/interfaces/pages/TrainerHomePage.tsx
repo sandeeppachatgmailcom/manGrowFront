@@ -9,19 +9,40 @@ import ChatBox from "../../framework/components/chatBox/chatBox";
 import SingleChat from "../../framework/components/header/SingleChat";
 import TrainerMenuPanel from "../../framework/components/trainer/TrainerMenuPanel";
 import PendingEvents from "../../framework/components/trainer/PendingEvents";
+import axiosApi from "../../api/axios";
+import { trainerApi } from "../../api/api";
 
 const TrainerHomePage = () => {
     const darkTheme = useSelector((state:any) => state.theme) 
+    const user = useSelector((state:any)=>state.activeUser.user)
+    const [pending,showPending] = useState([])
+    const data = {email:user.email,
+        startDate: new Date(),
+        endDate: '2024-05-30' 
+    }
     const [value, onChange] = useState(new Date());
     useEffect(() => {
         console.log(darkTheme.theme)
     }, [darkTheme])
     const divlign = '   rounded  mt-1 '
+    const getPending = async ()=>{
+        const pending = await axiosApi.post(trainerApi.getPending,data)
+        console.log(pending.data)
+        showPending(pending.data)
+    }
+    
+    useEffect(()=>{
+        getPending()
+    },[])
+
+
+
+
 
     return (
         <div  className={`xl:flex md:flex lg:flex sm:block content-start mx-auto h-100 opacity-90 ${darkTheme.theme}`}>
 
-            <div className={`xl:w-1/6 md:w-2/6 sm:w-full  ${darkTheme.theme + divlign} border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`}>
+            <div className={`xl:w-1/6 md:w-2/6 sm:w-full  ${darkTheme.theme + divlign} bg-opacity-30  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`}>
                 <div >
                 <h6 className="font-bold text-2xl text-orange-500 ">Trainer</h6>
                     <Profile />
@@ -31,9 +52,16 @@ const TrainerHomePage = () => {
                      
                 </div>
             </div>
-            <div className={`block h-100 xl:w-4/6 xl:m-1 xl:mt-2  sm:w-full md-w-full   ${darkTheme.theme + divlign}`}>
+            <div   className={`block h-full w-full sm:w-full md:w-full lg:w-3/4 xl:w-4/6 xl:m-1 xl:mt-2 overflow-y-scroll    ${darkTheme.theme} ${divlign} `}>
+   
+ 
                 <TrainerMenuPanel/> 
-                <PendingEvents/>
+                {pending && pending.map((pending:any)=>{
+                    return <div className="    p-1     ">
+                        <PendingEvents pending = {pending} />
+                    </div>
+                })}
+                
                 <Typing/>
                 <AudioTask/>
             </div>
