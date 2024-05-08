@@ -15,7 +15,7 @@ import { trainerApi } from "../../api/api";
 const TrainerHomePage = () => {
     const darkTheme = useSelector((state:any) => state.theme) 
     const user = useSelector((state:any)=>state.activeUser.user)
-    const [pending,showPending] = useState([])
+    const [pending,setPending] = useState([])
     const data = {email:user.email,
         startDate: new Date(),
         endDate: '2024-05-30' 
@@ -28,7 +28,7 @@ const TrainerHomePage = () => {
     const getPending = async ()=>{
         const pending = await axiosApi.post(trainerApi.getPending,data)
         console.log(pending.data)
-        showPending(pending.data)
+        setPending(pending.data)
     }
     
     useEffect(()=>{
@@ -52,15 +52,21 @@ const TrainerHomePage = () => {
                      
                 </div>
             </div>
-            <div   className={`block h-full w-full sm:w-full md:w-full lg:w-3/4 xl:w-4/6 xl:m-1 xl:mt-2 overflow-y-scroll    ${darkTheme.theme} ${divlign} `}>
-   
- 
-                <TrainerMenuPanel/> 
+            <div   className={`block h-full w-full overflow-hidden   ${darkTheme.theme} ${divlign} `}>
+                <div   className={`block w-full bg-transparent ` }>
+                     <TrainerMenuPanel/> 
+                     </div>   
+                <div   style={{ msOverflowStyle: 'none',WebkitOverflowScrolling: undefined }} className= {`block  h-full w-full sm:w-full overflow-y-scroll   md:w-full lg:w-3/4 xl:w-full xl:m-1 xl:mt-2     ${darkTheme.theme} ${divlign} `}>
                 {pending && pending.map((pending:any)=>{
                     return <div className="    p-1     ">
-                        <PendingEvents pending = {pending} />
+                        <PendingEvents   pending = {pending} />
                     </div>
                 })}
+
+                
+            </div>
+                
+                
                 
                 <Typing/>
                 <AudioTask/>

@@ -13,7 +13,8 @@ export interface utilsApis_route{
     listAllVenues:string,
     listActiveTrainers:string,
     listActiveStudemts:string,
-    listActiveEvents:string
+    listActiveEvents:string,
+    listAllTasks:string
 }
 
 export interface adminApi_route{
@@ -26,4 +27,5 @@ deleteEvent:string
 
 export interface TrainerApi_route{
     getPending:string,
+    saveScheduledTask:string
 }

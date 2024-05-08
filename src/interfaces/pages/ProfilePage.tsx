@@ -301,7 +301,7 @@ const ProfilePage = () => {
                         <div className="block w-full justify-center items-center rounded-xl m-1 ">
                             <h5 className="text-center text-2xl  ">Academic</h5>
                             <div className="xl:flex sm:block md:flex lg:flex  sm:w-100 flex-wrap justify-center items-center"> {/* Added items-center here */}
-                                {user.academics?.map((item:any,index:any) => <Academics arrayindex={index} course={item} />)}
+                                {user.academics?.map((item:any,index:any) => <Academics key={index} arrayindex={index} course={item} />)}
                             </div>
                         </div>
 

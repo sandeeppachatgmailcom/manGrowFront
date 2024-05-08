@@ -32,9 +32,11 @@ export const utilityApis: utilsApis_route = {
     listAllVenues: '/utils/getActiveVenues',
     listActiveTrainers:'/utils/getActiveTrainers',
     listActiveStudemts:'/utils/getActiveTrainers',
-    listActiveEvents:'/utils/listActiveEvents'
+    listActiveEvents:'/utils/listActiveEvents',
+    listAllTasks:'/utils/listAllTask'
 };
 
 export const trainerApi: TrainerApi_route ={
-    getPending:'/trainer/postTrainerPendingEvents'
+    getPending:'/trainer/postTrainerPendingEvents',
+    saveScheduledTask:'/trainer/postScheduleTask'
 }
