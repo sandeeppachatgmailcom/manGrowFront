@@ -10,12 +10,13 @@ import SingleChat from "../../framework/components/header/SingleChat";
 import TrainerMenuPanel from "../../framework/components/trainer/TrainerMenuPanel";
 import PendingEvents from "../../framework/components/trainer/PendingEvents";
 import axiosApi from "../../api/axios";
-import { trainerApi } from "../../api/api";
+import { trainerApi, utilityApis } from "../../api/api";
 
 const TrainerHomePage = () => {
     const darkTheme = useSelector((state:any) => state.theme) 
     const user = useSelector((state:any)=>state.activeUser.user)
     const [pending,setPending] = useState([])
+    const [task, setTask] = useState()
     const data = {email:user.email,
         startDate: new Date(),
         endDate: '2024-05-30' 
@@ -33,14 +34,23 @@ const TrainerHomePage = () => {
     
     useEffect(()=>{
         getPending()
+        getTask()
     },[])
+    const getTask = async () => {
+        const task = await axiosApi.get(utilityApis.listAllTasks)
+        const data = task.data.map((item: any) => {
+                return { name:item.taskName, id:item.taskId }
+        })
+        setTask(data)
+    }
+ 
 
 
 
 
 
     return (
-        <div  className={`xl:flex md:flex lg:flex sm:block content-start mx-auto h-100 opacity-90 ${darkTheme.theme}`}>
+        <div  className={`xl:flex md:flex lg:flex sm:block overflow-hidden content-start mx-auto h-100 opacity-90 ${darkTheme.theme}`}>
 
             <div className={`xl:w-1/6 md:w-2/6 sm:w-full  ${darkTheme.theme + divlign} bg-opacity-30  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`}>
                 <div >
@@ -56,10 +66,10 @@ const TrainerHomePage = () => {
                 <div   className={`block w-full bg-transparent ` }>
                      <TrainerMenuPanel/> 
                      </div>   
-                <div   style={{ msOverflowStyle: 'none',WebkitOverflowScrolling: undefined }} className= {`block  h-full w-full sm:w-full overflow-y-scroll   md:w-full lg:w-3/4 xl:w-full xl:m-1 xl:mt-2     ${darkTheme.theme} ${divlign} `}>
+                <div   style={{ msOverflowStyle: 'none',WebkitOverflowScrolling: undefined }} className= {`block   h-full w-full sm:w-full overflow-y-scroll   md:w-full  xl:w-full xl:m-1 xl:mt-2     ${darkTheme.theme} ${divlign} `}>
                 {pending && pending.map((pending:any)=>{
                     return <div className="    p-1     ">
-                        <PendingEvents   pending = {pending} />
+                        <PendingEvents task={task}  pending = {pending} />
                     </div>
                 })}
 

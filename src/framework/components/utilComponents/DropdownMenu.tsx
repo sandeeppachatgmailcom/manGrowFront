@@ -9,8 +9,8 @@ const DropdownMenu: React.FC<DropdownMenuComponent> = (props) => {
     
     return (
         <div className=" border-none border-gray-200   rounded h-[50px] align-middle block dropdown w-full">
-            <select   name={name} value={value} className={`${dartText} h-full focus:outline-none focus:border-blue-500  w-full`} onChange={onChange}>
-                <option selected  key={'select'} className='flex h-10 text-white '  > Select </option>   
+            <select   name={name} value={value} className={`${dartText} bg-transparent h-full focus:outline-none focus:border-blue-500  w-full`} onChange={onChange}>
+                <option selected  key={'select'} className='flex h-10 '  > Select </option>   
                 {items.map((item: any,index) => {
                  
                   return  <option className=' h-[100px] border m-1' key={index} value={item.id} selected={item.id === value}> {item.name} </option>
