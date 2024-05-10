@@ -5,9 +5,9 @@ import {  useEffect, useState } from "react";
 import { BatchComponent } from "../../../entity/components/admin/Batch";
 import { FaSave } from "react-icons/fa";
 import { MdCancelScheduleSend } from "react-icons/md";
-import axiosApi from "../../../api/axios";
+import axiosApi from "../../../interfaces/api/axios";
 import { MdAddHome } from "react-icons/md";
-import { adminApis, utilityApis } from "../../../api/api";
+import { adminApis, utilityApis } from "../../../interfaces/api/api";
 import { ToastContainer, toast } from "react-toastify";
 type props ={
     activebatchs:BatchComponent

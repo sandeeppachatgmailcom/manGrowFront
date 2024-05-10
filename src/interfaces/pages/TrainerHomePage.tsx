@@ -9,8 +9,8 @@ import ChatBox from "../../framework/components/chatBox/chatBox";
 import SingleChat from "../../framework/components/header/SingleChat";
 import TrainerMenuPanel from "../../framework/components/trainer/TrainerMenuPanel";
 import PendingEvents from "../../framework/components/trainer/PendingEvents";
-import axiosApi from "../../api/axios";
-import { trainerApi, utilityApis } from "../../api/api";
+import axiosApi from "../api/axios";
+import { trainerApi, utilityApis } from "../api/api";
 
 const TrainerHomePage = () => {
     const darkTheme = useSelector((state:any) => state.theme) 
@@ -62,7 +62,7 @@ const TrainerHomePage = () => {
                      
                 </div>
             </div>
-            <div   className={`block h-full w-full overflow-hidden   ${darkTheme.theme} ${divlign} `}>
+            <div   className={`block xl:w-4/6 h-full w-full overflow-hidden   ${darkTheme.theme} ${divlign} `}>
                 <div   className={`block w-full bg-transparent ` }>
                      <TrainerMenuPanel/> 
                      </div>   
@@ -75,13 +75,10 @@ const TrainerHomePage = () => {
 
                 
             </div>
-                
-                
-                
                 <Typing/>
                 <AudioTask/>
             </div>
-            <div className={`xl:w-1/6 md:w-2/6 sm:w-full ${darkTheme.theme + divlign} border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
+            <div className={`xl:w-1/6 md:w-1/6 sm:w-full ${darkTheme.theme + divlign} border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
                 <ChatBox/>
                 <SingleChat nameObj ={{name:'chandhini'}}/>  
 

@@ -9,11 +9,13 @@ import { trainerApi, } from "../../../interfaces/api/api";
 import { Event_Model } from "../../../entity/StateStore/activeUser";
 import { validateObj } from "../../../interfaces/utils/validateObject";
 import { ToastContainer, toast } from "react-toastify";
+import { ReactMic } from 'react-mic';
+import VoiceRecorder from "../trainer/VoiceRecorder";
+import VideoMaker from "../trainer/VideoMaker";
 
 
 
-
-const PendingEvents = (props: any) => {
+const StudentTask = (props: any) => {
         const [formData, setFormData] = useState<Event_Model & {ScheduledTaskID:string }>()
         const [initialState, setInitialState] = useState()
         const [category, setCategory] = useState<any>({ })
@@ -67,6 +69,8 @@ const PendingEvents = (props: any) => {
 
        
         const handleSaveClick =async  ()=>{
+                console.log(initialState,formData,validateObj.validateObject(initialState,formData),'mic testing ')
+                console.log(validateObj.validateObject(initialState,formData),'validateObj.validateObject(initialState,formData)')
                 const result =validateObj.validateObject(initialState,formData) 
                 if(!result){ const data = await axiosApi.post(trainerApi.saveScheduledTask,formData)
                         setFormData( data.data)    
@@ -80,7 +84,7 @@ const PendingEvents = (props: any) => {
 
         const theme = useSelector((state: any) => state.theme.theme)
         return (
-                <div className={`${ formData && formData?.ScheduledTaskID? 'bg-blue-600 bg-opacity-10':''} w-full p-4 h-[auto] border    hover:shadow-sm hover:shadow-gray-500 border-gray-300 focus:bg-opacity-55 focus:bg-gray-600 border-opacity-45  rounded-xl `} >
+                <div className={`${ formData && formData?.ScheduledTaskID? 'bg-gray-600 bg-opacity-10':''} w-full p-4 h-[auto] border    hover:shadow-sm hover:shadow-gray-500 border-gray-300 focus:bg-opacity-55 focus:bg-gray-600 border-opacity-45  rounded-xl `} >
                         <div className="justify-start m-2">
                         <ToastContainer/>
                                 <div className="xl:flex xl:justify-between justify-between  border-b w-full  border-b-gray-300">
@@ -101,33 +105,33 @@ const PendingEvents = (props: any) => {
                                 </div>
                         </div>
                         <div className=" xl:flex  m-2">
-                                <div className=" flex flex-col xl:w-4/6 ">
-                                        <input name="dayTitle" onChange={handleChange}  value={formData?.dayTitle} className={`rounded w-full  font-bold    bg-transparent focus:outline-none focus:border-blue-500`} type="text" placeholder="Activity title" />
+                                <div className=" flex flex-col w-full ">
+                                        <input name="dayTitle" readOnly  onChange={handleChange}  value={formData?.dayTitle} className={`rounded w-full  font-bold    bg-transparent focus:outline-none focus:border-blue-500`} type="text" placeholder="Activity title" />
                                         <br />
-                                        <textarea ref={longTextRef} onChange={handleChange} value={formData?.dayDiscription as string} name="dayDiscription" id="myTextarea" className={`h-100    w-full bg-transparent h-32 rounded-lg  focus:outline-none focus:border-blue-500`} placeholder="Discribe in detail......"  ></textarea>
+                                        <label     className={`bg-transparent rounded-lg w-full focus:outline-none focus:border-blue-500`} > {formData?.dayDiscription as string} </label>
+                                       
                                 </div>
-                                <div className="xl:w-2/6 flex overflow-y-scroll h-[200px] flex-wrap  justify-start border-opacity-25">
-                                        {category && Object.keys(category).length?( 
-                                                 Object.keys(category).map((key) => (
-                                                <div className="flex flex-wrap  " key={key}>
-                                                        {Object.keys(category[key]).length ? (
-                                                              Object.keys(category[key]).map((item) => <div onClick={()=>{handleChangeCaterogry(key,item)}} className={`${category[key][item]?'border-2  text-white  bg-blue-500   ':'border-2  border-blue-500 text-blue-500'} w-20 justify-center shadow-sm flex text-center p-2 w-30 h-10 uppercase    m-1 cursor-pointer  rounded-lg`}   key={item}>{item}</div>)
-                                                        ) : (
-                                                                ''
-                                                        )}
-                                                </div>
-                                        ))  
-                                        ):''}  
+                                 
                                 </div>
-                                </div>
-                                <div className="justify-end text-end flex w-full   m-2  ">
+                                 <div className="justify-start   block w-full   m-2  ">
+                                    <h1 className="text-blue-500 font-semibold">WRITING </h1>
+                                    <VoiceRecorder name='audioLink' onChange ={handleChange} value={formData?.audioLink} />
+                                    <div className=" flex border w-full border-green-600">
+                                 <VideoMaker/>
+                                 </div>
+                                    <textarea    ref={longTextRef} onChange={handleChange} value={formData?.dayDiscription as string} name="dayDiscription" id="myTextarea" className={`h-100    w-full bg-transparent border h-32 rounded-lg w-full  focus:outline-none focus:border-blue-500`} placeholder="Discribe in detail......"  ></textarea>
+                          
                                         <button className="rounded  shadow-sm m-2 p-4 w-30 hover:border hover:border-blue-400  hover:text-blue-500 h-10" ><BsPencilFill />  </button>
-                                        <button onClick={handleSaveClick} className="rounded  shadow-sm m-2 p-4 w-30  hover:border hover:border-blue-400 hover:text-blue-500 h-10 "><BsFillFloppyFill /> </button>
+                                        <button   className="rounded  shadow-sm m-2 p-4 w-30  hover:border hover:border-blue-400 hover:text-blue-500 h-10 "><BsFillFloppyFill /> </button>
                                         <button className="rounded  shadow-sm m-2 p-4 w-30  hover:border hover:border-blue-400 hover:text-blue-500 h-10"><MdDelete /> </button>
-                                </div> 
+                                </div>  
+                                <div>
+                                
+
+                                </div>
                             
                 </div>
         )
 }
 
-export default PendingEvents
+export default StudentTask

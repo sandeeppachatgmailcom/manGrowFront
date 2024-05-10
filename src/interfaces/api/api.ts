@@ -1,4 +1,4 @@
-import { TrainerApi_route, adminApi_route, trainerApi_route, utilsApis_route } from "../entity/router/router";
+import { TrainerApi_route, adminApi_route, trainerApi_route, utilsApis_route } from "../../entity/router/router";
 
 
 
@@ -39,4 +39,8 @@ export const utilityApis: utilsApis_route = {
 export const trainerApi: TrainerApi_route ={
     getPending:'/trainer/postTrainerPendingEvents',
     saveScheduledTask:'/trainer/postScheduleTask'
+}
+
+export const studentApi ={
+    getStudentsTask :"/student/postStudentsTask"
 }

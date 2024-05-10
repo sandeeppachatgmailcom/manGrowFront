@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Batch from './Batch'
 import { BatchComponent } from '../../../entity/components/admin/Batch'
-import axiosApi from '../../../api/axios'
-import { utilityApis } from '../../../api/api'
+import axiosApi from '../../../interfaces/api/axios'
+import { utilityApis } from '../../../interfaces/api/api'
 const AdminContent :React.FC<{}> = () => {
     const darkTheme = useSelector((state:any ) => state.theme.theme)
     

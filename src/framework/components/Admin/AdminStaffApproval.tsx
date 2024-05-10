@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import ButtonSwitch from "../utilComponents/ButtonSwitch";
 import { MdVerified } from "react-icons/md";
-import axiosApi from "../../../api/axios";
-import { adminApis } from "../../../api/api";
+import axiosApi from "../../../interfaces/api/axios";
+import { adminApis } from "../../../interfaces/api/api";
 import { ActiveUserStore } from "../../../entity/StateStore/activeUser";
 const AdminStaffApproval :React.FC<any> = (props) => {
     const [formData, setFormData] = useState<ActiveUserStore>({})

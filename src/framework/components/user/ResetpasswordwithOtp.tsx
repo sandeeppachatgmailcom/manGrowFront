@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { BsEyeFill } from "react-icons/bs";
 import { BiSolidHide } from "react-icons/bi";
  
-import axiosApi from "../../../api/axios";
+import axiosApi from "../../../interfaces/api/axios";
 import { toast } from "react-toastify";
 import { login } from "../../ReduxStore/activeUser";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../../interfaces/pages/modalOnLoad";
-import { userApi } from "../../../api/api";
+import { userApi } from "../../../interfaces/api/api";
 
 const ResetpasswordwithOtp = (props:any) => {
   console.log(props)

@@ -2,8 +2,8 @@
 
 import { jwtDecode } from "jwt-decode";
 import { GoogleLogin } from '@react-oauth/google';
-import axiosApi from "../../../api/axios"; 
-import { userApi } from "../../../api/api";
+import axiosApi from "../../../interfaces/api/axios"; 
+import { userApi } from "../../../interfaces/api/api";
 import { useDispatch } from 'react-redux';
 import { login } from "../../ReduxStore/activeUser";
 const GAuthsignin = () => {

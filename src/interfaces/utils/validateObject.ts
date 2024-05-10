@@ -6,7 +6,6 @@
     validateObject(obj1: any, obj2: any): boolean {
       if(Object.keys(obj1).length ==Object.keys(obj2).length  ){
         for (let key in obj1){
-            
            if( typeof(obj1[key]) !== 'object' && typeof(obj2[key]) !== 'object'  ){
                if(obj1[key] !== obj2[key])  return false
            }
@@ -15,14 +14,12 @@
               if(!result) return false
            }
            else return false
-            
         }       
      }
      else return false 
      return true
  }
   }
-  
 export const validateObj = new ValidateOBject()
  
  

@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { FaCamera } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import UploadImage from "../../services/firebase";
-import axiosApi from "../../../api/axios"; 
-import Login from "../../../interfaces/pages/Pages";
-import { userApi } from "../../../api/api"; 
+import axiosApi from "../../../interfaces/api/axios"; 
+import { userApi } from "../../../interfaces/api/api"; 
 import { login } from "../../ReduxStore/activeUser";
  
 type props = {height:string, width:string, changebutton:boolean, onParentChange:()=>{}}

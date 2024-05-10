@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Event_Model } from "../../../entity/components/admin/events"; // Assuming correct path
-import axiosApi from "../../../api/axios";
-import { utilityApis } from "../../../api/api";
+import axiosApi from "../../../interfaces/api/axios";
+import { utilityApis } from "../../../interfaces/api/api";
 import Event_Single from "./Event_Single";
 import { useSelector } from "react-redux";
 import EventBody from "./EventBody";

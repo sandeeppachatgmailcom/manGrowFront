@@ -3,8 +3,8 @@ import { login, logout } from "../../ReduxStore/activeUser";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
-import axiosApi from "../../../api/axios";
-import { userApi } from "../../../api/api";
+import axiosApi from "../../../interfaces/api/axios";
+import { userApi } from "../../../interfaces/api/api";
 import { ToastContainer, toast } from "react-toastify";
 
 import Modal from "../../../interfaces/pages/modalOnLoad"; 

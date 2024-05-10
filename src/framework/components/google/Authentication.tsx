@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react'; import { FcGoogle } from "react-icons/fc";
 import { jwtDecode } from "jwt-decode";
 import { GoogleLogin } from '@react-oauth/google';
-import axiosApi from '../../../api/axios'; 
-import { userApi } from '../../../api/api';
+import axiosApi from '../../../interfaces/api/axios'; 
+import { userApi } from '../../../interfaces/api/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { login } from '../../ReduxStore/activeUser';

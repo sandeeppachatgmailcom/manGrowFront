@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import axiosApi from "../../../api/axios";
+import axiosApi from "../../../interfaces/api/axios";
 import AdminStaffApproval from "./AdminStaffApproval"
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { adminApis } from "../../../api/api";
+import { adminApis } from "../../../interfaces/api/api";
 const ApproveStaff = ()=>{
     const [user,setUser ]= useState([])
     const [pageCount,setPageCount] = useState(1)

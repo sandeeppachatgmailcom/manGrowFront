@@ -5,10 +5,10 @@ import GAuthsignin from "../../framework/components/google/googleAuthSignin";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axiosApi from "../../api/axios";
+import axiosApi from "../api/axios";
 import Modal from "./modalOnLoad";
 import { login } from "../../framework/ReduxStore/activeUser";
-import { userApi } from "../../api/api";
+import { userApi } from "../api/api";
 
  
 function Login() {
