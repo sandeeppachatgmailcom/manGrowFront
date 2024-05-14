@@ -1,4 +1,4 @@
-import { audienceType, priority, repeat } from "./enum";
+import { audienceType, priority, repeat } from "../constants/enum";
 
 export interface Event_Model{
     eventName?:string;

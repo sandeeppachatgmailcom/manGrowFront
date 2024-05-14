@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react"
 import ButtonSwitch from "../utilComponents/ButtonSwitch";
 import { MdVerified } from "react-icons/md";
-import axiosApi from "../../../interfaces/api/axios";
-import { adminApis } from "../../../interfaces/api/api";
+import axiosApi from "../../api/axios";
+import { adminApis } from "../../../entity/constants/api";
 import { ActiveUserStore } from "../../../entity/StateStore/activeUser";
+import DropdownMenu from "../utilComponents/DropdownMenu";
+import useGetBatches from "../../../useCases/useGetBatches";
+import { ToastContainer, toast } from "react-toastify";
 const AdminStaffApproval :React.FC<any> = (props) => {
     const [formData, setFormData] = useState<ActiveUserStore>({})
+    const batch = useGetBatches()
     const handleApprove = (name:any, value:any) => {
         console.log(name, value, 'name,value', name == 'approve' && !value ? 'user' : 'Trainer')
 
@@ -20,16 +24,31 @@ const AdminStaffApproval :React.FC<any> = (props) => {
 
     const handleApproveStaff = async () => {
         const approved = await axiosApi.post(adminApis.approveStaff, formData)
+        if(approved.data.status){
+            toast.success(approved.data.message)
+        }
+        else{
+            toast.error(approved.data.message)
+        }
         console.log(approved, 'approved')
 
     }
     const handleSwitchChange = (name:any, value:any) => {
+        console.log(formData,name,value,'testing..........')
         setFormData({
             ...formData,
             [name]: value
         })
     }
 
+    const handleChange = (e:any): void => {
+        let { name , value } = e.target;
+        console.log( name , value,'keypress found ')
+        setFormData({
+          ...formData,
+          [name]: value
+        });
+      };
 
     useEffect(() => {
         console.log(formData, 'formData')
@@ -43,13 +62,14 @@ const AdminStaffApproval :React.FC<any> = (props) => {
 
     return (
         <>
+         <ToastContainer/>
             {Object.keys(props.staff).length &&
                 <div className="flex justify-center  align-middle items-center flex-col p-3 md:flex-col   w-full  ">
                     <div className="w-full lg:w-full shadow-lg rounded-lg xl:flex lg:items-center sm:w-full  border sm:block sm:justify-items-center ">
                         <div className=" justify-center   h-100 w-full items-center sm:block xl:flex lg:flex   ">
                             <div className="flex xl:w-1/6     justify-center">
                                 <div className="flex   flex-col justify-self-center h-[100px]  w-[100px] bg-blue-300  shadow-md rounded-full shadow-gray-400 ">
-
+                               
                                 </div>
                             </div>
                             <div className="flex xl:w-5/6 justify-center">
@@ -69,10 +89,10 @@ const AdminStaffApproval :React.FC<any> = (props) => {
                     </div>
 
 
-                    {formData?.otpVerified ? <div className="xl:flex p-3 md:block   w-full h-[100%] " >
+                    {formData?.otpVerified ? <div className="xl:flex  block mt-1   w-full h-[100%] " >
 
 
-                        <div className="xl:flex w-full items-center m-1 rounded-lg shadow-inner shadow-gray-400 p-2  ">
+                        <div className="xl:flex w-full items-center  rounded-lg  shadow-gray-400 p-2  ">
 
                             <div className=" xl:flex md:block   w-full justify-between md:p-4">
                                 <div className="flex xl:w-1/2 justify-between p-2  ">
@@ -105,18 +125,28 @@ const AdminStaffApproval :React.FC<any> = (props) => {
                                 </div>
 
                             </div>
-                            <div className="flex w-full justify-between p-2">
+                            <div className="xl:flex w-full justify-between p-2">
                                 <div className="flex w-1/2 justify-between p-2">
                                     <label className=" w-2/6 text-sm" htmlFor=""> Student  </label>
-                                   
-                                    <div className="w-4/2 text-left" ><ButtonSwitch name='student' value={formData.student} onChange={(name:any, value:any) => handleSwitchChange(name, value)} /></div>
+                                   <div className="w-4/2 text-left" > <ButtonSwitch name='student' value={formData.student} onChange={(name:any, value:any) => handleSwitchChange(name, value)} /></div>
                                 </div>
+                                <div className="flex w-full xl:w-1/2 justify-between p-2">
+                                    
+                                    
+                                </div>
+                               { formData.student?  <div className="flex   w-full xl:w-1/2 items-center justify-between p-2">
+                               <label className=" w-2/6 text-sm" htmlFor=""> Batch  </label>
+                                    
+                                    {batch? <DropdownMenu name='batchId' value={formData?.batchId  ? formData?.batchId : 'Select'} onChange={handleChange} items={batch} /> :''  } 
+                                    
+                                </div>:''}
                                 <div className="flex w-1/2 justify-end p-2">
                                     <button className="bg-gray-500 rounded w-[50px] text-white p-1 shadow-lg   me-1"> RESET </button>
                                     <button onClick={() => handleApproveStaff()} className="bg-blue-500 rounded w-[50px] text-white p-1 shadow-lg"> SAVE </button>
-                                </div>
+                            </div>
 
                             </div>
+                            
                         </div>
                     </div> : ''}
 

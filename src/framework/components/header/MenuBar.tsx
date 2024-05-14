@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { MenuBar_Component } from "../../../entity/components/common/menuBar"
 
-const MenuBar=()=>{
+const MenuBar=(props:MenuBar_Component)=>{
     const navigate =useNavigate() 
     const [button,setButton] = useState(0)
     const activeUser = useSelector((state:any)=>state.activeUser.user)

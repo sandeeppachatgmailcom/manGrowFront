@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaWindowClose } from "react-icons/fa";
 import { useRef, useState } from "react";
 
-import axiosApi from "../../../interfaces/api/axios";
-import { userApi } from "../../../interfaces/api/api";
-import { useNavigate } from "react-router-dom";
+import axiosApi from "../../api/axios";
+import { userApi } from "../../../entity/constants/api";
+
 import { login } from "../../ReduxStore/activeUser";
 const EditAcademicModal = (props:any) => {
     const { arrayindex,onClose, course } = props

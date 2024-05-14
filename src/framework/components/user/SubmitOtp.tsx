@@ -3,12 +3,15 @@ import { login, logout } from "../../ReduxStore/activeUser";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
-import axiosApi from "../../../interfaces/api/axios";
-import { userApi } from "../../../interfaces/api/api";
+import axiosApi from "../../api/axios";
+import { userApi } from "../../../entity/constants/api";
 import { ToastContainer, toast } from "react-toastify";
-
 import Modal from "../../../interfaces/pages/modalOnLoad"; 
-const SubmitOtp = () => {
+import { SubmitOtp_Component } from "../../../entity/components/user/submitOtp_Component";
+
+
+
+const SubmitOtp = (_props:SubmitOtp_Component) => {
     const darkTheme = useSelector((state:any) => state.theme)
     const activeUser = useSelector((state:any) => state.activeUser.user)
     const dispatch = useDispatch()
@@ -91,6 +94,7 @@ const SubmitOtp = () => {
         }
         setModal(true)
        const result = await  axiosApi.post(userApi.validateOtp,userData)
+       console.log(result.data,'after confirmation')
        setModal(false)
        if(result.data.status && result.data.resetPaaword ){
         console.log(result.data.role,'result.data Success')
@@ -98,7 +102,7 @@ const SubmitOtp = () => {
             navigate('/submitOtptoresetPassword')
        }
        else if(result.data.otpVerified && !result.data.resetPaaword ){
-         dispatch(login(result.data.email))
+         dispatch(login(result.data))
          console.log(result.data.result.role,'result.data.result.roleresult.data.result.role')
          gotoHome(result.data.result.role)
        }

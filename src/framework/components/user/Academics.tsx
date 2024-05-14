@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import { useSelector } from 'react-redux';
 import EditAcademicModal from './EditAcademicModal';
-EditAcademicModal
-const Academics = ({ course,arrayindex }:any) => {
+import { Academics_Component } from '../../../entity/components/profilePage/academicsComponent';
+
+const Academics = ({ course,arrayindex }:Academics_Component) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const theme = useSelector((state:any)=>state.theme.theme)
     

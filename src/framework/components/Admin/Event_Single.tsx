@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Event_Model } from "../../../entity/components/admin/events"; // Assuming correct path
+import   { useState, useEffect } from "react";
+import { Event_Model } from "../../../entity/response/events"; // Assuming correct path
 
 const Event_Single = (props: { event: Event_Model, index: number }) => {
     const [formData, setFormData] = useState<Event_Model | undefined>(props.event); // Initialize with props.event or undefined
@@ -10,8 +10,8 @@ const Event_Single = (props: { event: Event_Model, index: number }) => {
 
     return (
 
-        <div   className={`cursor-pointer flex w-full ` }>
-            {formData?.eventName?.trim()}
+        <div   className={`cursor-pointer flex w-full font-bold ` }>
+            {formData?.eventName?.trim().toUpperCase()}
         </div>
 
     );

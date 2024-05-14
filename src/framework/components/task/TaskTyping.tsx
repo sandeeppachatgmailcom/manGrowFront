@@ -2,7 +2,8 @@ import { useSelector } from "react-redux"
 import { BsPencilFill } from "react-icons/bs";
 import { BsFillFloppyFill } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
-const Typing = ()=>{
+import { Typing_Component } from "../../../entity/components/common/Typing";
+const Typing = (_props:Typing_Component)=>{
     const theme = useSelector((state:any)=>state.theme)
     return(
         <div className="w-100 p-4 shadow-md h-[auto] border border-gray-300 border-opacity-45  rounded-xl " >

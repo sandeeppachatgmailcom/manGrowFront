@@ -2,16 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import GAuthsignin from "../../framework/components/google/googleAuthSignin";
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axiosApi from "../api/axios";
+import axiosApi from "../../framework/api/axios";
 import Modal from "./modalOnLoad";
 import { login } from "../../framework/ReduxStore/activeUser";
-import { userApi } from "../api/api";
+import { userApi } from "../../entity/constants/api";
+import { Login_Page } from "../../entity/pages/login_Page";
 
  
-function Login() {
+function Login(_props:Login_Page ) {
   const imagePath = '../src/images/sugc.png'
   const [formData, setFormData] = useState<any>({
       name:'',

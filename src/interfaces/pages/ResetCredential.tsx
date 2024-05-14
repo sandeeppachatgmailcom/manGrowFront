@@ -1,8 +1,9 @@
+import { ResetCredential_page } from "../../entity/pages/resetCredential"
 import ResetpasswordwithOtp from "../../framework/components/user/ResetpasswordwithOtp"
 import SubmitOtp from "../../framework/components/user/SubmitOtp"
 import { useSelector } from "react-redux"
 
-const ResetCredential = (props:any)=>{
+const ResetCredential = (props:ResetCredential_page)=>{
     const {option} = props
     
     const activeUser = useSelector((state:any) => state.activeUser.user)

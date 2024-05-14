@@ -2,27 +2,30 @@ import { useSelector } from "react-redux"
 import { BsPencilFill } from "react-icons/bs";
 import { BsFillFloppyFill } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
-import {  useEffect, useRef, useState } from "react";
+import {  SetStateAction, useEffect, useRef, useState } from "react";
 import DropdownMenu from "../utilComponents/DropdownMenu";
-import axiosApi from "../../../interfaces/api/axios";
-import { trainerApi, } from "../../../interfaces/api/api";
+import axiosApi from "../../api/axios";
+import { trainerApi, } from "../../../entity/constants/api";
 import { Event_Model } from "../../../entity/StateStore/activeUser";
-import { validateObj } from "../../../interfaces/utils/validateObject";
+ 
 import { ToastContainer, toast } from "react-toastify";
+import { RxDropdownMenu } from "react-icons/rx";
+import useCompareObjects from "../../../useCases/useCompareObjects";
+import { PendingEventsComponent } from "../../../entity/components/trainer/pendingEvents";
 
 
 
-
-const PendingEvents = (props: any) => {
+const PendingEvents = (props:PendingEventsComponent) => {
         const [formData, setFormData] = useState<Event_Model & {ScheduledTaskID:string }>()
-        const [initialState, setInitialState] = useState()
+        const [initialState, setInitialState] = useState<any>()
         const [category, setCategory] = useState<any>({ })
-        const [task, setTask] = useState()
+        const [task, setTask] = useState<any>()
         const longTextRef = useRef()
+        const [height,setHeight] = useState('100px')
         useEffect(() => {
-                setFormData(props.pending),
-                setInitialState(props.pending)
-        }, [props.pendings])
+                setFormData(props?.pending as Event_Model & {ScheduledTaskID:string } ),
+                setInitialState(props?.pending )
+        }, [props.pending])
 
         
         useEffect(()=>{
@@ -42,10 +45,10 @@ const PendingEvents = (props: any) => {
                 setFormData(temp)
                  
         } 
-        const handleChangeCaterogry = (key,item)=>{
-                
-                const tempCategory = {
-                        ...category,
+        const handleChangeCaterogry = (key:string,item:any)=>{
+                console.log(key,item,'kkkkkkkkkkkkkkkkk')
+                const tempCategory  = {
+                        ...category   ,
                       [key]:{
                         ...category[key],
                         [item]:!category[key][item]
@@ -53,7 +56,7 @@ const PendingEvents = (props: any) => {
                        
                 }
                 setCategory(tempCategory)
-                const tempFormData = {
+                const tempFormData :any = {
                         ...formData,
                         audience:tempCategory
                 }
@@ -67,7 +70,7 @@ const PendingEvents = (props: any) => {
 
        
         const handleSaveClick =async  ()=>{
-                const result =validateObj.validateObject(initialState,formData) 
+                const result =useCompareObjects(initialState,formData) 
                 if(!result){ const data = await axiosApi.post(trainerApi.saveScheduledTask,formData)
                         setFormData( data.data)    
                 }
@@ -80,15 +83,15 @@ const PendingEvents = (props: any) => {
 
         const theme = useSelector((state: any) => state.theme.theme)
         return (
-                <div className={`${ formData && formData?.ScheduledTaskID? 'bg-blue-600 bg-opacity-10':''} w-full p-4 h-[auto] border    hover:shadow-sm hover:shadow-gray-500 border-gray-300 focus:bg-opacity-55 focus:bg-gray-600 border-opacity-45  rounded-xl `} >
+                <div className={`${ formData && formData?.ScheduledTaskID? 'bg-blue-600 bg-opacity-10':''} overflow-hidden w-full p-4 h-[${height}] border    hover:shadow-sm hover:shadow-gray-500 border-gray-300 focus:bg-opacity-55 focus:bg-gray-600 border-opacity-45  rounded-xl `} >
                         <div className="justify-start m-2">
                         <ToastContainer/>
                                 <div className="xl:flex xl:justify-between justify-between  border-b w-full  border-b-gray-300">
                                         <div className="block xl:flex xl:w-4/6 ">
-                                                <div className="block m-2 xl:w-1/6">
+                                                <div className="block m-2 w-3/6">
                                                         <h5 className={`${theme.inputtext} font-bold`}>{formData?.eventName?.toUpperCase()} </h5>
                                                         <h5 className={`${theme.inputtext}`}>Date :{formData?.scheduledDate?.split('T')[0].split('-').reverse().join('/')} </h5>
-                                                        <h5 className={`${theme.inputtext}`}>{formData?.description} </h5>
+                                                        <br /><h5 className={`${theme.inputtext}`}>{formData?.description} </h5> 
                                                 </div>
                                                 <div className="flex m-2  xl:w-2/6">
                                                         <h5 className=" font-semibold">Start Time <input onChange={handleChange} name="startDateTime" value={formData?.startDateTime} className={`rounded bg-transparent focus:outline-none  ${theme.inputtext}`} type="time" /> </h5>
@@ -97,6 +100,9 @@ const PendingEvents = (props: any) => {
                                                 <div className="flex w-full xl:w-1/6">
                                                         {task ? <DropdownMenu items={task} name='taskID' onChange={handleChange} value={formData?.taskID} /> : ''}
                                                 </div>
+                                        </div>
+                                        <div className="  w-1/6 md:w-3/6 h-10 flex justify-end border-green-600">
+                                              <button onClick={()=>height=='100px'? setHeight('full'):setHeight('100px') }>  <RxDropdownMenu style={{height:'40px' , width:'40px'}} /> </button>  
                                         </div>
                                 </div>
                         </div>
@@ -115,6 +121,7 @@ const PendingEvents = (props: any) => {
                                                         ) : (
                                                                 ''
                                                         )}
+                                                       
                                                 </div>
                                         ))  
                                         ):''}  

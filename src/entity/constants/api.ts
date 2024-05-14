@@ -1,11 +1,10 @@
-import { TrainerApi_route, adminApi_route, trainerApi_route, utilsApis_route } from "../../entity/router/router";
 
-
-
-
-
-
-export const userApi: userApi_route = {
+import  {AdminApi_route} from '../router/adminApi_route'
+import  {UtilsApis_route} from '../router/utilsApis_route'
+import { UserApi_route } from '../router/userApi_route';
+import { TrainerApi_route } from '../router/TrainerApi_route';
+ 
+export const userApi: UserApi_route = {
     signUp: '/auth/create',
     login: '/auth/login',
     getlogin: '/auth/getlogin',
@@ -19,7 +18,7 @@ export const publicApi: Record<string, string> = {
     getPincode: 'https://api.postalpincode.in/pincode/'
 };
 
-export const adminApis: adminApi_route = {
+export const adminApis: AdminApi_route = {
     listAllstaffpendingApprovals: '/admin/listpendingStaff',
     approveStaff: '/admin/approveStaff',
     createBatch:'/admin/createBatch',
@@ -27,7 +26,7 @@ export const adminApis: adminApi_route = {
     deleteEvent:'/admin/deleteEvent'
 };
 
-export const utilityApis: utilsApis_route = {
+export const utilityApis: UtilsApis_route = {
     listAllBatches: '/utils/listBatches',
     listAllVenues: '/utils/getActiveVenues',
     listActiveTrainers:'/utils/getActiveTrainers',
@@ -42,5 +41,6 @@ export const trainerApi: TrainerApi_route ={
 }
 
 export const studentApi ={
-    getStudentsTask :"/student/postStudentsTask"
+    getStudentsTask :"/student/postStudentsTask",
+    sumbitTask:"/student/submitTask"
 }

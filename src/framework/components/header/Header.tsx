@@ -7,9 +7,10 @@ import { FaPowerOff } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { switchDarkTheme, toggleTheme } from '../../ReduxStore/themeSlice';
 import { logout } from '../../ReduxStore/activeUser';
+import { Header_Component } from '../../../entity/components/common/header';
 //import ProfileImageBox from './ProfileImage';
 
-function Header() {
+function Header(props:Header_Component) {
 
   const dispatch = useDispatch()
 

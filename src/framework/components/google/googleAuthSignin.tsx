@@ -2,11 +2,12 @@
 
 import { jwtDecode } from "jwt-decode";
 import { GoogleLogin } from '@react-oauth/google';
-import axiosApi from "../../../interfaces/api/axios"; 
-import { userApi } from "../../../interfaces/api/api";
+import axiosApi from "../../api/axios"; 
+import { userApi } from "../../../entity/constants/api";
 import { useDispatch } from 'react-redux';
 import { login } from "../../ReduxStore/activeUser";
-const GAuthsignin = () => {
+import { GAuthsignin_Component } from "../../../entity/components/google/GAuthsignin";
+const GAuthsignin = (props:GAuthsignin_Component) => {
     const dispatch = useDispatch() 
     const handleSubmit = async(e:any,formData:any) => {
         // e.preventDefault();

@@ -1,67 +1,40 @@
 import { useEffect, useState } from "react"
-import { Event_Model } from "../../../entity/components/admin/events"
+import { Event_Model } from "../../../entity/response/events"
 import { useSelector } from "react-redux"
 import DropdownMenu from "../utilComponents/DropdownMenu"
-import axiosApi from "../../../interfaces/api/axios"
-import { adminApis, utilityApis } from "../../../interfaces/api/api"
+import axiosApi from "../../api/axios"
+import { adminApis, utilityApis } from "../../../entity/constants/api"
 import Switch from '@mui/material/Switch';
-import { audienceType, priority, repeat } from "../../../entity/components/admin/enum"
+import { audienceType, priority, repeat } from "../../../entity/constants/enum"
 import { ToastContainer, toast } from "react-toastify"
-import { current } from "@reduxjs/toolkit"
-import { validateObj } from "../../../interfaces/utils/validateObject"
+import useCompareObjects from "../../../useCases/useCompareObjects"
+import { EventBody_Component } from "../../../entity/components/admin/eventBodyComponent"
+import useGetTrainers from "../../../useCases/useGetTrainers"
+import useGetVenue from "../../../useCases/useGetVenue"
+import useEnumToArray from "../../../useCases/useEnumToarray"
+   
 
 
 
-const EventBody = (props:{event:Event_Model,position:number,onChange :any})=>{
+const EventBody =({event,onChange }:EventBody_Component)=>{
     const [formData,setFormData] = useState<Event_Model|void>()
-    const [venue,setVenue] = useState()
-    const [trainer,setTrainers] = useState()
+    const venue = useGetVenue() 
+    const trainers = useGetTrainers();
     const dark = useSelector((state:any)=>state.theme.theme)
     const darkText = useSelector((state:any)=>state.theme.inputtext)    
-    const enumAudienceType = enumToArray(audienceType)
-    const enumRepeat =  enumToArray(repeat)
+    const enumAudienceType = useEnumToArray(audienceType)
+    const enumRepeat =  useEnumToArray(repeat)
     const [initailState ,setInitialState] = useState<Event_Model|void>()
-
-    function enumToArray (enumObject: any) {
-        return Object.keys(enumObject).map((key) => ({
-          id: enumObject[key],
-          name: key,
-        }));
-      };
-      
-
-
+     
+    const compareObject = useCompareObjects(initailState,formData)
     
-    const getVenue = async()=>{
-        const venues =await axiosApi.get(utilityApis.listAllVenues)
-        console.log(venues.data,'data from front')
-        const data =JSON.parse(JSON.stringify(venues.data)).map((item:any)=>{
-           return{ name:item.venueName,id:item.venueId}
-        })
-        setVenue(data)
-   }
-   const getTrainers =async ()=>{
-       const trainers = await axiosApi.get(utilityApis.listActiveTrainers)
-       const data =JSON.parse(JSON.stringify(trainers.data)).map((item:any)=>{
-           return{ name:item.firstName,id:item.email}
-        })
-       console.log(data,'trainers')
-       setTrainers(data)
-   }
-   const getStudent =async ()=>{
-       const trainers = await axiosApi.get(utilityApis.listActiveTrainers)
-       const data =JSON.parse(JSON.stringify(trainers.data)).map((item:any)=>{
-           return{ name:item.firstName,id:item.email}
-        })
-       console.log(data,'trainers')
-       setTrainers(data)
-   }
-   useEffect(()=>{
-    console.log(formData,'formData')
-   },[formData])
+    
+    
+
    const handleSaveProgram =async ()=>{
     console.log(formData,'formData')
-        if (validateObj.validateObject(initailState,formData)){
+    
+    if (compareObject){
             toast.error('no changes to update')
         }
         else {
@@ -71,7 +44,7 @@ const EventBody = (props:{event:Event_Model,position:number,onChange :any})=>{
             if(save.data.status){
                 setFormData(save.data)
                 toast.success(save.data.message)
-                props.onChange(formData)
+                onChange(formData)
             }
             else{
                 toast.error(save.data.message)
@@ -80,16 +53,11 @@ const EventBody = (props:{event:Event_Model,position:number,onChange :any})=>{
    }
 
 
+    
     useEffect(()=>{
-        getVenue()
-        getTrainers()
-
-    },[])
-
-    useEffect(()=>{
-        setFormData({...props.event})
-        setInitialState({...props.event})
-    },[props])
+        setFormData({...event as Event_Model})
+        setInitialState({...event as Event_Model})
+    },[event])
 
     const handleChange = (e:any)=>{
         let {name,value} = e.target
@@ -109,32 +77,32 @@ const EventBody = (props:{event:Event_Model,position:number,onChange :any})=>{
     }
 
     const handleNewCreation = ()=>{
-        console.log(formData,'before clearing all ')
+      
         setFormData({})
        
     }
 
     
     return(
-        <div className="block  xl:flex w-full       ">
+        <div className="block  xl:flex w-full bg-blue-400 bg-opacity-15 rounded      ">
             <ToastContainer/>   
             <div className=" flex flex-col w-full xl:w-1/2 ">
                 <div className='w-full flex m-1   p-2 items-center justify-between   h-[70px]'>
                     <label className=' w-2/4 h-full align-middle items-center ' htmlFor="">Event Name </label>
-                    <div className={`w-2/4 uppercase  border-none h-full flex  ${darkText}`}>
-                        <input name="eventName"  onChange={handleChange} className={`${dark} w-full border rounded border-gray-300 `} value={formData?.eventName?formData?.eventName:''}   />                   
+                    <div className={`w-2/4 uppercase  border-none h-full flex  `}>
+                        <input name="eventName"  onChange={handleChange} className={` ${darkText} bg-opacity-10   w-full   rounded    `} value={formData?.eventName?formData?.eventName:''}   />                   
                     </div>
                 </div>
 
                 <div className='w-full flex m-1   p-2 items-center justify-between   h-100'>
                     <label className=' w-2/4 h-100' htmlFor="">Cordinator  </label>
                     <div className='justify-between align-middle w-2/4  '>
-                          {trainer? <DropdownMenu name='staffInCharge' value={formData?.staffInCharge  ? formData?.staffInCharge : ''} onChange={handleChange} items={trainer} />:''}  
+                          {trainers? <DropdownMenu name='staffInCharge' value={formData?.staffInCharge  ? formData?.staffInCharge : ''} onChange={handleChange} items={trainers} />:''}  
                     </div>
                 </div>
                 <div className='w-full flex m-1   p-2 items-center justify-between   h-100 '>
                     <label className=' w-2/4 h-100' htmlFor="">Repeat  </label>
-                    <div className={`${dark} justify-between align-middle w-2/4`}>
+                    <div className={` justify-between align-middle w-2/4`}>
                         {enumRepeat? <DropdownMenu name='repeat' value={formData?.repeat  ? formData?.repeat : ''} onChange={handleChange} items={enumRepeat} />:''}
                     </div>
                 </div>
@@ -154,9 +122,9 @@ const EventBody = (props:{event:Event_Model,position:number,onChange :any})=>{
             <div className=" block w-full xl:w-1/2 p-2 ">
              
                 <div className='w-full xl:block flex m-1    p-2 items-center justify-between   h-100 '>
-                    <div className="flex items-center">
+                    <div className="xl:flex block items-center">
                         <label className=' w-2/4 h-100' htmlFor="">Fixed Time  </label>
-                        <div className='justify-between flex align-middle w-2/4 items-center  '>
+                        <div className='justify-between  flex align-middle overflow-hidden  items-center  '>
                             NO
                             <Switch name="timeFixed" checked={formData?.timeFixed ?true:false} onChange={(e)=>handleChange(e)} />
                             YES
@@ -164,9 +132,9 @@ const EventBody = (props:{event:Event_Model,position:number,onChange :any})=>{
 
                     </div>
                    
-                    <div className="flex items-center">
+                    <div className="xl:flex block items-center">
                         <label className=' w-2/4 h-100' htmlFor="">priority    </label>
-                        <div className='justify-between flex align-middle w-2/4 items-center '>
+                        <div className='justify-between flex   align-middle w-2/4 items-center '>
                             LOW 
                             <Switch name="prority"  checked={formData?.prority=='high'?true:false}  onChange={(e)=>handleChange(e)} />
                             HIGH    
@@ -175,9 +143,9 @@ const EventBody = (props:{event:Event_Model,position:number,onChange :any})=>{
                 </div>
                 <div className='w-full flex m-1   p-2 items-center justify-between   h-100 '>
                     <label className=' w-2/4 h-100' htmlFor="">Start Time  </label>
-                    <input className={`w-2/4 uppercase  border-none h-100 flex  ${darkText}`} onChange={handleChange}  type="time" name="startDateTime" value={formData?.startDateTime as string} id="" />
+                    <input className={`w-2/4 uppercase bg-opacity-0 border-none h-100 flex  ${darkText}`} onChange={handleChange}  type="time" name="startDateTime" value={formData?.startDateTime as string} id="" />
                     <label className=' w-2/4 h-100' htmlFor="">End Time  </label>
-                    <input className={`w-2/4 uppercase  border-none h-100 flex  ${darkText}`} onChange={handleChange}  type="time" name="endDateTime" value={formData?.endDateTime as string } id="" />
+                    <input className={`w-2/4 uppercase  border-none bg-opacity-0  h-100 flex  ${darkText}`} onChange={handleChange}  type="time" name="endDateTime" value={formData?.endDateTime as string } id="" />
                 </div>
                 <div className='w-full flex m-1   p-2 items-center justify-between   h-100 '>
                     <div className="flex xl:w-2/4 items-center ">
@@ -190,7 +158,7 @@ const EventBody = (props:{event:Event_Model,position:number,onChange :any})=>{
                     <div className="flex xl:w-2/4 items-center   justify-between">
                         <label className=' w-2/4 h-full align-middle items-center ' htmlFor="">Start Date </label>
                         <div className={`w-2/4 uppercase  border-none h-full flex  ${darkText}`}>
-                            <input  type="date" onChange={handleChange} name="startDate" className={`${dark} w-full   rounded border-gray-300 `} value={formData?.startDate?.split('T')[0] } id="outlined-basic"    />                   
+                            <input  type="date" onChange={handleChange} name="startDate"  className={`${dark} w-full bg-opacity-15    rounded border-gray-300 `} value={formData?.startDate?.split('T')[0] } id="outlined-basic"    />                   
                         </div>
                     </div>) :''}        
                 </div>
@@ -199,15 +167,15 @@ const EventBody = (props:{event:Event_Model,position:number,onChange :any})=>{
                 
                 <div className='w-full block m-1   p-2 items-center justify-between  '>
                     <label className=' w-full h-full align-middle items-center ' htmlFor="">Summary </label>
-                    <div className={`w-full h-100 border-none h-full flex  ${darkText}`}>
-                        <textarea  onChange={handleChange} className={`${dark} w-full     rounded  `} name="description" value={formData?.description}    />                   
+                    <div className={`w-full h-100 border-none h-full flex `}>
+                        <textarea  onChange={handleChange} className={`  ${darkText} bg-opacity-10 w-full     rounded  `} name="description" value={formData?.description}    />                   
                     </div>
                 </div>
 
                 <div className='w-full flex flex-wrap m-1    p-2 items-center justify-end   h-[70px]'>
-                <button onClick={handleNewCreation} className=" h-10 w-1/6 shadow-sm m-1 rounded-md items-center bg-green-800"> new </button>
-                    <button onClick={handleSaveProgram} className=" h-10 w-1/6 shadow-sm m-1 rounded-md items-center bg-blue-300"> save </button>
-                    <button className=" h-10 w-1/6 shadow-sm m-1 rounded-md items-center bg-gray-400 "> Cancel </button>
+                <button onClick={handleNewCreation} className=" h-10 w-1/6 shadow-sm m-1 font-semibold rounded-md items-center bg-green-800"> NEW </button>
+                    <button onClick={handleSaveProgram} className=" h-10 w-1/6 shadow-sm m-1 rounded-md items-center bg-blue-300 font-semibold"> SAVE </button>
+                    <button className=" h-10 w-1/6 shadow-sm m-1 rounded-md items-center bg-gray-400 font-semibold "> CANCEL </button>
                 </div>
 
             </div>

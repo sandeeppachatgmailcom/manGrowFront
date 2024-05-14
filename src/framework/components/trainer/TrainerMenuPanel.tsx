@@ -1,4 +1,6 @@
-const TrainerMenuPanel=()=>{
+import { TrainerMenuPanel_Component } from "../../../entity/components/trainer/trainerMenuPanel"
+
+const TrainerMenuPanel=(_props:TrainerMenuPanel_Component)=>{
 
     return(
         <div className="w-full   flex rounded-md    shadow-gray-300 justify-end">

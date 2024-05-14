@@ -5,19 +5,21 @@ import ProfileImageBox from "../../framework/components/header/ProfileImageBox"
 import { useNavigate } from "react-router-dom"
 import MenuBar from "../../framework/components/header/MenuBar"
 import axios from "axios"
-import axiosApi from "../api/axios"
+import axiosApi from "../../framework/api/axios"
 import { login } from "../../framework/ReduxStore/activeUser"
-import { publicApi, userApi } from "../api/api"
+import { publicApi, userApi } from "../../entity/constants/api"
 import Academics from "../../framework/components/user/Academics"
 
 import { ToastContainer, toast } from "react-toastify"
-import { validatObj } from "../../framework/dependancy/dependancy"
+import useCompareObjects from "../../useCases/useCompareObjects"
+import { Profile_Page } from "../../entity/pages/Profile_Page"
+
 
    
 
 
  
-const ProfilePage = () => {
+const ProfilePage = (_props:Profile_Page) => {
     const theme = useSelector((state:any) => state.theme.theme)
     const darkTheme = useSelector((state:any) => state.theme)
     const user = useSelector((state:any) => state.activeUser.user)
@@ -33,7 +35,6 @@ const ProfilePage = () => {
     }
     const getUser = async ()=>{
         const responce = await axiosApi.get(userApi.getlogin,formData ) 
-        
         responce.data.success!==false? dispatch(login(responce.data)):navigate('/signin')
     }
     useEffect(()=>{
@@ -62,7 +63,7 @@ const ProfilePage = () => {
     const SavePetsonalinfo =async ()=>{
         try {
            
-            if(!validatObj.validateObject(user,formData).valid){
+            if(!useCompareObjects(user,formData)){
                  
                 const savedUser = await axiosApi.post(userApi.saveBasicProfile,formData)
                  
@@ -122,19 +123,21 @@ const ProfilePage = () => {
         <>
         {user?
         <div className="xl:flex w-sm-block w-100 xl:w-full md:flex lg:flex " >
-             <div className="xl:block md:w-1/4  sm:w-full xl:w-1/6 justify-start items-start p-2 border border-gray-300 border-opacity-45 rounded-xl mt-2">
+             <div className="xl:block md:w-1/4  sm:w-full xl:w-1/6 justify-start items-start p-2 bg-blue-500 bg-opacity-5  border-gray-300 border-opacity-45 rounded-xl mt-2">
                 <MenuBar/>   
                 <ToastContainer/>
              </div>
              
-            <div style={{msOverflowStyle:'none', scrollbarWidth: "none"}} className="overflow-y-scroll  w-full  xl:flex border  border-gray-300 border-opacity-45 rounded-xl xl:ms-1 mt-2 ">
+            <div  className="overflow-y-scroll  w-full  xl:flex border bg-blue-500 bg-opacity-5  border-gray-300 border-opacity-45 rounded-xl xl:ms-1 mt-2 ">
             <div className={`${theme} w-full  flex-wrap sm:block rounded-xl   items-center justify-between min-h-screen `}>
                  
                     
                 <div className="flex flex-col justify-center w-full  ">
                     <ProfileImageBox changebutton={true} height='200px' width='200px' imageLink={formData.profileImage} onParentChange={(e:any)=>handleChange(e)} />
-                    {!user.active? <h5 className="text-center text-xl text-red-500 font-bold" >your id is waiting for approval ,complete your profile updation now!</h5>:'' }
+                    
+                    
                     <h5 className="text-center">Info about you and your preferences across Mangrow services</h5>
+                    
                 </div>
                  
                 <div className="block sm:w-full xl:flex p-1 items-center justify-center" >
@@ -142,9 +145,12 @@ const ProfilePage = () => {
 
                     <div className={`${theme}  block w-full justify-center items-center rounded-xl m-1 `}>
                         <div className="justify-center   rounded-2xl  ">
+                       
                             <h5 className=" text-2xl text-center  "> Basic info   </h5>
-                            <div className="border block bg-yello h-100  w-full sm:block md:flex lg:flex justify-center text-center" >
-                            <div className="border w-full  md:w-2/6 block">
+                            <h1  className=" text-center " >{Object.keys(formData).length ? formData?.batch[0]?.batchName?.toUpperCase():''}</h1>    
+                            {user.role=='user'? <h1 className="text-blue-500 text-center text-2xl"> You profile is waiting for approval from admin, you can change your profile details now!!</h1>:''}
+                            <div className="border block bg-yello h-100  w-full  lg:flex justify-center text-center" >
+                                <div className="border w-full lg:w-2/6  block">
                                 <div className="flex text-center border  m-1 rounded-sm h-10 items-center  justify-between p-1">
                                     <label className='w-1/4 text-left ' htmlFor="">Name</label>
 
@@ -193,8 +199,7 @@ const ProfilePage = () => {
                                     <br />
                                 </div>
                                 </div>
-                                
-                                <div className="border w-full  md:w-2/6 block">
+                                <div className="border w-full lg:w-2/6  block">
                                
                                 
                                 <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
@@ -252,8 +257,7 @@ const ProfilePage = () => {
 
                                 
                                 </div>
-
-                                <div className="border w-full  md:w-2/6 block">
+                                <div className="border w-full lg:w-2/6  block">
                                 
                                 <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
                                     <label className='w-1/4 text-left' htmlFor="">streetName</label>
@@ -292,15 +296,12 @@ const ProfilePage = () => {
                                 <button onClick={()=>{setFormData(user)}} className="border m-1 w-[70px] bg-red-600  rounded-md text-white  cursor-pointer h-[40px] ">Reset  </button>
                                 </div>
                                 </div>
-                                
-                                
-                            
                             </div>
                         </div>
 
                         <div className="block w-full justify-center items-center rounded-xl m-1 ">
                             <h5 className="text-center text-2xl  ">Academic</h5>
-                            <div className="xl:flex sm:block md:flex lg:flex  sm:w-100 flex-wrap justify-center items-center"> {/* Added items-center here */}
+                            <div className="xl:flex sm:block md:flex lg:flex overflow-scroll sm:w-100 flex-wrap justify-center items-center"> {/* Added items-center here */}
                                 {user.academics?.map((item:any,index:any) => <Academics key={index} arrayindex={index} course={item} />)}
                             </div>
                         </div>

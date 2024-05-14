@@ -1,15 +1,17 @@
 
-import React, { useEffect, useState } from 'react'; import { FcGoogle } from "react-icons/fc";
+import { useEffect, useState } from 'react'; 
+import { FcGoogle } from "react-icons/fc";
 import { jwtDecode } from "jwt-decode";
 import { GoogleLogin } from '@react-oauth/google';
-import axiosApi from '../../../interfaces/api/axios'; 
-import { userApi } from '../../../interfaces/api/api';
+import axiosApi from '../../api/axios'; 
+import { userApi } from '../../../entity/constants/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { login } from '../../ReduxStore/activeUser';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../../../interfaces/pages/modalOnLoad';  
-const GAuth = (props:any) => {
+import { GauthComponent } from '../../../entity/components/google/gauthComponent';
+const GAuth = (_props:GauthComponent) => {
     const dispatch = useDispatch() 
     const navigate = useNavigate()
     const [modal,setModal] = useState(false)
@@ -53,7 +55,7 @@ const GAuth = (props:any) => {
         <div className='flex items-center justify-center text-center rounded-xl p-5'>
             {modal?<Modal/>:''}
             <GoogleLogin  onClick ={()=>{
-            !props.role.length?toast.error('Choose a role to Continue'):''
+            !_props?.role.length?toast.error('Choose a role to Continue'):''
         }} 
                 onSuccess={credentialResponse => {
                     console.log(credentialResponse);

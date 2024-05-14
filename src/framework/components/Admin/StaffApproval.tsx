@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import axiosApi from "../../../interfaces/api/axios";
+import axiosApi from "../../api/axios";
 import AdminStaffApproval from "./AdminStaffApproval"
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { adminApis } from "../../../interfaces/api/api";
-const ApproveStaff = ()=>{
+import { adminApis } from "../../../entity/constants/api";
+import { ApproveStaff_Model } from "../../../entity/components/admin/ApproveStaffComponent";
+const ApproveStaff = (props:ApproveStaff_Model)=>{
     const [user,setUser ]= useState([])
     const [pageCount,setPageCount] = useState(1)
     const [menu,setMenu] = useState(0)
@@ -53,7 +54,7 @@ useEffect(()=>{
                 <div className="flex flex-col xl:w-1/6    md:w-full lg:w-2/6 overflow-hidden  me-1  border rounded-e-none  border-gray-300 border-opacity-70 rounded-xl">
                     <div className="flex flex-wrap md:flex-col      ">
                     {user.map((item :any, index :number) => {
-                       if (index > (((pageCount-1)*4)) && index <= pageCount*4)  return <div className="flex justify-between m-1" > <button onClick={() =>{setMenu(index);console.log(item);setSelectedStaff(item)   }} className={menu == index ? `text-left shadow-blue-500 shadow-md justify-between  xl:w-5/6 font-semibold text-blue-800 rounded-full xl:rounded-e-full bg-blue-200 flex m-1  h-[50px]   p-2 items-center `  : 'rounded-e-full w-[90%] justify-start p-2 items-center text-left  flex m-1 rounded h-[40px]'} key={index} > {item.firstName}  {menu == index ?<button onClick={()=>{deleteProfile(item)}} className="  "><RiDeleteBin5Line /> </button>:''}  </button> </div>
+                       if (index > (((pageCount-1)*4)) && index <= pageCount*4)  return <div className="flex justify-between w-full m-1" > <button onClick={() =>{setMenu(index);console.log(item);setSelectedStaff(item)   }} className={menu == index ? `text-left shadow-blue-500 shadow-md justify-between w-full xl:w-5/6 font-semibold text-blue-800 rounded-full xl:rounded-e-full bg-blue-200 flex m-1  h-[50px]   p-2 items-center `  : 'rounded-e-full w-[90%] justify-start p-2 items-center text-left  flex m-1 rounded h-[40px]'} key={index} > {item.firstName}  {menu == index ?<button onClick={()=>{deleteProfile(item)}} className="  "><RiDeleteBin5Line /> </button>:''}  </button> </div>
 
                     })}
                     </div>

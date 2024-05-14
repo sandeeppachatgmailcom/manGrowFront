@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Event_Model } from "../../../entity/components/admin/events"; // Assuming correct path
-import axiosApi from "../../../interfaces/api/axios";
-import { utilityApis } from "../../../interfaces/api/api";
+import  { useState, useEffect } from "react";
+import { Event_Model } from "../../../entity/response/events"; // Assuming correct path
+import axiosApi from "../../api/axios";
+import { utilityApis } from "../../../entity/constants/api";
 import Event_Single from "./Event_Single";
 import { useSelector } from "react-redux";
-import EventBody from "./EventBody";
+import EventBody from "./EventBody";  
 
 const Events = () => {
   const [formData, setFormData] = useState<Event_Model[] | undefined>(); // Initialize with props.event or undefined
   const [seletedMenu,setSelectedMenu] = useState('')
-  const[activeEvent,setActiveEvent] = useState(0)
+  const [activeEvent,setActiveEvent] = useState<any>({})
   const [activeIndex,setActiveIndex] = useState(0)
   const darkTheme = useSelector((state:any ) => state.theme.theme)
   const load_events =async ()=>{
@@ -37,10 +37,10 @@ const Events = () => {
 
 
   return (
-    <div className={`xl:flex w-full flex-wrap border    ${darkTheme}`}>
+    <div className={`xl:flex w-full flex-wrap bg-blue-400 bg-opacity-15 shadow-md rounded-md m-1   ${darkTheme}`}>
         <div className="flex   p-2 md:flex-wrap md:w-full    md:rounded xl:w-1/6  w-full  ">
         {formData?.length ?formData.map((item,index)=>{
-           return <div   className={`m-1 w-full h-[50px]  md:w-full sm:w-full flex items-center border  cursor-pointer xl:flex xl:rounded-s rounded-full  ${seletedMenu===item.eventId ? '  bg-blue-300 font-semibold ' : ' '  }`}  onClick={()=>{setSelectedMenu(item.eventId);setActiveEvent(item);setActiveIndex(index)}}  > <Event_Single event={item}    /> </div>
+           return <div   className={`m-1 w-full h-[50px]   md:w-full sm:w-full flex items-center cursor-pointer xl:flex xl:rounded-s rounded-full ms-1 p-2 ${seletedMenu===item.eventId ? '  bg-blue-300 bg-opacity-40 font-semibold ' : ' '  }`}  onClick={()=>{setSelectedMenu(item.eventId as string);setActiveEvent(item);setActiveIndex(index)}}  > <Event_Single event={item} index={index}   /> </div>
         }) :' ' }
        
         </div>

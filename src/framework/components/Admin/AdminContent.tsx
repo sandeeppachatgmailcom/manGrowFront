@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Batch from './Batch'
-import { BatchComponent } from '../../../entity/components/admin/Batch'
-import axiosApi from '../../../interfaces/api/axios'
-import { utilityApis } from '../../../interfaces/api/api'
-const AdminContent :React.FC<{}> = () => {
+import { BatchComponent } from '../../../entity/response/Batch'
+import axiosApi from '../../api/axios'
+import { utilityApis } from '../../../entity/constants/api'
+import { AdminContent_Component } from '../../../entity/components/admin/adminContentComponent'
+const AdminContent :React.FC<{}> = (props:AdminContent_Component) => {
     const darkTheme = useSelector((state:any ) => state.theme.theme)
     
     const [batch, setBatch] = useState<BatchComponent[]>([])
@@ -47,7 +48,7 @@ const AdminContent :React.FC<{}> = () => {
     
 
     return (
-        <div className={`${darkTheme} xl:flex sm:block   w-full border border-opacity-90 rounded-xl`}>
+        <div className={`${darkTheme} xl:flex sm:block bg-blue-500 bg-opacity-10 shadow-md   w-full   border-opacity-90 rounded-xl`}>
             <div className='xl:w-1/6  m-1 rounded  '>
                  
                 <div className='w-full xl:block flex   m-1 rounded sm:flex lg:flex md:flex  sm:flex-wrap flex-wrap ' >
@@ -76,9 +77,9 @@ const AdminContent :React.FC<{}> = () => {
                 </div>
                 
             </div>
-            <div className='w-full border rounded-lg   '>
+            <div className='w-full   rounded-lg   '>
                 
-                { menu==activebatch?.batchName? <Batch setActiveBatch={setActiveBatch} activebatchs ={activebatch  } />:''} 
+                { menu==activebatch?.batchName? <Batch setActiveBatch={setActiveBatch} activebatchs ={activebatch } />:''} 
             </div>
         </div>
     )

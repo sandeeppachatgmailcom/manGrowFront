@@ -1,11 +1,13 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DeepObjectComparison_UseCase } from '../entity/useCases/ObjectComparison_UseCase';
 
-const useCompareObjects :DeepObjectComparison_UseCase = (obj1:Record<string,any>, obj2:Record<string,any>) => {
-  const [isEqual, setIsEqual] = useState(false); // Initial state: objects not equal
-  // Memoize the comparison result for performance optimization
-  const compareObjects = React.useMemo(() => {
+const useCompareObjects :DeepObjectComparison_UseCase = (obj1:any, obj2:any) => {
+   
+   
+  
+  if(!obj1 || !obj2) return false
+   
     if (Object.keys(obj1).length !== Object.keys(obj2).length) {
       return false;
     }
@@ -28,16 +30,14 @@ const useCompareObjects :DeepObjectComparison_UseCase = (obj1:Record<string,any>
       }
     }
 
-    return true;
-  }, [obj1, obj2]); // Dependency array for memoization
+    return true;  
+    // Dependency array for memoization
 
   // Update state only when comparison results change
   
-  React.useEffect(() => {
-    setIsEqual(compareObjects);
-  }, [compareObjects]);
+   
 
-  return isEqual;
+   
 };
 
 export default useCompareObjects;

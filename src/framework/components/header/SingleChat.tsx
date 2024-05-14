@@ -1,7 +1,8 @@
+import { SingleChat_Component } from "../../../entity/components/common/singleChat"
 
 
-type props = any
-const SingleChat =({nameObj}:props)=>{
+
+const SingleChat =({nameObj}:SingleChat_Component)=>{
     console.log(nameObj)
     return(
         <div className="h-[50%] rounded-xl w-full   ">

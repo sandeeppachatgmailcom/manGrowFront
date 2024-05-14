@@ -4,7 +4,9 @@ import Header from '../../framework/components/header/Header';
 import { Provider, useSelector } from 'react-redux';
 import appStore from '../../framework/ReduxStore/appStore';  
 import { GoogleOAuthProvider } from '@react-oauth/google';
-const App = () => {
+import { App_page } from '../../entity/pages/app_page';
+import ErrorBoundary from '../../framework/components/Error/ErrorBoundary';
+const App = (_props:App_page) => {
   const navigate = useNavigate()
    const theme =useSelector((state:any) => state.theme.theme)
    const user = useSelector((state:any)=> state.activeUser.user)
@@ -16,15 +18,16 @@ const App = () => {
   return (
      <GoogleOAuthProvider clientId="150250688028-3q3h69aphbc5q7i82f4n6if7or9d3c2d.apps.googleusercontent.com">
       <Provider store={appStore}>
-     
-      <div   className={`${theme}   sm:block  w-full  md:full lg:full xl:full h-screen  `}>
-          <div className={`${theme} border rounded-xl w-full top-0 left-0 overflow-hidden    mx-auto md:full lg:w-full xl:full xl:h-[12%]`} >
-            <Header />
+      {/* <ErrorBoundary> */}
+          <div   className={`${theme}   sm:block  w-full  md:full lg:full xl:full h-screen  `}>
+            <div className={`${theme} border rounded-xl w-full top-0 left-0 overflow-hidden    mx-auto md:full lg:w-full xl:full xl:h-[12%]`} >
+              <Header />
+            </div>
+            <div   className={`${theme}   sm:block xl:flex  w-full mx-auto md:full lg:full xl:full h-[88%]`} style={{ maxHeight: 'calc(100vh - 40px)' }}   >
+              <Outlet />
+            </div>
           </div>
-          <div   className={`${theme}   sm:block xl:flex  w-full mx-auto md:full lg:full xl:full h-[88%]`} style={{ maxHeight: 'calc(100vh - 40px)' }}   >
-            <Outlet />
-          </div>
-        </div>
+        {/* </ErrorBoundary> */}
       </Provider>
      </GoogleOAuthProvider>
   )

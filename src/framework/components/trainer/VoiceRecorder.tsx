@@ -1,10 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 import { BsFillFloppyFill } from "react-icons/bs";
 import uploadAudio from '../../services/saveAudio';
 export default function VoiceRecorder(props:any) {
-  const [recordings, setRecordings] = useState([]); // Array to store audio recordings
 
+const {value} = props
+  const [recordings, setRecordings] = useState([]); // Array to store audio recordings
+  
+  const loadAttachment = (audioLink:string) => {
+    console.log(value,'its woriking  ')
+    if (audioLink?.length) {
+      const audio = document.createElement('audio');
+      audio.src = audioLink; // Use audioLink directly instead of value
+      audio.controls = true;
+      setRecordings( [ { audio }]); // Assuming you only need to set the audio element
+    }
+  };
+
+
+
+  useEffect(()=>{
+    loadAttachment(value)
+  },[props.value])
+  
+  useEffect(()=>{
+    console.log(recordings,recordings[0]?.audio.src ,'recordings')
+  },[recordings])
   const recorderControls = useAudioRecorder(
     {
       noiseSuppression: true,
@@ -17,27 +38,15 @@ export default function VoiceRecorder(props:any) {
     const url = URL.createObjectURL(blob);
     const audio = document.createElement('audio');
     audio.src = url;
+    console.log(url,'urlurlurlurl')
     audio.controls = true;
 
-    setRecordings((prevRecordings:any ) => [{ audio, blob }]); // Add recording to state
+    setRecordings((prevRecordings:any) => [{ audio, blob }]); // Add recording to state
   };
-
-  const handleDeleteRecording = (index) => {
-    setRecordings((prevRecordings) => {
-      const updatedRecordings = [...prevRecordings]; // Copy array to avoid mutation
-      URL.revokeObjectURL(updatedRecordings[index].audio.src);
-      updatedRecordings.splice(index, 1); // Remove recording at specified index
-
-      // Clean up memory associated with the deleted recording (optional)
-      // Release the created URL
-
-      return updatedRecordings;
-    });
-  };
-
+ 
   const saveAudio =async  ()=>{
     const audio = await uploadAudio(recordings[0])
-    console.log(audio,'aaaaaaaaaaaaaaaaaaaaaaaa')
+     
     const e={target:{
         name:'audioLink',
         value:audio

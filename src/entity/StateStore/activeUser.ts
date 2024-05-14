@@ -56,6 +56,7 @@ export interface Academic {
     academics?: Academic[];
     jobHistory?: JobHistory[];
     otpExpiresAt?:boolean;
+    batchId?:string
   }
   
 

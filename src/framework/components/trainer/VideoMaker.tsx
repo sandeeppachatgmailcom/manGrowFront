@@ -1,55 +1,61 @@
 
-
 import { useState } from 'react';
-// import VideoRecorder from 'react-video-recorder'
+import { useReactMediaRecorder } from 'react-media-recorder';
+import Webcam from "react-webcam";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleDot } from '@fortawesome/free-regular-svg-icons';
+import { BsFillFloppyFill } from "react-icons/bs";
 
-
-
-// const startRecording =async ()=>{
-  
-// let recorder = new RecordRTCPromisesHandler(stream, {
-//     type: 'video'
-// });
-// recorder.startRecording();
-
-// const sleep = m => new Promise(r => setTimeout(r, m));
-// await sleep(3000);
-
-// await recorder.stopRecording();
-// let blob = await recorder.getBlob();
-// invokeSaveAsDialog(blob);
-// }
-
-
-
-const VideoMaker = () =>{
-  const [vid,setVid] = useState<any>(null)
-  const loadVid = async()=>{
-    console.log("stream")
-    let stream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
-    console.log(stream)
-    setVid(stream)
-  }
-  return(
-  //   <div className='flex '>
-  //     <VideoRecorder key={'i'} 
-  //   onRecordingComplete={(videoBlob:any) => {
-  //     // Do something with the video...
-  //     console.log('videoBlob', videoBlob)
-  //   }}
-  // />
-  
-  //   </div>
-  <div className="">
-    {
-      vid && <>
-      <video controls src={vid} height={360} width={200}></video>
-    
-      </>
+import { faStop } from '@fortawesome/free-solid-svg-icons';
+import uploadVideo from '../../services/saveVideo';
+const VideoMaker = (props:any) => {
+  const {
+    status,
+    startRecording,
+    stopRecording,
+    mediaBlobUrl  
+  } = useReactMediaRecorder({ video: true });
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  const requestCameraPermission = async () => {
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+      setStream(mediaStream);
+      
+    } catch (error) {
+      console.error('Camera permission denied:', error);
+      // Handle permission denial gracefully (e.g., display an error message)
     }
-    <button onClick={()=>{loadVid()}}>play</button>
-  </div>
-  )
-}
-export default VideoMaker
+  };
+  const handleRecording = ()=>{
+    startRecording()
+    requestCameraPermission();
+   
+  } 
+  const handleStopRecording = ()=>{
+    stopRecording()
+     console.log(status,'staus')
+  }
+  const saveAudio =async  ()=>{
+    const video = await uploadVideo(MediaStream)
+    console.log(video,'xxaxaaxa ')
+    const e={target:{
+        name:'videolink',
+        value:video
+    }}
+    props.onChange(e)
+  }
 
+  return (
+    <div className='h-full w-[100%] rounded-xl  overflow-hidden  '>
+        <div className='xl:w-2/4   bg-transparent '>
+        {mediaBlobUrl && status !== 'recording'? <video className='w-full' src={mediaBlobUrl} controls autoPlay loop /> 
+        :mediaBlobUrl && status === 'recording' ? <Webcam style={{width:'100%',border: '5px solid black'  }} /> : <Webcam  /> }
+        
+        <div className='flex justify-center '> {status === 'idle' ? <button className=' h-[100px] w-30   bg-transparent rounded-full  text-red-600  ' onClick={handleRecording }> <FontAwesomeIcon icon={faCircleDot} style={{ height: '40px', width: '40px' }} /> </button>: status === 'recording' ? <button onClick={handleStopRecording}><FontAwesomeIcon icon={faStop} style={{ height: '40px', width: '40px' }} /></button>: <div className='flex  items-center justify-center '> <button className=' h-[100px] w-30    bg-transparent rounded-full  text-red-600  ' onClick={handleRecording }> <FontAwesomeIcon icon={faCircleDot} style={{ height: '40px', width: '40px' }} /> </button> <button onClick={saveAudio}  className="rounded  shadow-sm m-2 p-4 w-20     h-full   text-blue-500 hover:border-blue-400    "><BsFillFloppyFill style={{height:'40px',width:'40px'}}/> </button> </div>} </div>
+        {/* {status === 'recording' ? <button onClick={handleStopRecording}><FontAwesomeIcon icon={faStop} style={{ height: '40px', width: '40px' }} /></button>: <button className=' h-[100px] w-30 border bg-transparent rounded-full  text-red-600  ' onClick={handleRecording }> <FontAwesomeIcon icon={faCircleDot} style={{ height: '40px', width: '40px' }} /> </button>} */}
+        </div>
+    </div>
+  );
+};
+
+export default VideoMaker;

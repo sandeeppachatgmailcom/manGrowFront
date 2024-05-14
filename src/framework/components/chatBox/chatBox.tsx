@@ -3,9 +3,10 @@ import { useState } from "react"
 import { MdVideoCameraBack } from "react-icons/md";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { IoCall } from "react-icons/io5";
-const ChatBox = ()=>{
+import { ChatBox_Component } from "../../../entity/components/common/ChatBox";
+const ChatBox = (_props:ChatBox_Component)=>{
 
-    const [contact,setContact] = useState(['Sanoop ','Chandhini','midhun','veshal','ranjith','aswin'])
+    const [contact,_setContact] = useState(['Sanoop ','Chandhini','midhun','veshal','ranjith','aswin'])
 
     return(
         <div className=" shadow-lg   overflow-y-auto rounded-xl">

@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { FaCamera } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import UploadImage from "../../services/firebase";
-import axiosApi from "../../../interfaces/api/axios"; 
-import { userApi } from "../../../interfaces/api/api"; 
+import axiosApi from "../../api/axios"; 
+import { userApi } from "../../../entity/constants/api"; 
 import { login } from "../../ReduxStore/activeUser";
+import { ProfileImageBox_Component } from "../../../entity/components/common/profileImageBox";
  
-type props = {height:string, width:string, changebutton:boolean, onParentChange:()=>{}}
-const ProfileImageBox = ({ height, width, changebutton }:props) => {
+
+const ProfileImageBox = ({ height, width, changebutton }:ProfileImageBox_Component) => {
     const imageInputRef = useRef<HTMLInputElement | null> (null);
     const dispatch = useDispatch();
     const activeUser = useSelector((state:any) => state.activeUser.user);

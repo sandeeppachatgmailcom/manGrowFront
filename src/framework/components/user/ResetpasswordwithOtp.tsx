@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { BsEyeFill } from "react-icons/bs";
 import { BiSolidHide } from "react-icons/bi";
  
-import axiosApi from "../../../interfaces/api/axios";
+import axiosApi from "../../api/axios";
 import { toast } from "react-toastify";
 import { login } from "../../ReduxStore/activeUser";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../../interfaces/pages/modalOnLoad";
-import { userApi } from "../../../interfaces/api/api";
+import { userApi } from "../../../entity/constants/api";
+import { ResetpasswordwithOtp_Component } from "../../../entity/components/user/resetpasswordwithOtp";
 
-const ResetpasswordwithOtp = (props:any) => {
-  console.log(props)
+const ResetpasswordwithOtp = (props:ResetpasswordwithOtp_Component) => {
+  
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [formData, setFormData] = useState<any>({ email: props.email })

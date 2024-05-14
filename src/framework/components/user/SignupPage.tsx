@@ -4,16 +4,17 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import GAuth from '../google/Authentication'; 
 import { BsEyeFill } from "react-icons/bs";
 import { BiSolidHide } from "react-icons/bi";
-import axiosApi from '../../../interfaces/api/axios';
-import { userApi } from '../../../interfaces/api/api';
+import axiosApi from '../../api/axios';
+import { userApi } from '../../../entity/constants/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from '../../../interfaces/pages/modalOnLoad';
 import { FcGoogle } from "react-icons/fc";
+import { SignupPage_pages } from '../../../entity/pages/signupPage_Pages';
 
 
 
-const SignupPage = () => {
+const SignupPage = (_props:SignupPage_pages) => {
   const [view,setView] = useState('password')
   const [retypeView,setRetypeView] = useState('password')
   const [margin,setmargin] = useState('flex flex-row  appearance-none rounded-none relative   border placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 border-indigo-500 focus:z-10 sm:text-sm  ')

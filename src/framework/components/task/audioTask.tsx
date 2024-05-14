@@ -1,9 +1,11 @@
 import { FaMicrophoneLines } from "react-icons/fa6";
 import { BsFillFloppyFill } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
-import { useSelector } from "react-redux";
-const AudioTask = ()=>{
-    const theme = useSelector((state:any)=>state.theme)
+
+import { AudioTask_Compoenent } from "../../../entity/components/trainer/audioTaskComponent";
+
+const AudioTask = (_props:AudioTask_Compoenent)=>{
+    
     return(
         <div className="block w-full p-4 shadow-md border border-gray-300 border-opacity-45 rounded-xl mt-2 " >
             <div className="justify-end text-end">

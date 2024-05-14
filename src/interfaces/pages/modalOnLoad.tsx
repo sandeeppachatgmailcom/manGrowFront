@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
-/*
-import { FiFastForward } from "react-icons/fi";
-import { GiSaberToothedCatHead } from "react-icons/gi";
-import { GiRollingEnergy } from "react-icons/gi";
-*/
-interface props { isOpen?:boolean, 
-            onClose?:()=>void;
-            children?:any }
+import { Modal_Component } from '../../entity/components/common/Modal';
 
-const Modal:React.FC<props>= ({ isOpen, onClose, children }) => {
+
+const Modal:React.FC<Modal_Component>= ({ isOpen, onClose, children }) => {
   const [count,setCount] = useState(0) 
 
   setInterval(()=>{

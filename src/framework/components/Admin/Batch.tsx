@@ -2,12 +2,12 @@ import { useSelector } from "react-redux"
 import DropdownMenu from "../utilComponents/DropdownMenu";  
 import { MdOutlineRadioButtonChecked } from "react-icons/md";
 import {  useEffect, useState } from "react";
-import { BatchComponent } from "../../../entity/components/admin/Batch";
+import { BatchComponent } from "../../../entity/response/Batch";
 import { FaSave } from "react-icons/fa";
 import { MdCancelScheduleSend } from "react-icons/md";
-import axiosApi from "../../../interfaces/api/axios";
+import axiosApi from "../../api/axios";
 import { MdAddHome } from "react-icons/md";
-import { adminApis, utilityApis } from "../../../interfaces/api/api";
+import { adminApis, utilityApis } from "../../../entity/constants/api";
 import { ToastContainer, toast } from "react-toastify";
 type props ={
     activebatchs:BatchComponent
