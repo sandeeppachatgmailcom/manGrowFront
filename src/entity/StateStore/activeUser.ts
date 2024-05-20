@@ -103,4 +103,7 @@ export interface Event_Model{
   dayName?:string;
   monthDay?:string;
   yearDay:string;
+  matchedTasks?:object;
+  createdDate?:Date;
+  submissionDate?:Date;
 }

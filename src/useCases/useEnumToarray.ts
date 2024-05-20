@@ -1,12 +1,16 @@
  
 
   const useEnumToArray =(enumObject: any)=>{
-    const data =  Object.keys(enumObject).map((key) => ({
+    try {
+      const data =  Object.keys(enumObject).map((key) => ({
         id: enumObject[key],
         name: key,
       }));
 
       return data
+    } catch (error) {
+      
+    }
   }
 
   export default useEnumToArray

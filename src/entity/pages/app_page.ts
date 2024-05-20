@@ -1,3 +1,3 @@
 export interface App_page{
-    props:any
+    props?:any
 }

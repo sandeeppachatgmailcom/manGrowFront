@@ -47,19 +47,19 @@ function Header(props:Header_Component) {
 
 
   return (
-    <div className={`${theme} flex flex-col sm:flex-row rounded-xl    xl:w-[100%] h-[100%]  border-gray-300 border-opacity-45   items-center justify-between shadow-lg `}>
+    <div className={` flex flex-col sm:flex-row rounded-xl    xl:w-[100%] h-[100%]        items-center justify-between shadow-lg `}>
 
-      <div className={`${theme} flex items-center justify-start    p-4`}>
-        <h6 className={`${theme} float-start  sm:w-auto text-2xl text-blue-500 font-semibold `}>
+      <div className={` flex items-center justify-start    p-4`}>
+        <h6 className={` float-start  sm:w-auto text-2xl text-blue-500 font-semibold `}>
           {company}
         </h6>
       </div>
 
-      <div className={`${theme} flex items-center justify-end  `}>
+      <div className={` flex items-center justify-end  `}>
         {/* <ProfileImageBox height='50px' width='50px' /> */}
-        <h6 className={`${theme} px-4 `}>
+        <h6 className={` px-4 `}>
           {Object.keys(activeUser).length
-            ? <button onClick={()=>{ if(Object.keys(activeUser).length && activeUser.otpVerified) navigate('/')}} type="button"> {activeUser.firstName} </button>
+            ? <button onClick={()=>{ if(Object.keys(activeUser).length && activeUser.otpVerified) navigate('/')}} type="button"  > {activeUser.firstName} </button>
             : ''}
         </h6>
         
@@ -68,7 +68,7 @@ function Header(props:Header_Component) {
         </button>
         <button
           onClick={() => toggleDarkMode()}
-          className={`rounded-full w-20 h-10 flex items-center justify-center bg-gray-800   ${theme.theme} focus:outline-none`}
+          className={`rounded-full w-10 h-10 flex items-center justify-center bg-gray-800   ${theme.theme} focus:outline-none`}
         >
           {darkTheme ? "🌤" : "🌙"}
         </button>

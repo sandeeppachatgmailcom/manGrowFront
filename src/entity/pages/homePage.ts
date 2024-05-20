@@ -1,3 +1,3 @@
 export interface Home_Page{
-    props:any
+    props?:any
 }

@@ -9,6 +9,7 @@ import Modal from "./modalOnLoad";
 import { login } from "../../framework/ReduxStore/activeUser";
 import { userApi } from "../../entity/constants/api";
 import { Login_Page } from "../../entity/pages/login_Page";
+import useHandleRouter from "../../useCases/useHandleRouter";
 
  
 function Login(_props:Login_Page ) {
@@ -27,7 +28,7 @@ function Login(_props:Login_Page ) {
     const activeUser =  useSelector((state:any)=>state.activeUser.user)  
     const navigate = useNavigate()
     const emailRef = useRef<HTMLInputElement | null> (null);
-    
+    //useHandleRouter(activeUser.role)
     const handleChange = (e:any) => {
       const { name, value } = e.target;
       setFormData({
@@ -50,18 +51,19 @@ function Login(_props:Login_Page ) {
         else{
           if(!responce.data.otpVerified) responce.data.resetPaaword=false;
           dispatch(login(responce.data))
-          if(responce.data.role=='admin'){
-            navigate('/Admin')
-          }
-          else if(responce.data.role=='student'){
-            navigate('/Student')
-          }
-          else if(responce.data.role=='user'){
-            navigate('/user')
-          }
-          else if(responce.data.role=='trainer'){
-            navigate('/Trainer')
-          }
+          
+          // if(responce.data.role=='admin'){
+          //   navigate('/Admin')
+          // }
+          // else if(responce.data.role=='student'){
+          //   navigate('/Student')
+          // }
+          // else if(responce.data.role=='user'){
+          //   navigate('/user')
+          // }
+          // else if(responce.data.role=='trainer'){
+          //   navigate('/Trainer')
+          // }
          
         }
         console.log(responce,'response')
@@ -70,12 +72,10 @@ function Login(_props:Login_Page ) {
         if(!error?.responce){
           console.log('no error message')
         }
-        
       }
     };
 
     useEffect(()=>{
-      console.log(!activeUser.otpVerified &&  Object.keys(activeUser).length>0,'!activeUser.otpVerified &&  Object.keys(activeUser).length ' )
       if(!activeUser.otpVerified &&  Object.keys(activeUser).length>0 ){
         navigate('/submitOtp')
       }

@@ -12,14 +12,14 @@ const Profile = (props:Profile_Component)=>{
     }
 
     return(
-        <div className={`${darkTheme.theme}   p-2 m-1 rounded shadow-md `}>
+        <div className={`p-2 m-1 rounded-md shadow-xl `}>
            <div className="flex border-white border-spacing-5 p-1  ">
            <ProfileImageBox height='200px' changebutton={false} width='200px' imageLink={user.profileImage} onParentChange={()=>{}} />
            </div>
             <>
             
                 <h4 className="text-2xl font-semibold " >{user?.firstName?.toUpperCase() }</h4>
-                <h4 className="text-xl " >{Object.keys(user).length>0? user?.batch[0]?.batchName?.toUpperCase():'' }</h4>
+                {/* <h4 className="text-xl " >{Object.keys(user).length>0? user?.batch[0]?.batchName?.toUpperCase():'' }</h4> */}
                 <h5>{user.email}</h5>
                 <h5>{user.mob}</h5>
                 <h5>{user.web}</h5> <br></br>

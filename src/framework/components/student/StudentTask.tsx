@@ -7,26 +7,32 @@ import { Event_Model } from "../../../entity/StateStore/activeUser";
 import { ToastContainer, toast } from "react-toastify";
 import VoiceRecorder from "../trainer/VoiceRecorder";
 import VideoMaker from "../trainer/VideoMaker";
-import TextEditor from "../trainer/TextEditor";
+//import TextEditor from "../trainer/TextEditor";
 import { FaExpand } from "react-icons/fa";
 import { BiCollapse } from "react-icons/bi";
 import useCompareObjects from "../../../useCases/useCompareObjects";
+import { Task_model } from "../../../entity/response/task_model";
+import SubmiSsionModal from "./SubmiSsionModal";
+import { UserEntity_Model } from "../../../entity/response/userModel";
+ 
 
 
 const StudentTask = (props: any) => {
         const [formData, setFormData] = useState<Event_Model & {ScheduledTaskID:string }>()
-        const user = useSelector((state:any)=>state.activeUser.user)
+        const user :UserEntity_Model = useSelector((state:any)=>state.activeUser.user)
         const [initialState, setInitialState] = useState()
         const [category, setCategory] = useState<any>({ })
+        const [subMission,setSubmission] = useState(false)
         const [task, setTask] = useState()
+        const [selectedTask,setSelectedTask] = useState()
         const longTextRef = useRef()
         const [height,setHeight] = useState('100px')
+        const [studentSubMission,setStudentSubmission] = useState()
         useEffect(() => {
                 setFormData(props.pending),
                 setInitialState(props.pending)
         }, [props.pendings])
 
-        
         useEffect(()=>{
                 setTask(props.task)
         },[props.task])
@@ -34,8 +40,17 @@ const StudentTask = (props: any) => {
         useEffect(()=>{
                 console.log(formData,'forData')
         },[height])
-       
-         
+        useEffect(()=>{
+            user.submission? setStudentSubmission(user.submission):setStudentSubmission({
+
+            })      
+        },[user])
+
+
+        
+        
+        
+        
         const handleChange = (e)=>{
                 const {name,value} = e.target;
                 console.log(name,value)
@@ -44,7 +59,6 @@ const StudentTask = (props: any) => {
                         [name]:value
                 }
                 setFormData(temp)
-                 
         } 
         const handleChangeCaterogry = (key,item)=>{
                 
@@ -88,14 +102,11 @@ const StudentTask = (props: any) => {
                 
                 const submitTask =  {
                         submissionId:'' ,
-                        taskid:formData?.taskID ,
                         studentId:user.email,
+                        eventId:formData?.eventId ,
                         scheduledTaskId:formData?.ScheduledTaskID,
-                        WriteTask:formData?.WriteTask   ,
-                        Reading:formData?.audioLink,
-                        Speaking:formData?.audioLink,
-                        deleted:false,
-                        active:true
+                        matchedTasks:formData?.matchedTasks
+                        
                 } 
                 console.log(submitTask,'submitTasksubmitTasksubmitTasksubmitTask')
                 if(submitTask?.WriteTask?.length ||  submitTask?.audioLink?.length || submitTask?.Speaking?.length){
@@ -111,7 +122,8 @@ const StudentTask = (props: any) => {
 
         const theme = useSelector((state: any) => state.theme.theme)
         return (
-                <div className={`${ formData && formData?.ScheduledTaskID? 'bg-blue-300 text-blue-400 shadow-sm shadow-gray-100 bg-opacity-10':''} w-full p-4 h-[${height}] overflow-hidden    hover:shadow-sm hover:shadow-gray-500 border-gray-300 focus:bg-opacity-55 focus:bg-gray-600 border-opacity-45  rounded-xl `} >
+                <div className={`   ${ formData && formData?.ScheduledTaskID? 'bg-blue-300  text-blue-400 shadow-sm shadow-gray-100 bg-opacity-10':''} w-full p-4 h-[${height}] overflow-hidden    hover:shadow-sm hover:shadow-gray-500 border-gray-300 focus:bg-opacity-55 focus:bg-gray-600 border-opacity-45  rounded-xl `} >
+                        {subMission? <SubmiSsionModal ScheduledTaskID={formData?.ScheduledTaskID} studentSubMission={studentSubMission} task={selectedTask} onclose={setSubmission} />:''}
                         <div className="justify-start m-2">
                         <ToastContainer/>  
                                 <div className="xl:flex flex xl:justify-between justify-between  border-b w-full  border-b-gray-300">
@@ -141,11 +153,52 @@ const StudentTask = (props: any) => {
                                         <label     className={`bg-transparent rounded-lg w-full focus:outline-none focus:border-blue-500`} > {formData?.dayDiscription as string} </label>
                                 </div>
                                 </div>
+                                        <div className="flex flex-col p-2   ">
+                                                
+                                                {formData?.matchedTasks?.map((task: Task_model) => (
+                                                                <div
+                                                                key={task.taskId} // Added key prop for proper list rendering
+                                                                className="p-2 justify-between rounded-md shadow-md m-1 flex"
+                                                                >
+                                                                <div className="flex">
+                                                                <div className="block">
+                                                                        <div className="flex">
+                                                                        <h1 className="font-bold">{task.taskName}</h1>
+                                                                        <h1 className="font-bold"> {studentSubMission?.[formData.ScheduledTaskID]?.[task.taskId] && '['+ (studentSubMission?.[formData.ScheduledTaskID][task.taskId].length ) +'submission ]' }</h1>
+                                                                        
+                                                                        </div>
+                                                                        <br />
+                                                                        {task.taskType && <small>{task.taskType}</small>}
+                                                                </div>
+                                                                <h1 className="font-semibold">{task.taskDiscription}</h1>
+                                                                </div>
+                                                                <div className="flex p-2">
+                                                                {task.possiblePostpone > 0 && (
+                                                                        <button className="m-1 shadow-lg bg-blue-500 rounded-md p-2 bg-opacity-15">
+                                                                        POSTPONE
+                                                                        </button>
+                                                                )}
+                                                                <button
+                                                                        onClick={() => {
+                                                                        setSubmission(true);
+                                                                        setSelectedTask(task);
+                                                                        }}
+                                                                        className="m-1 shadow-lg bg-blue-500 rounded-md p-2 bg-opacity-15 w-20 font-bold"
+                                                                >
+                                                                        OPEN
+                                                                </button>
+                                                                </div>
+                                                                </div>
+                                                                ))}
+
+                                        </div>
+
+                                
                                  <div className="justify-start   block w-full   m-2  ">
                                     <h1 className="text-blue-500 font-semibold">{formData?.tasks[0]?.taskType} </h1>
                                        {
-                                               formData?.tasks[0]?.taskType == "Writing" ?<TextEditor  style={{height:'300px'}}  value={formData?.description} onChange={handleChange} />  :
-                                              // formData?.tasks[0]?.taskType == "Writing" ? <VoiceRecorder name='audioLink' onChange ={handleChange} value={formData?.submission[0]?.Speaking} /> :
+                                                //formData?.tasks[0]?.taskType == "Writing" ?<TextEditor  style={{height:'300px'}}  value={formData?.description} onChange={handleChange} />  :
+                                                formData?.tasks[0]?.taskType == "Writing" ? <VideoMaker name='videolink' onChange={handleChange} value = {formData?.videolink} /> :
                                                 formData?.tasks[0]?.taskType == "Reading" ? <VoiceRecorder name='audioLink' onChange ={handleChange} value={formData?.audioLink} /> :
                                                 formData?.tasks[0]?.taskType == "Speaking" ? <VideoMaker name='videolink' onChange={handleChange} value = {formData?.videolink} /> :''
                                        }

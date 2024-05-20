@@ -7,13 +7,14 @@ import HomePage from "../../interfaces/pages/HomePage";
 import AdminHomePage from "../../interfaces/pages/AdminHomePage";
 import TrainerHomePage from "../../interfaces/pages/TrainerHomePage";
 import ResetCredential from "../../interfaces/pages/ResetCredential";
+import Task_Comp from "../components/Admin/TaskComponent";
+import ManageTaskComponent from "../components/Admin/ManageTaskComponent";
 
 const appRouter  = createBrowserRouter([
     {
         path: '/',
         element: <App/>,
         children:[
-           
             {
                 path:'/user',
                 element: <ProfilePage/>
@@ -36,7 +37,7 @@ const appRouter  = createBrowserRouter([
             },
             {
                 path:'/Admin',
-                element:<AdminHomePage/>
+                element:<AdminHomePage ManageTaskComponent ={ManageTaskComponent }    />
             },
             {
                 path:'/Trainer',

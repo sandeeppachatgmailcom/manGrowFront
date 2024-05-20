@@ -1,3 +1,3 @@
 export interface Profile_Page{
-    props:any
+    props?:any
 }

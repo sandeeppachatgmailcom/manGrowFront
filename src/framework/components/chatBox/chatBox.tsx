@@ -10,9 +10,9 @@ const ChatBox = (_props:ChatBox_Component)=>{
 
     return(
         <div className=" shadow-lg   overflow-y-auto rounded-xl">
-            {contact.map((name)=>{
+            {contact.map((name,index)=>{
                 return(
-                    <div id="" className="m-1 h-[40px] flex text-center justify-between">
+                    <div id={index} className="m-1 h-[40px] flex text-center justify-between">
                         <div  className="flex "> 
                             <button className="text-1xl" >{name}</button>  
                         </div> 

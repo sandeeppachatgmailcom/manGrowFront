@@ -1,3 +1,3 @@
 export interface Login_Page{
-    props:any
+    props?:any
 }

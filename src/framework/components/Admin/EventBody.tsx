@@ -12,6 +12,8 @@ import { EventBody_Component } from "../../../entity/components/admin/eventBodyC
 import useGetTrainers from "../../../useCases/useGetTrainers"
 import useGetVenue from "../../../useCases/useGetVenue"
 import useEnumToArray from "../../../useCases/useEnumToarray"
+import useGetDesignation from "../../../useCases/useGetDesignation"
+import { DesignationModel } from "../../../entity/response/designation_model"
    
 
 
@@ -27,7 +29,10 @@ const EventBody =({event,onChange }:EventBody_Component)=>{
     const [initailState ,setInitialState] = useState<Event_Model|void>()
      
     const compareObject = useCompareObjects(initailState,formData)
-    
+    const designation :[]= useGetDesignation()
+    const combDesignation = designation?.map((item:DesignationModel)=>{
+        return {id:item.id,name:item.Designation}
+    }) 
     
     
 
@@ -84,20 +89,20 @@ const EventBody =({event,onChange }:EventBody_Component)=>{
 
     
     return(
-        <div className="block  xl:flex w-full bg-blue-400 bg-opacity-15 rounded      ">
+        <div className="block  xl:flex w-full  rounded      ">
             <ToastContainer/>   
             <div className=" flex flex-col w-full xl:w-1/2 ">
                 <div className='w-full flex m-1   p-2 items-center justify-between   h-[70px]'>
                     <label className=' w-2/4 h-full align-middle items-center ' htmlFor="">Event Name </label>
                     <div className={`w-2/4 uppercase  border-none h-full flex  `}>
-                        <input name="eventName"  onChange={handleChange} className={` ${darkText} bg-opacity-10   w-full   rounded    `} value={formData?.eventName?formData?.eventName:''}   />                   
+                        <input name="eventName"  onChange={handleChange} className={` ${darkText} bg-transparent focus:outline-none focus:outline-blue-500   w-full   rounded    `} placeholder="Event name"  value={formData?.eventName?formData?.eventName:''}   />                   
                     </div>
                 </div>
 
                 <div className='w-full flex m-1   p-2 items-center justify-between   h-100'>
-                    <label className=' w-2/4 h-100' htmlFor="">Cordinator  </label>
+                    <label className=' w-2/4 h-100' htmlFor="">Designation (inCharge)  </label>
                     <div className='justify-between align-middle w-2/4  '>
-                          {trainers? <DropdownMenu name='staffInCharge' value={formData?.staffInCharge  ? formData?.staffInCharge : ''} onChange={handleChange} items={trainers} />:''}  
+                          {combDesignation? <DropdownMenu name='designation' value={formData?.designation  ? formData?.designation : ''} onChange={handleChange} items={combDesignation} />:''}  
                     </div>
                 </div>
                 <div className='w-full flex m-1   p-2 items-center justify-between   h-100 '>
@@ -168,7 +173,7 @@ const EventBody =({event,onChange }:EventBody_Component)=>{
                 <div className='w-full block m-1   p-2 items-center justify-between  '>
                     <label className=' w-full h-full align-middle items-center ' htmlFor="">Summary </label>
                     <div className={`w-full h-100 border-none h-full flex `}>
-                        <textarea  onChange={handleChange} className={`  ${darkText} bg-opacity-10 w-full     rounded  `} name="description" value={formData?.description}    />                   
+                        <textarea placeholder="discribe the summary about the program " onChange={handleChange} className={`  ${darkText} bg-transparent focus:outline-none focus:outline-blue-500 border border-opacity-10 w-full     rounded  `} name="description" value={formData?.description}    />                   
                     </div>
                 </div>
 

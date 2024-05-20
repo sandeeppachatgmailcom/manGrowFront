@@ -18,16 +18,16 @@ const App = (_props:App_page) => {
   return (
      <GoogleOAuthProvider clientId="150250688028-3q3h69aphbc5q7i82f4n6if7or9d3c2d.apps.googleusercontent.com">
       <Provider store={appStore}>
-      {/* <ErrorBoundary> */}
+       {/* <ErrorBoundary>  */}
           <div   className={`${theme}   sm:block  w-full  md:full lg:full xl:full h-screen  `}>
-            <div className={`${theme} border rounded-xl w-full top-0 left-0 overflow-hidden    mx-auto md:full lg:w-full xl:full xl:h-[12%]`} >
+            <div className={` rounded-xl w-full top-0 left-0 overflow-hidden bg-blue-400 bg-opacity-5   mx-auto md:full lg:w-full xl:full xl:h-[12%]`} >
               <Header />
             </div>
-            <div   className={`${theme}   sm:block xl:flex  w-full mx-auto md:full lg:full xl:full h-[88%]`} style={{ maxHeight: 'calc(100vh - 40px)' }}   >
+            <div   className={`${theme}   sm:block xl:flex  w-full mx-auto md:full lg:full xl:full h-full `} style={{ maxHeight: 'calc(100vh - 40px)' }}   >
               <Outlet />
             </div>
           </div>
-        {/* </ErrorBoundary> */}
+         {/* </ErrorBoundary>  */}
       </Provider>
      </GoogleOAuthProvider>
   )

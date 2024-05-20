@@ -1,3 +1,3 @@
 export interface ResetCredential_page{
-    option:any
+    option?:any
 }

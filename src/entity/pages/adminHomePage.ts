@@ -1,3 +1,5 @@
+import { IManageTaskComponent } from "../components/admin/ManageTaskComponent";
+
 export interface AdminHome_Page {
-    props:any
+    ManageTaskComponent?:React.FC<IManageTaskComponent>;
 }

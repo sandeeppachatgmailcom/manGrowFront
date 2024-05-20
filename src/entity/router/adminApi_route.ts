@@ -4,4 +4,5 @@ export interface AdminApi_route{
     createBatch:string,
     createEvent:string,
     deleteEvent:string
+    createTask:string
 }

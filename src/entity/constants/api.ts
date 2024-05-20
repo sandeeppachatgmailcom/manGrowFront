@@ -23,7 +23,9 @@ export const adminApis: AdminApi_route = {
     approveStaff: '/admin/approveStaff',
     createBatch:'/admin/createBatch',
     createEvent:'/admin/createEvents',
-    deleteEvent:'/admin/deleteEvent'
+    deleteEvent:'/admin/deleteEvent',
+    createTask:'/admin/createTask'
+    
 };
 
 export const utilityApis: UtilsApis_route = {
@@ -32,7 +34,9 @@ export const utilityApis: UtilsApis_route = {
     listActiveTrainers:'/utils/getActiveTrainers',
     listActiveStudemts:'/utils/getActiveTrainers',
     listActiveEvents:'/utils/listActiveEvents',
-    listAllTasks:'/utils/listAllTask'
+    listAllTasks:'/utils/listAllTask',
+    listAllDesignation:'/utils/getAllDesignation'
+    
 };
 
 export const trainerApi: TrainerApi_route ={
@@ -43,4 +47,5 @@ export const trainerApi: TrainerApi_route ={
 export const studentApi ={
     getStudentsTask :"/student/postStudentsTask",
     sumbitTask:"/student/submitTask"
+
 }

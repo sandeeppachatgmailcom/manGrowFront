@@ -92,25 +92,25 @@ const Batch = (props:props) => {
                         <div className={`xl:w-3/6    sm:w-full md:w-full lg:w-full  block ${darkTheme} m-1 rounded-xl  justify-between   `}>
                 
                         <ToastContainer/>
-                            <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
-                                <label className=' w-2/4' htmlFor="">Batch </label>
+                            <div className='w-full flex m-1 h-[60px] p-2 items-center justify-between '>
+                                <label className=' w-2/4' htmlFor="">BATCH NAME </label>
                                 
-                                <input className={`w-2/4 uppercase   flex  ${darkText}`} onChange={handleChange}  type="text" name="batchName" value={activebatch.batchName} id="" />
+                                <input placeholder="batch Name" className={`w-2/4 uppercase bg-transparent  flex  ${darkText}`} onChange={handleChange}  type="text" name="batchName" value={activebatch.batchName} id="" />
                             </div>
-                            <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
-                                <label className=' w-2/4' htmlFor="">Start Date </label>
+                            <div className='w-full flex m-1 h-[60px] p-2 items-center justify-between '>
+                                <label className=' w-2/4' htmlFor="">START DATE </label>
                                 <input className={`w-2/4  ${darkText}`} onChange={handleChange}  type="date" name="startDate" value={activebatch?.startDate} id="" />
                             </div>
-                            <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
-                                <label className=' w-2/4' htmlFor="">End Date Date </label>
+                            <div className='w-full flex m-1 h-[60px] p-2 items-center justify-between '>
+                                <label className=' w-2/4' htmlFor="">END DATE  </label>
                                 <input className={`w-2/4  ${darkText}`} onClick={() => { }} onChange={handleChange}  type="date" name="endDate" value={activebatch.endDate} id="" />
                             </div>
-                            <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
-                                <label className=' w-2/4' htmlFor="">Max Student </label>
+                            <div className='w-full flex m-1 h-[60px] p-2 items-center justify-between '>
+                                <label className=' w-2/4' htmlFor="">MAX STUDENT </label>
                                 <input className={`w-2/4  ${darkText}`} onClick={() => { }} onChange={handleChange}  type="number" name="maxCapacity" value={activebatch.maxCapacity} id="" />
                             </div>
-                            <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
-                                <label className=' w-2/4' htmlFor="">Location </label>
+                            <div className='w-full flex m-1 h-[60px] p-2 items-center justify-between '>
+                                <label className=' w-2/4' htmlFor="">LOCATION </label>
                                 <div className='justify-between align-middle w-2/4  '>
                                     {venue? <DropdownMenu name='location' value={activebatch?.location  ? activebatch?.location : ''} onChange={handleChange} items={venue} />:''}
                                 </div>
@@ -120,14 +120,14 @@ const Batch = (props:props) => {
                     </>  
             }
             <div className={`xl:w-3/6  sm:w-full md:w-full lg:w-full block ${darkTheme} m-1 rounded-xl  justify-between   `}>
-                <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
-                    <label className=' w-2/4' htmlFor="">Type </label>
+                <div className='w-full flex m-1 h-[60px] p-2 items-center justify-between '>
+                    <label className=' w-2/4' htmlFor="">BATH TYPE </label>
                     <div className='justify-between align-middle w-2/4  '>
                         <DropdownMenu name='BatchType' onChange={handleChange}  value={activebatch.BatchType ? activebatch?.BatchType : 'Remote'}  items={[{ name: 'Remote', id: 'TY0001' }, { name: 'BroCamp', id: 'TR0002' }]} />
                     </div>
                 </div>
-                <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
-                    <label className=' w-2/4' htmlFor="">Status {activebatch.active ? 'Active' : 'Dead'} </label>
+                <div className='w-full flex m-1 h-[60px] p-2 items-center justify-between '>
+                    <label className=' w-2/4' htmlFor="">ACTIVE </label>
                     <div className='w-2/4 justify-start flex  align-middle'> 
                         {activebatch.active ? (
                             <div className="justify-center flex w-[75px] h-[30px] rounded-full border items-center "> {/* Adjust width, height, and padding here */}
@@ -160,14 +160,14 @@ const Batch = (props:props) => {
                         </div>
                 </div>
                  
-                <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
-                    <label className=' w-2/4' htmlFor="">Trainer </label>
+                <div className='w-full flex m-1 h-[60px] p-2 items-center justify-between '>
+                    <label className=' w-2/4' htmlFor="">TRAINER </label>
                     <div className='w-2/4 m-2 justify-between align-middle '>
                                     {trainers?  <DropdownMenu name='trainer' onChange={handleChange} value={activebatch.trainer ? activebatch.trainer : 'Select'}   items={trainers} />:''}
                     </div>
                 </div>
-                <div className='w-full flex m-1 h-[40px] p-2 items-center justify-between '>
-                    <label className=' w-2/4' htmlFor="">Cordinator </label>
+                <div className='w-full flex m-1 h-[60px] p-2 items-center justify-between '>
+                    <label className=' w-2/4' htmlFor="">CORDINATOR </label>
                     <div className='w-2/4 m-2 justify-between align-middle '>
                     {trainers? <DropdownMenu name='cordinator' onChange={handleChange}  value={activebatch.cordinator} items={trainers} />:''}
                     </div>

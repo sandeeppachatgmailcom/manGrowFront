@@ -18,3 +18,10 @@ export enum priority {
     high='high',
     low='low'
 }
+
+export enum enumtaskTypes {
+    writing = 'writing',
+    reading = 'reading',
+    listening = 'listening',
+    OneToOne = 'OneToOne'
+}

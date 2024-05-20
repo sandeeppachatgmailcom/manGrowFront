@@ -28,6 +28,7 @@ const ProfilePage = (_props:Profile_Page) => {
     const navigate = useNavigate();
     const [address,setAddress] = useState([])
     const [formData,setFormData] = useState(user)  
+    const changes = useCompareObjects(user,formData)
     const loadAddress= async ()=>{
 
         const address =await axios.get(`${publicApi.getPincode}${formData.pincode}`)
@@ -62,8 +63,8 @@ const ProfilePage = (_props:Profile_Page) => {
 
     const SavePetsonalinfo =async ()=>{
         try {
-           
-            if(!useCompareObjects(user,formData)){
+           console.log(changes,'changes')
+            if(!changes){
                  
                 const savedUser = await axiosApi.post(userApi.saveBasicProfile,formData)
                  
@@ -128,26 +129,19 @@ const ProfilePage = (_props:Profile_Page) => {
                 <ToastContainer/>
              </div>
              
-            <div  className="overflow-y-scroll  w-full  xl:flex border bg-blue-500 bg-opacity-5  border-gray-300 border-opacity-45 rounded-xl xl:ms-1 mt-2 ">
+            <div  className="overflow-y-scroll  w-full  xl:flex   bg-blue-500 bg-opacity-5  border-gray-300 border-opacity-45 rounded-xl xl:ms-1 mt-2 ">
             <div className={`${theme} w-full  flex-wrap sm:block rounded-xl   items-center justify-between min-h-screen `}>
-                 
-                    
                 <div className="flex flex-col justify-center w-full  ">
                     <ProfileImageBox changebutton={true} height='200px' width='200px' imageLink={formData.profileImage} onParentChange={(e:any)=>handleChange(e)} />
-                    
-                    
                     <h5 className="text-center">Info about you and your preferences across Mangrow services</h5>
-                    
                 </div>
-                 
                 <div className="block sm:w-full xl:flex p-1 items-center justify-center" >
                     <br />
-
                     <div className={`${theme}  block w-full justify-center items-center rounded-xl m-1 `}>
                         <div className="justify-center   rounded-2xl  ">
                        
                             <h5 className=" text-2xl text-center  "> Basic info   </h5>
-                            <h1  className=" text-center " >{Object.keys(formData).length ? formData?.batch[0]?.batchName?.toUpperCase():''}</h1>    
+                            {/* <h1  className=" text-center " >{Object.keys(formData).length ? formData?.batch[0]?.batchName?.toUpperCase():''}</h1>     */}
                             {user.role=='user'? <h1 className="text-blue-500 text-center text-2xl"> You profile is waiting for approval from admin, you can change your profile details now!!</h1>:''}
                             <div className="border block bg-yello h-100  w-full  lg:flex justify-center text-center" >
                                 <div className="border w-full lg:w-2/6  block">
@@ -258,7 +252,6 @@ const ProfilePage = (_props:Profile_Page) => {
                                 
                                 </div>
                                 <div className="border w-full lg:w-2/6  block">
-                                
                                 <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
                                     <label className='w-1/4 text-left' htmlFor="">streetName</label>
                                     <input type="text"   onChange={(e)=>handleChange(e)}
@@ -290,7 +283,7 @@ const ProfilePage = (_props:Profile_Page) => {
                                     id="id_pincode" />     
                                     <br />
                                 </div>
-                                 
+                                
                                 <div className="flex justify-end ">
                                 <button onClick={()=>{SavePetsonalinfo()}} className="border m-1 w-[70px] bg-blue-500 rounded-md text-white cursor-pointer h-[40px] ">Save </button>   
                                 <button onClick={()=>{setFormData(user)}} className="border m-1 w-[70px] bg-red-600  rounded-md text-white  cursor-pointer h-[40px] ">Reset  </button>
@@ -298,14 +291,12 @@ const ProfilePage = (_props:Profile_Page) => {
                                 </div>
                             </div>
                         </div>
-
                         <div className="block w-full justify-center items-center rounded-xl m-1 ">
                             <h5 className="text-center text-2xl  ">Academic</h5>
                             <div className="xl:flex sm:block md:flex lg:flex overflow-scroll sm:w-100 flex-wrap justify-center items-center"> {/* Added items-center here */}
                                 {user.academics?.map((item:any,index:any) => <Academics key={index} arrayindex={index} course={item} />)}
                             </div>
                         </div>
-
                     </div>
 
                 </div>

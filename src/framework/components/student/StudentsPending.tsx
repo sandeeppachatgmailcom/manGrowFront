@@ -34,7 +34,7 @@ const StudentsPending:StudentsPending_Component = ( ) => {
    return (
     <div className="student-pending    rounded-lg  h-100 bg-opacity-10 px-4 py-2 w-100 ">
       {formData && formData.map((item)=>{
-        return (<div key={item.ScheduledTaskID} className='  m-2 rounded-lg '>
+        return (<div key={item.ScheduledTaskID} className='   m-2 rounded-lg '>
                 <StudentTask pending = {item} />
         </div>)
       })}

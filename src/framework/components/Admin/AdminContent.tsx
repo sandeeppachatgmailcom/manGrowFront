@@ -49,12 +49,11 @@ const AdminContent :React.FC<{}> = (props:AdminContent_Component) => {
 
     return (
         <div className={`${darkTheme} xl:flex sm:block bg-blue-500 bg-opacity-10 shadow-md   w-full   border-opacity-90 rounded-xl`}>
-            <div className='xl:w-1/6  m-1 rounded  '>
+            <div className='xl:w-1/6  m-1 rounded border-r-2 border-gray-500 border-opacity-15  '>
                  
                 <div className='w-full xl:block flex   m-1 rounded sm:flex lg:flex md:flex  sm:flex-wrap flex-wrap ' >
                     {Object.keys(batch).length? batch.map((item, index) => {
-                        if (index < page * 5 && index >= (page - 1) * 5) return <button onClick={    () =>{  setMenu(item?.batchName as string);   setActiveBatch(item);setMenuIndex(index)}} className={`
-                         font-bold  flex m-1 p-2 text-start items-center  
+                        if (index < page * 5 && index >= (page - 1) * 5) return <button onClick={    () =>{  setMenu(item?.batchName as string);   setActiveBatch(item);setMenuIndex(index)}} className={`font-bold h-[60px] flex m-1 p-2 text-start items-center bg-opacity-80 
                         ${menu === item.batchName ? 'bg-blue-200 text-blue-500 shadow-sm shadow-blue-200 ' : 'bg-blue-000  '}
                           xl:w-5/6 rounded-full xl:rounded-s
                       `} key={item.batchName} > {item?.batchName?.toUpperCase()} </button>
@@ -63,12 +62,12 @@ const AdminContent :React.FC<{}> = (props:AdminContent_Component) => {
                 </div>
                
                 
-                <div className='flex  bottom-0 start-0' >
+                <div className='flex  bottom-0 start-0  ' >
                         {(() => {
                             const count = Math.ceil(batch.length / 5)
                             let outArray = []
                             for (let i = 1; i <= count; i++) {
-                                outArray.push(<button  key={i} onClick={() => setPage(i)} className='ms-1 border rounded font-semibold text-blue-400 w-5' >{i}</button>)
+                                outArray.push(<button  key={i} onClick={() => setPage(i)} className='ms-1  border rounded font-semibold text-blue-400 w-5' >{i}</button>)
                             }
                             return outArray
                         }

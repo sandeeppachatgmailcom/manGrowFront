@@ -69,6 +69,7 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
                      </div>   
                 <div   style={{ msOverflowStyle: 'none',WebkitOverflowScrolling: undefined }} className= {`block   h-full w-full sm:w-full overflow-y-scroll   md:w-full  xl:w-full xl:m-1 xl:mt-2     ${darkTheme.theme} ${divlign} `}>
                 {pending && pending.map((pending:any)=>{
+                    console.log(pending,typeof pending.submissionDate ,'pending')
                     return <div className="    p-1     ">
                         <PendingEvents task={task}  pending = {pending} />
                     </div>
@@ -79,7 +80,7 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
                 <Typing/>
                 <AudioTask/>
             </div>
-            <div className={`xl:w-1/6 md:w-1/6 sm:w-full ${darkTheme.theme + divlign} border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
+            <div className={`xl:w-1/6 md:w-1/6 sm:w-full ${darkTheme.theme + divlign} bg-blue-800 bg-opacity-5 m-1  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
                 <ChatBox/>
                 <SingleChat nameObj ={{name:'chandhini'}}/>  
             </div>

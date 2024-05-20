@@ -16,5 +16,6 @@ export interface Event_Model{
     audienceType?:audienceType,
     prority?:priority;
     startDate?:Date;
-    description?:string
+    description?:string;
+    designation?:string
 }

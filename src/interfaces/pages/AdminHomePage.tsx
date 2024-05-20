@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import Profile from "../../framework/components/utilComponents/profile";
 import Calendar from 'react-calendar'
 //import 'react-calendar/dist/Calendar.css';
-
+import PropTypes from 'prop-types';
 import ChatBox from "../../framework/components/chatBox/chatBox";
 import AdminSubmenu from "../../framework/components/Admin/AdminMenuBar";
 import AdminContent from "../../framework/components/Admin/AdminContent";
 import ApproveStaff from "../../framework/components/Admin/StaffApproval";
 import Events from "../../framework/components/Admin/Events";
-import { AdminHome_Page } from "../../entity/pages/adminHomePage";
+import ManageTaskComponent from "../../framework/components/Admin/ManageTaskComponent";
+import Task_Comp from "../../framework/components/Admin/TaskComponent";
 
-const AdminHomePage = (_props:AdminHome_Page) => {
+
+const  AdminHomePage : React.FC = () => {
     const darkTheme = useSelector((state: any) => state.theme)
     const selectedSubMenu = useSelector((state: any) => (state.adminSubMenu.menuName))
     const [value, onChange] = useState(new Date());
@@ -23,7 +25,7 @@ const AdminHomePage = (_props:AdminHome_Page) => {
     return (
         <div className={`xl:flex w-full   lg:flex block content-start mx-auto h-100  ${darkTheme.theme}`}>
 
-            <div className={`xl:w-1/6 block sm:w-full bg-gray-400  bg-opacity-5  border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`}>
+            <div className={`xl:w-1/6 block sm:w-full bg-gray-400  bg-opacity-5 m-1  rounded-xl mt-2 p-2`}>
                 <div >
                     <h6 className="font-bold text-2xl text-blue-500 ps-2">Admin</h6>
                     <Profile />
@@ -33,15 +35,17 @@ const AdminHomePage = (_props:AdminHome_Page) => {
 
                 </div>
             </div>
-            <div className={`block h-100 xl:w-4/6 xl:m-1 p-1  sm:w-full md-w-full bg-gray-400  bg-opacity-5 }`}>
+            <div className={`block h-100 xl:w-4/6 m-2 p-1  sm:w-full md-w-full bg-gray-400  bg-opacity-5 }`}>
                 <AdminSubmenu />
                 <div className=" flex mt-2 ">
                 {selectedSubMenu == 'batches' ? <AdminContent /> :
-                    selectedSubMenu == 'Approve' ? <ApproveStaff /> :
-                        selectedSubMenu == 'programs' ? <Events /> : ''}
+                    selectedSubMenu == 'approve' ? <ApproveStaff /> :
+                        selectedSubMenu == 'programs' ? <Events /> : 
+                            selectedSubMenu == 'task'?<ManageTaskComponent />:""
+                }
                 </div>
             </div>
-            <div className={`xl:w-1/6 sm:w-full bg-gray-400  bg-opacity-5 border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
+            <div className={`xl:w-1/6 sm:w-full bg-gray-400 m-1  bg-opacity-5  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
                 <ChatBox />
                 {/* <SingleChat nameObj ={{name:'chandhini'}} />  */}
 
@@ -51,5 +55,6 @@ const AdminHomePage = (_props:AdminHome_Page) => {
 
     )
 }
+
 
 export default AdminHomePage 

@@ -4,7 +4,6 @@ import axiosApi from "../framework/api/axios"
 
 const useGetTrainers = () => {
     const [trainers, setTrainers] = useState([])
-
     useEffect(() => {
         const fetchTrainers = async () => {
             try {
