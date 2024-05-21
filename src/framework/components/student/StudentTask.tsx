@@ -46,6 +46,10 @@ const StudentTask = (props: any) => {
             })      
         },[user])
 
+        useEffect(()=>{
+                console.log(selectedTask,'selectedTaskselectedTask')
+        },[selectedTask])
+
 
         
         
@@ -165,7 +169,6 @@ const StudentTask = (props: any) => {
                                                                         <div className="flex">
                                                                         <h1 className="font-bold">{task.taskName}</h1>
                                                                         <h1 className="font-bold"> {studentSubMission?.[formData.ScheduledTaskID]?.[task.taskId] && '['+ (studentSubMission?.[formData.ScheduledTaskID][task.taskId].length ) +'submission ]' }</h1>
-                                                                        
                                                                         </div>
                                                                         <br />
                                                                         {task.taskType && <small>{task.taskType}</small>}
@@ -181,7 +184,14 @@ const StudentTask = (props: any) => {
                                                                 <button
                                                                         onClick={() => {
                                                                         setSubmission(true);
-                                                                        setSelectedTask(task);
+                                                                        const selectedTask =    studentSubMission &&
+                                                                                                studentSubMission[formData.ScheduledTaskID] &&
+                                                                                                studentSubMission[formData.ScheduledTaskID][task.taskId] &&
+                                                                                                studentSubMission[formData.ScheduledTaskID][task.taskId].length ?
+                                                                                                studentSubMission[formData.ScheduledTaskID][task.taskId][0] :
+                                                                                                task;
+
+                                                                        setSelectedTask(selectedTask);
                                                                         }}
                                                                         className="m-1 shadow-lg bg-blue-500 rounded-md p-2 bg-opacity-15 w-20 font-bold"
                                                                 >

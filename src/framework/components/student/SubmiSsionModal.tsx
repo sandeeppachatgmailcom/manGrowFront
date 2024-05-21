@@ -10,6 +10,8 @@ import { UserEntity_Model } from "../../../entity/response/userModel";
 import { login } from "../../ReduxStore/activeUser";
 import axiosApi from "../../api/axios";
 import { userApi } from "../../../entity/constants/api";
+import GeneralTask from "../trainer/generalTaskSubmisssion";
+import { ToastContainer, toast } from "react-toastify";
 
 
 const SubmiSsionModal = ({ ScheduledTaskID, task, onclose,studentSubMission }: { ScheduledTaskID: string, task: Task_model, onclose: any ,studentSubMission:any}) => {
@@ -17,25 +19,28 @@ const SubmiSsionModal = ({ ScheduledTaskID, task, onclose,studentSubMission }: {
   const [formData, setFormData] = useState({})
   const dispatch = useDispatch()
   const user = useSelector((state) => state.activeUser.user)
+  
+   
+  
+  
+  
   useEffect(() => {
-    setFormData(task)
+     
+    const taskId = task?.taskId;
+    const scheduledTask = user?.submission?.[ScheduledTaskID]?.[taskId]?.[0]?user?.submission?.[ScheduledTaskID]?.[taskId]?.[0]:{};
 
+    setFormData({
+      ...task,
+      tasklink: scheduledTask ? scheduledTask?.tasklink : ''
+    })
   }, [task])
   useEffect(() => {
-    
     // !tempUser.submission ?  tempUser?.submission[ScheduledTaskID] = tempsubmission
-
-
-    console.log(formData, 'formData')
-    console.log(user, 'current User')
-    console.log(task, 'Task')
-    console.log(studentSubMission,'studentSubMission')
-
+     console.log(formData, 'formData')
   }, [formData])
 
 
   const handleTaskChange = (e: any) => {
-    console.log(e, 'ethaanda')
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -49,33 +54,48 @@ const SubmiSsionModal = ({ ScheduledTaskID, task, onclose,studentSubMission }: {
       taskName: task.taskName,
       taskSub: task.taskSub,
       taskType: task.taskType,
-      videolink: formData?.videolink,
-      taskId: task.taskId
-      
+      tasklink: formData?.tasklink,
+      taskId: task.taskId,
+      submissionDate:task.subMissionDate ,
+      submittedDate:task.taskDate ,
+      mark : {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true,
+        "6": true,
+        "7": true,
+        "8": true,
+        "9": true,
+        "10": true,
+      },
+      comment:'',
     }
     
     const tempUser: UserEntity_Model | any = JSON.parse(JSON.stringify(user))
-    if (!tempUser.submission) {
-      tempUser.submission = {};
-      tempUser.submission[ScheduledTaskID] = {}
-    }
-    if (!tempUser.submission[ScheduledTaskID][task.taskId]) { console.log('first'), tempUser.submission[ScheduledTaskID][task.taskId] =  []   };
+    if (!tempUser.submission) { tempUser.submission = {};  }
+    if (!tempUser.submission[ScheduledTaskID]) tempUser.submission[ScheduledTaskID] = {}
+    if (!tempUser.submission[ScheduledTaskID][task.taskId]) { console.log( tempUser ,'first'), tempUser.submission[ScheduledTaskID][task.taskId] =  []   };
     if (task?.taskId == tempsubmission.taskId) tempUser.submission[ScheduledTaskID][task?.taskId][0]=tempsubmission;
-    console.log(tempUser,'ssssss')
+    
     dispatch(login(tempUser))
     
     const saveuser = await axiosApi.post(userApi.saveBasicProfile,tempUser)
-    
+    console.log(saveuser,'saved result') 
+    if(saveuser.data.status){
+       const mess=   toast.success(saveuser.data.message)
+    }
     const data = user.subMission ? user.subMission : {}
 
   }
 
-  //console.log(studentSubMission[ScheduledTaskID][task.taskId][0].videolink, 'kkkkkkkkkkkkkkkkkkkkkkkkkkkkhhhhhhhhhh')
+   
 
 
   return (
     <div className={`fixed inset-0 z-50 overflow-auto   flex justify-center items-center`}>
-
+      <ToastContainer  />
       <div className="modal-overlay fixed w-full h-full bg-gray-900 opacity-55"></div>
 
       <div className="     mx-auto rounded shadow-lg z-50 overflow-y-auto">
@@ -97,13 +117,13 @@ const SubmiSsionModal = ({ ScheduledTaskID, task, onclose,studentSubMission }: {
               </div>
 
 
-              <div className="flex w-[500px] h-[500px]  rounded-full">
+              <div className="flex w-[500px]   rounded-full">
                 {
                   // task?.taskType == "writing" ?<TextEditor  style={{height:'300px'}}  value={task?.description}  />  :
-                  task?.taskType == "writing" ? <VedioRecorder name='videolink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={studentSubMission[ScheduledTaskID][task?.taskId as string][0].videolink.length ? studentSubMission[ScheduledTaskID][task?.taskId as string][0].videolink:''}  /> :
-                    task?.taskType == "listening" ? <VoiceRecorder name='audioLink' onChange={handleTaskChange}  value={task?.audioLink} /> :
-                      task?.taskType == "Speaking" ? <VideoMaker name='videolink' value={task?.videolink} /> :
-                        task?.taskType == "OneToOne" ? <VideoMaker name='videolink' value={task?.videolink} /> : ''
+                  task?.taskType == "writing" ? <GeneralTask name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData.tasklink}  /> :
+                    task?.taskType == "listening" ? <GeneralTask name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData.tasklink}   /> :
+                      task?.taskType == "Speaking" ?  <GeneralTask name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData.tasklink}   /> :
+                        task?.taskType == "OneToOne" ?  <GeneralTask name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData.tasklink}   /> : ''
                 }
               </div>
 

@@ -7,7 +7,7 @@ import { BsFillFloppyFill } from "react-icons/bs";
 import { faStop } from '@fortawesome/free-solid-svg-icons';
 import uploadVideo from '../../services/saveVideo';
 
-const VideoMaker = (props) => {
+const VideoMakerexpired = (props) => {
   const {
     status,
     startRecording,
@@ -128,4 +128,4 @@ const VideoMaker = (props) => {
   );
 };
 
-export default VideoMaker;
+export default VideoMakerexpired;
