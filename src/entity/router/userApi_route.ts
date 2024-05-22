@@ -6,4 +6,5 @@ export interface UserApi_route {
     resetPasswordwithOtp:string,
     saveBasicProfile:string,
     forgotPassword:string,
+    getSubmissionDetails:string
 }

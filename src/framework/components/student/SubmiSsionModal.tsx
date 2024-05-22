@@ -12,13 +12,15 @@ import axiosApi from "../../api/axios";
 import { userApi } from "../../../entity/constants/api";
 import GeneralTask from "../trainer/generalTaskSubmisssion";
 import { ToastContainer, toast } from "react-toastify";
+import useGetLogin from "../../../useCases/useGetLogin";
 
 
 const SubmiSsionModal = ({ ScheduledTaskID, task, onclose,studentSubMission }: { ScheduledTaskID: string, task: Task_model, onclose: any ,studentSubMission:any}) => {
-
+  useGetLogin();
   const [formData, setFormData] = useState({})
   const dispatch = useDispatch()
   const user = useSelector((state) => state.activeUser.user)
+ 
   
    
   
@@ -71,6 +73,7 @@ const SubmiSsionModal = ({ ScheduledTaskID, task, onclose,studentSubMission }: {
         "10": true,
       },
       comment:'',
+      verified:false
     }
     
     const tempUser: UserEntity_Model | any = JSON.parse(JSON.stringify(user))
@@ -87,7 +90,7 @@ const SubmiSsionModal = ({ ScheduledTaskID, task, onclose,studentSubMission }: {
        const mess=   toast.success(saveuser.data.message)
     }
     const data = user.subMission ? user.subMission : {}
-
+    onclose(false)
   }
 
    
@@ -118,12 +121,12 @@ const SubmiSsionModal = ({ ScheduledTaskID, task, onclose,studentSubMission }: {
 
 
               <div className="flex w-[500px]   rounded-full">
-                {
+                {  
                   // task?.taskType == "writing" ?<TextEditor  style={{height:'300px'}}  value={task?.description}  />  :
-                  task?.taskType == "writing" ? <GeneralTask name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData.tasklink}  /> :
-                    task?.taskType == "listening" ? <GeneralTask name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData.tasklink}   /> :
-                      task?.taskType == "Speaking" ?  <GeneralTask name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData.tasklink}   /> :
-                        task?.taskType == "OneToOne" ?  <GeneralTask name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData.tasklink}   /> : ''
+                  task?.taskType == "writing" ? <GeneralTask data={formData} verified = {formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData?.tasklink}  /> :
+                    task?.taskType == "listening" ? <GeneralTask data={formData}   verified = {formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData?.tasklink}   /> :
+                      task?.taskType == "Speaking" ?  <GeneralTask data={formData}   verified = {formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData?.tasklink}   /> :
+                        task?.taskType == "OneToOne" ?  <GeneralTask data={formData}   verified = {formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData?.tasklink}   /> : ''
                 }
               </div>
 

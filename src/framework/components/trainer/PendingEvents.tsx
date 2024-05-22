@@ -37,26 +37,6 @@ const PendingEvents = (props: PendingEventsComponent) => {
                 setTask(props.task)
         }, [props.task])
 
-        const saveMark =()=>{
-                const updatedData = {
-                        ...formData.submission,
-                        [studentId]: {
-                          ...formData.submission[studentId],
-                          [taskId]: data[studentId][taskId].map((submission) => {
-                            return {
-                              ...submission,
-                              mark: {
-                                ...submission.mark,
-                                [newMark]: true, // Set the new mark to true
-                              },
-                            };
-                          }),
-                        },
-                      };
-                    
-                console.log(updatedData,user,'tempSubmission')
-
-        }
 
 
         const handleChange = (e) => {
@@ -70,7 +50,7 @@ const PendingEvents = (props: PendingEventsComponent) => {
 
         }
         const handleChangeCaterogry = (key: string, item: any) => {
-                console.log(key, item, 'kkkkkkkkkkkkkkkkk')
+                
                 const tempCategory = {
                         ...category,
                         [key]: {
@@ -104,6 +84,7 @@ const PendingEvents = (props: PendingEventsComponent) => {
                 // formData.mark = updatedMarks;
                 setFormData({
                         ...formData,
+
                         mark:updatedMarks
                 })
         };
@@ -113,15 +94,41 @@ const PendingEvents = (props: PendingEventsComponent) => {
                 const result = useCompareObjects(initialState, formData)
                 if (!result) {
                         const data = await axiosApi.post(trainerApi.saveScheduledTask, formData)
+                        console.log(data.data,'test printing of data ')
                         setFormData(data.data)
                 }
                 else toast.error('no changes to update')
 
 
         }
-
-
-
+         
+        const saveMarktoCollection = async ()=>{
+                const temp = {
+                        ScheduledTaskID:formData?.ScheduledTaskID,
+                        taskId:formData?.taskId,
+                        mark:formData?.mark,
+                        comment:formData?.comment,
+                        email:formData?.email,
+                        verified:true
+                }
+                const updateResult = await axiosApi.post(trainerApi.updateMarkToCollection,temp)
+                console.log(updateResult.data,'outResult')
+        }
+        const green = 'bg-green-500'
+        const buttonColor = {
+                0:"bg-blue-400",
+                1:"bg-blue-500",
+                2:"bg-red-600",
+                3:"bg-red-400",
+                4:"bg-orange-300",
+                5:"bg-orange-500",
+                6:"bg-yellow-400",
+                7:"bg-yellow-400",
+                8:"bg-green-700",
+                9:"bg-green-800",
+                
+        }
+         
         
         return (
                 <div>
@@ -211,15 +218,15 @@ const PendingEvents = (props: PendingEventsComponent) => {
                                         </div>
                                 </div>
                                 :
-                                <div className={`  hover:shadow-sm hover:shadow-gray-500 bg-blue-600 bg-opacity-5 h-[${height}] overflow-hidden border border-opacity-25 border-gray-400  rounded-xl block`}>
+                                <div className={`  hover:shadow-sm hover:shadow-gray-500 ${formData?.verified ? 'bg-blue-600 bg-opacity-15':'' } h-[${height}] overflow-hidden border border-opacity-25 border-gray-400  rounded-xl block`}>
                                         <div className="block border-b    ">
-                                                <div className="font-semibold rounded-t-md bg-opacity-5  bg-blue-800  text-blue-500 justify-between text-2xl flex ">
+                                                <div className="font-semibold rounded-t-md     text-blue-500 justify-between  flex ">
                                                         <div className="flex overflow-hidden">
-                                                                <h1 className="m-3" > Program Name: {formData?.eventName}</h1>
+                                                                <h1 className="m-3" > Program Name: {formData?.eventName }</h1>
                                                                 <h1 className="m-3"> Activity Type : {formData?.taskType}</h1>
                                                         </div>
                                                         <div className="flex m-2 " >
-                                                                <h1 className="m-1 text-green-500 " > {formData?.type.toUpperCase()}</h1>
+                                                                <h1 className="m-1 text-green-500 " > {formData?.type }</h1>
                                                                 <div className="md:w-3/6  flex justify-end ">
 
                                                                         <button onClick={() => height == '100px' ? setHeight('full') : setHeight('100px')}>  <RxDropdownMenu style={{ height: '40px', width: '40px' }} /> </button>
@@ -227,7 +234,7 @@ const PendingEvents = (props: PendingEventsComponent) => {
                                                         </div>
                                                 </div>
                                                 <div className="font-semibold  flex ">
-                                                        <h1 className="m-3">Student Name :  {formData?.firstName.toUpperCase()}</h1>
+                                                        <h1 className="m-3">Student Name :  {formData?.firstName }</h1>
                                                         <h1 className="m-3">Email: {formData?.email}</h1>
                                                 </div>
                                                 <h1 className="m-3"> Summary :{formData?.taskSub}</h1>
@@ -239,23 +246,26 @@ const PendingEvents = (props: PendingEventsComponent) => {
                                         <div className="m-2">
                                                 <textarea readOnly className="h-[300px] focus:outline-none overflow-scroll focus:outline-blue-800 w-full bg-transparent " name="" value={formData?.tasklink} id=""></textarea>
                                         </div>
-                                        <div className=" block xl:flex bg-blue-500 bg-opacity-10 h-20 justify-between">
+                                        <div className=" block xl:flex bg-blue-500 bg-opacity-5 h-20 justify-between">
                                                 <div className="xl:w-2/6 block xl:flex items-center   h-20">
 
-                                                        {formData?.mark ? Object.keys(formData?.mark).map((key) => {
-                                                                return <button onClick={(e) => {updateMark(key) }} name={key} className={`${formData?.mark[key] ? 'bg-opacity-85' : 'bg-opacity-15'}  text-white m-1 h-10 text-2xl bg-blue-800  w-10 hover:text-5xl rounded-md`} type="button"> {key} </button>
-                                                        }) : ''}
+                                                        {
+                                                        formData?.mark ? Object.keys(formData?.mark).map((key,index:number) => {
+                                                                return <button onClick={(e) => {updateMark(key) }} name={key} className={`${formData?.mark[key] ? 'bg-opacity-1' : 'bg-opacity-15'} m-1 text-white h-10 text-2xl ${buttonColor[index]}  w-10 hover:text-5xl rounded-md`} type="button"> {key} </button>
+                                                        }) : ''
+                                                        }
 
 
                                                 </div>
                                                 <div className="w-full xl:w-5/6 p-2 overflow-hidden">
-                                                        <textarea placeholder="Comments" value={formData?.comment} name='comment' onChange={(e)=>handleChange(e)} className=" border-blue-800 rounded-xl border-opacity-55 border  focus:outline-none  bg-transparent w-full" id=""></textarea>
+                                                        <textarea placeholder="Comments" value={formData?.comment} name='comment' onChange={(e)=>handleChange(e)} className=" border-blue-800 p-2 rounded-xl border-opacity-55 border h-full focus:outline-none  bg-transparent w-full" id=""></textarea>
                                                 </div>
                                                 <div className="flex item-center h-full border ">
-                                                        <button onClick={saveMark} className=" rounded-md text-white  bg-blue-400 p-1 w-32 m-4" type="button">SUBMIT</button>
+                                                       {!formData?.verified ?  <button onClick={saveMarktoCollection }  className=" rounded-md text-white  bg-blue-400 p-1 w-32 m-4" type="button">SUBMIT</button>:''}
                                                 </div>
                                         </div>
-                                </div>}
+                                </div>
+                                }
                 </div>
 
         )

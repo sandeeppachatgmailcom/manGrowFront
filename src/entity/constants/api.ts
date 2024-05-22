@@ -11,7 +11,8 @@ export const userApi: UserApi_route = {
     validateOtp: '/auth/validateOtp',
     resetPasswordwithOtp: '/auth/resetPassword',
     saveBasicProfile: '/auth/saveBasicInfo',
-    forgotPassword: '/auth/forgotPassword'
+    forgotPassword: '/auth/forgotPassword',
+    getSubmissionDetails:'/auth/getSubmissionDetails'
 };
 
 export const publicApi: Record<string, string> = {
@@ -41,7 +42,8 @@ export const utilityApis: UtilsApis_route = {
 
 export const trainerApi: TrainerApi_route ={
     getPending:'/trainer/postTrainerPendingEvents',
-    saveScheduledTask:'/trainer/postScheduleTask'
+    saveScheduledTask:'/trainer/postScheduleTask',
+    updateMarkToCollection:'/trainer/updateMarkToCollection'
 }
 
 export const studentApi ={

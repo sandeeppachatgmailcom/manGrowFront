@@ -1,8 +1,10 @@
-import  {  useState } from 'react';
+import  {  useEffect, useState } from 'react';
  import uploadVideo from '../../services/saveVideo';
  
 const GeneralTask = (props:any) => {
-   
+   useEffect(()=>{
+    console.log(props,'props')
+   },[props])
   
    
    
@@ -15,15 +17,17 @@ const GeneralTask = (props:any) => {
 
 
    return (
-    <div className=" w-full border-4 border-green-600 rounded-xl overflow-hidden">
+    <div className=" w-full border-4 border-gray-200 border-opacity-10  rounded-xl overflow-hidden">
           <div className=" top-4 left-4">
-            <textarea value={props.value}  name={props.name} onChange={handleChange} className='w-full h-[250px] bg-gray-500 text-white focus:outline-none  '   >  </textarea>
+            <textarea value={props.value}  name={props.name} onChange={handleChange} className=' p-3 w-full h-[250px] bg-gray-500 text-white focus:outline-none  '   >  </textarea>
               <div className='flex justify-end'>
-              <button
-                onClick={() => props.onSaveClick()}
-                className="   bg-blue-500 text-white rounded-md   shadow-sm m-2 p-4 w-20      " >
+              {!props.verified ?
+              <button onClick={() => props.onSaveClick()} className="bg-blue-500 text-white rounded-md   shadow-sm m-2 p-4 w-20  " >
                 SAVE
-              </button>
+              </button>:<div className='w-full p-1'>
+                <h1 className='font-semibold ' >Trainer Remarks</h1>
+              <textarea value={props.data.comment} readOnly  className=' p-3 w-full h-[250px] bg-gray-500 text-white focus:outline-none  '   >  </textarea>
+                  </div>}
               </div>
           </div>
       </div>

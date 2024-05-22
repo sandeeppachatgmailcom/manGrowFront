@@ -127,7 +127,7 @@ const StudentTask = (props: any) => {
         const theme = useSelector((state: any) => state.theme.theme)
         return (
                 <div className={`   ${ formData && formData?.ScheduledTaskID? 'bg-blue-300  text-blue-400 shadow-sm shadow-gray-100 bg-opacity-10':''} w-full p-4 h-[${height}] overflow-hidden    hover:shadow-sm hover:shadow-gray-500 border-gray-300 focus:bg-opacity-55 focus:bg-gray-600 border-opacity-45  rounded-xl `} >
-                        {subMission? <SubmiSsionModal ScheduledTaskID={formData?.ScheduledTaskID} studentSubMission={studentSubMission} task={selectedTask} onclose={setSubmission} />:''}
+                        {subMission? <SubmiSsionModal ScheduledTaskID={formData?.ScheduledTaskID}  studentSubMission={studentSubMission} task={selectedTask} onclose={setSubmission} />:''}
                         <div className="justify-start m-2">
                         <ToastContainer/>  
                                 <div className="xl:flex flex xl:justify-between justify-between  border-b w-full  border-b-gray-300">

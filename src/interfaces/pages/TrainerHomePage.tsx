@@ -24,12 +24,10 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
     }
     const [value, onChange] = useState(new Date());
     useEffect(() => {
-        console.log(darkTheme.theme)
     }, [darkTheme])
     const divlign = '   rounded  mt-1 '
     const getPending = async ()=>{
         const pending = await axiosApi.post(trainerApi.getPending,data)
-        console.log(pending.data)
         setPending(pending.data)
     }
     
