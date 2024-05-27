@@ -19,11 +19,11 @@ const App = (_props:App_page) => {
      <GoogleOAuthProvider clientId="150250688028-3q3h69aphbc5q7i82f4n6if7or9d3c2d.apps.googleusercontent.com">
       <Provider store={appStore}>
        {/* <ErrorBoundary>  */}
-          <div   className={`${theme}   sm:block  w-full  md:full lg:full xl:full h-screen  `}>
-            <div className={` rounded-xl w-full top-0 left-0 overflow-hidden bg-blue-400 bg-opacity-5   mx-auto md:full lg:w-full xl:full xl:h-[12%]`} >
+          <div   className={`${theme} overflow-hidden block h-screen `}>
+            <div className={` rounded-xl w-full top-0 left-0 overflow-hidden bg-blue-400 bg-opacity-5 xl:h-[12%] h-[24%]     `} >
               <Header />
             </div>
-            <div   className={`${theme}   sm:block xl:flex  w-full mx-auto md:full lg:full xl:full h-full `} style={{ maxHeight: 'calc(100vh - 40px)' }}   >
+            <div   className={`rounded-xl w-full top-0 left-0 overflow-hidden bg-blue-400 bg-opacity-5   h-[88%]    `}   >
               <Outlet />
             </div>
           </div>

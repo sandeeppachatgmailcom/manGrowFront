@@ -107,13 +107,12 @@ const validatePassword = (password:string) => {
   return (
     <div className= {` ${darkTheme.theme}  xl:flex lg:flex md:block sm:block  justify-center xl:w-full items-center m-3 h-[100%] `}>
         {modal?<Modal/>:''}
-       <div className="xl:flex justify-center sm:w-full sm:block  md:w-full  h-[300px] "> 
-            <div style={{backgroundImage:`url('${imagePath}')`,backgroundPosition:'center' , backgroundSize:'contain',backgroundRepeat:'no-repeat' }} className={`  ${darkTheme.theme  } xl:w-full  m-2 h-[100%]  `}>
-
-            </div>
+       <div className="xl:flex justify-center sm:w-full sm:block  md:w-full  "> 
+             
 
        </div>
-      <div className={` ${darkTheme.theme } max-w-md w-full space-y-8 border p-5 rounded-xl`}>
+      <div className={`${darkTheme.theme } h-[100%] max-w-md w-full space-y-8  p-5 rounded-xl`}>
+      <div className={` ${darkTheme.theme } h-[80%] max-w-md w-full space-y-8 border border-gray-600 border-opacity-30 p-5 rounded-xl`}>
         <div>
           <h2 className={` ${darkTheme.inputtext} mt-6 text-center text-3xl  `}>Sign up</h2>
         </div>
@@ -173,6 +172,7 @@ const validatePassword = (password:string) => {
             </div>
           </div>
         
+      </div>
       </div>
     </div>
   );

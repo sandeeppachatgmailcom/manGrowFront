@@ -3,7 +3,7 @@ import { SingleChat_Component } from "../../../entity/components/common/singleCh
 
 
 const SingleChat =({nameObj}:SingleChat_Component)=>{
-    console.log(nameObj)
+   
     return(
         <div className="h-[50%] rounded-xl w-full   ">
             <div className="flex items-center justify-start h-[15%] shadow-lg rounded-t-lg">

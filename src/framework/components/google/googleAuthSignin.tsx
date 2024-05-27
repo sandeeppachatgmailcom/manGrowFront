@@ -26,7 +26,7 @@ const GAuthsignin = (props:GAuthsignin_Component) => {
   
       
     return (
-        <div className='flex items-center justify-center text-center rounded-xl p-5'>
+        <div className='flex items-center justify-center text-center   rounded-xl p-5'>
             <GoogleLogin onSuccess={credentialResponse => {
                     console.log(credentialResponse);
                     const decoded :any = jwtDecode(credentialResponse.credential as string);

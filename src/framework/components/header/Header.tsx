@@ -47,7 +47,7 @@ function Header(props:Header_Component) {
 
 
   return (
-    <div className={` flex flex-col sm:flex-row rounded-xl    xl:w-[100%] h-[100%]        items-center justify-between shadow-lg `}>
+    <div className={` flex flex-col sm:flex-row rounded-xl ${theme}   xl:w-[100%] h-[100%]        items-center justify-between shadow-lg `}>
 
       <div className={` flex items-center justify-start    p-4`}>
         <h6 className={` float-start  sm:w-auto text-2xl text-blue-500 font-semibold `}>

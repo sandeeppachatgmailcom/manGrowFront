@@ -14,10 +14,13 @@ import { trainerApi, utilityApis } from "../../entity/constants/api";
 import { TrainerHome_Page } from "../../entity/pages/TrainerHomePage";
 
 const TrainerHomePage = (_props:TrainerHome_Page) => {
+    
     const darkTheme = useSelector((state:any) => state.theme) 
     const user = useSelector((state:any)=>state.activeUser.user)
     const [pending,setPending] = useState([])
     const [task, setTask] = useState()
+    const [seletedMenu, setSelectedMenu] = useState('All')
+    const [fullMenu, setFullMenu] = useState([])
     const data = {email:user.email,
         startDate: new Date(),
         endDate: '2024-05-30' 
@@ -25,13 +28,17 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
     const [value, onChange] = useState(new Date());
     useEffect(() => {
     }, [darkTheme])
-    const divlign = '   rounded  mt-1 '
+    const divlign = ' rounded  mt-1 '
+    
     const getPending = async ()=>{
         const pending = await axiosApi.post(trainerApi.getPending,data)
+        
         setPending(pending.data)
+        setFullMenu(pending.data)
     }
     
     useEffect(()=>{
+       
         getPending()
         getTask()
     },[])
@@ -40,9 +47,46 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
         const data = task.data.map((item: any) => {
                 return { name:item.taskName, id:item.taskId }
         })
+         
         setTask(data)
     }
- 
+    const handleFilter = ()=>{
+        
+        if(seletedMenu == 'All'){
+            setPending(fullMenu)
+            
+        }
+        else if(seletedMenu === 'pending'){
+            const templist = fullMenu.filter((item)=>{
+                if(!item.ScheduledTaskID && !item.verified) return item
+                // console.log(item.ScheduledTaskID,item,!item?.verified,'item')
+
+            })
+            setPending(templist)
+        }
+        else if(seletedMenu == 'Approval'){
+            const templist = fullMenu.filter((item)=>{
+                    if(item?.type == 'submission') return item
+                })
+                setPending(templist)
+        }
+        else if(seletedMenu == 'rate'){
+            const templist = fullMenu.filter((item)=>{
+                if(item?.type == 'taskCreation') return item
+            })
+            setPending(templist)
+        
+        }
+    }
+
+
+
+    useEffect(()=>{
+        
+        handleFilter()
+
+        
+    },[seletedMenu])
 
 
 
@@ -63,11 +107,11 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
             </div>
             <div   className={`block xl:w-4/6 h-full w-full overflow-hidden   ${darkTheme.theme} ${divlign} `}>
                 <div   className={`block w-full bg-transparent ` }>
-                     <TrainerMenuPanel/> 
+                     <TrainerMenuPanel setSelectedMenu={setSelectedMenu} /> 
                      </div>   
-                <div   style={{ msOverflowStyle: 'none',WebkitOverflowScrolling: undefined }} className= {`block   h-full w-full sm:w-full overflow-y-scroll   md:w-full  xl:w-full xl:m-1 xl:mt-2     ${darkTheme.theme} ${divlign} `}>
+                <div     className= {`block    w-full sm:w-full overflow-scroll h-[900px]  md:w-full  xl:w-full xl:m-1 xl:mt-2     ${darkTheme.theme} ${divlign} `}>
                 {pending && pending.map((pending:any)=>{
-                    console.log(pending,typeof pending.submissionDate ,'pending')
+                    
                     return <div className="    p-1     ">
                         <PendingEvents task={task}  pending = {pending} />
                     </div>

@@ -16,9 +16,9 @@ const Profile = (props:Profile_Component)=>{
            <div className="flex border-white border-spacing-5 p-1  ">
            <ProfileImageBox height='200px' changebutton={false} width='200px' imageLink={user.profileImage} onParentChange={()=>{}} />
            </div>
-            <>
+            <div className=" overflow-hidden ">
             
-                <h4 className="text-2xl font-semibold " >{user?.firstName?.toUpperCase() }</h4>
+                <h4 className="text-2xl font-semibold  flex flex-wrap " >{user?.firstName?.toUpperCase() }</h4>
                 {/* <h4 className="text-xl " >{Object.keys(user).length>0? user?.batch[0]?.batchName?.toUpperCase():'' }</h4> */}
                 <h5>{user.email}</h5>
                 <h5>{user.mob}</h5>
@@ -26,7 +26,7 @@ const Profile = (props:Profile_Component)=>{
                 <h5>{user.streetName}</h5>
                 <h5>{user.pincode}</h5>
                 <h5>{user.city}</h5>
-            </>
+            </div>
             <div className="flex justify-end">
                 <button onClick={()=>handleAccountInfo()} > Edit bio </button>
             </div>

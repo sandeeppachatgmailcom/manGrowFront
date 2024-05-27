@@ -8,13 +8,13 @@ import { userApi } from "../entity/constants/api"
 
 const useGetLogin = ()=>{
      
-    const formData = useSelector((state)=> state.activeUser.user)
+    //const formData = useSelector((state)=> state.activeUser.user)
     const dispatch = useDispatch()
         console.log('test Data ')
 
 
     const getLogin =async ()=>{
-        const tempuser = await  axiosApi.get(userApi.getlogin,formData ) 
+        const tempuser = await  axiosApi.get(userApi.getlogin, ) 
         dispatch(login(tempuser.data))
     }
 

@@ -14,8 +14,8 @@ import useCompareObjects from "../../../useCases/useCompareObjects";
 import { Task_model } from "../../../entity/response/task_model";
 import SubmiSsionModal from "./SubmiSsionModal";
 import { UserEntity_Model } from "../../../entity/response/userModel";
- 
-
+import { RxDropdownMenu } from "react-icons/rx"; 
+import { FcCollapse } from "react-icons/fc";
 
 const StudentTask = (props: any) => {
         const [formData, setFormData] = useState<Event_Model & {ScheduledTaskID:string }>()
@@ -26,7 +26,7 @@ const StudentTask = (props: any) => {
         const [task, setTask] = useState()
         const [selectedTask,setSelectedTask] = useState()
         const longTextRef = useRef()
-        const [height,setHeight] = useState('100px')
+        const [height,setHeight] = useState('h-[100px]')
         const [studentSubMission,setStudentSubmission] = useState()
         useEffect(() => {
                 setFormData(props.pending),
@@ -126,103 +126,92 @@ const StudentTask = (props: any) => {
 
         const theme = useSelector((state: any) => state.theme.theme)
         return (
-                <div className={`   ${ formData && formData?.ScheduledTaskID? 'bg-blue-300  text-blue-400 shadow-sm shadow-gray-100 bg-opacity-10':''} w-full p-4 h-[${height}] overflow-hidden    hover:shadow-sm hover:shadow-gray-500 border-gray-300 focus:bg-opacity-55 focus:bg-gray-600 border-opacity-45  rounded-xl `} >
-                        {subMission? <SubmiSsionModal ScheduledTaskID={formData?.ScheduledTaskID}  studentSubMission={studentSubMission} task={selectedTask} onclose={setSubmission} />:''}
-                        <div className="justify-start m-2">
-                        <ToastContainer/>  
-                                <div className="xl:flex flex xl:justify-between justify-between  border-b w-full  border-b-gray-300">
-                                        <div className="block md:flex xl:w-4/6 "> 
-                                                <div className="block m-2  w-2/6">        
-                                                        <h5 className={`${theme.inputtext} font-bold`}>{formData?.eventName?.toUpperCase()} </h5>
-                                                        <h5 className={`${theme.inputtext}`}>Date :{formData?.scheduledDate?.split('T')[0].split('-').reverse().join('/')} </h5>
-                                                        <h5 className={`${theme.inputtext}`}>{formData?.description} </h5> <br />
+                <div className={`   ${ formData && formData?.ScheduledTaskID? 'bg-blue-300  text-blue-400  shadow-gray-100 bg-opacity-5':''} w-full  ${height} overflow-scroll   hover:shadow-sm hover:shadow-gray-500   focus:bg-opacity-55 focus:bg-gray-600 border-opacity-45  rounded-xl `} >
+                        {subMission? <SubmiSsionModal program = {formData} ScheduledTaskID={formData?.ScheduledTaskID}  studentSubMission={studentSubMission} task={selectedTask} onclose={setSubmission} />:''}
+                                <div className="justify-start p-2 m-2">
+                                <ToastContainer/>  
+                                        <div className="xl:flex flex xl:justify-between justify-between shadow-md p-2  w-full   ">
+                                                <div className="block md:flex xl:w-5/6 p-2  "> 
+                                                        <div className="block m-2  w-2/6">        
+                                                                <h5 className={`${theme.inputtext} font-bold`}>{formData?.eventName?.toUpperCase()} </h5>
+                                                                <h5 className={`${theme.inputtext}`}>Date :{formData?.scheduledDate?.split('T')[0].split('-').reverse().join('/')} </h5>
+                                                        
+                                                        </div>
+                                                        <div className="flex m-2  xl:w-2/6">
+                                                                <h5 className=" font-semibold">Start Time <input readOnly onChange={handleChange} name="startDateTime" value={formData?.startDateTime} className={`rounded bg-transparent focus:outline-none  ${theme.inputtext}`} type="time" /> </h5>
+                                                                <h5 className=" font-semibold">End Date <input readOnly onChange={handleChange} name="endDateTime" value={formData?.submissionDate?.toString().split('T')[0] } className={`rounded   focus:outline-none bg-transparent  ${theme.inputtext}`} type="date" /> </h5>
+                                                                <h5 className=" font-semibold">End Time <input readOnly onChange={handleChange} name="endDateTime" value={formData?.endDateTime} className={`rounded   focus:outline-none bg-transparent  ${theme.inputtext}`} type="time" /> </h5>
+                                                        </div>
+                                                        <div className="flex w-full xl:w-1/6">
+                                                                {task ? <DropdownMenu items={task} name='taskID' onChange={handleChange} value={formData?.taskID} /> : ''}
+                                                        </div>
                                                 </div>
-                                                <div className="flex m-2  xl:w-2/6">
-                                                        <h5 className=" font-semibold">Start Time <input readOnly onChange={handleChange} name="startDateTime" value={formData?.startDateTime} className={`rounded bg-transparent focus:outline-none  ${theme.inputtext}`} type="time" /> </h5>
-                                                        <h5 className=" font-semibold">End Time <input readOnly onChange={handleChange} name="endDateTime" value={formData?.endDateTime} className={`rounded   focus:outline-none bg-transparent  ${theme.inputtext}`} type="time" /> </h5>
+                                                <div className="w-1/6 md:w-3/6 h-100 p-1 flex justify-end border-green-600">
+                                                <button onClick={()=>height=='h-[100px]'? setHeight('h-full'):setHeight('h-[100px]') }> {height=='h-[100px]' ?<RxDropdownMenu style={{height:'30px' , width:'30px'}} />  : <FcCollapse    style={{height:'20px' , width:'20px'}} />} </button>  
                                                 </div>
-                                                <div className="flex w-full xl:w-1/6">
-                                                        {task ? <DropdownMenu items={task} name='taskID' onChange={handleChange} value={formData?.taskID} /> : ''}
-                                                </div>
-                                        </div>
-                                        <div className="  w-1/6 md:w-3/6 h-10 flex justify-end border-green-600">
-                                              <button onClick={()=>height=='100px'? setHeight('full'):setHeight('100px') }> {height=='100px' ?<FaExpand style={{height:'40px' , width:'40px'}} />  :<BiCollapse   style={{height:'40px' , width:'40px'}} />} </button>  
                                         </div>
                                 </div>
-                        </div>
-                        <div className=" xl:flex  m-2">
-                                <div className=" flex flex-col w-full ">
+                        
+                                <div className="justify-start p-2 m-2  ">                                      
                                         <input name="dayTitle" readOnly  onChange={handleChange}  value={formData?.dayTitle} className={`rounded w-full  font-bold    bg-transparent focus:outline-none focus:border-blue-500`} type="text" placeholder="Activity title" />
-                                        <br />
+                                        <h5 className={`${theme.inputtext}`}>{formData?.description} </h5> <br />
                                         <label     className={`bg-transparent rounded-lg w-full focus:outline-none focus:border-blue-500`} > {formData?.dayDiscription as string} </label>
                                 </div>
-                                </div>
-                                        <div className="flex flex-col p-2   ">
-                                                
-                                                {formData?.matchedTasks?.map((task: Task_model) => (
-                                                                <div
-                                                                key={task.taskId} // Added key prop for proper list rendering
-                                                                className="p-2 justify-between rounded-md shadow-md m-1 flex"
-                                                                >
+                                 
+                                <div className="block p-2   ">
+                                        
+                                        {formData?.matchedTasks?.map((task: Task_model) => (
+                                                        <div
+                                                        key={task.taskId} // Added key prop for proper list rendering
+                                                        className="p-2 justify-between rounded-md shadow-md m-1 flex"
+                                                        >
+                                                        <div className="flex">
+                                                        <div className="block">
                                                                 <div className="flex">
-                                                                <div className="block">
-                                                                        <div className="flex">
-                                                                        <h1 className="font-bold">{task.taskName}</h1>
-                                                                        <h1 className="font-bold"> {studentSubMission?.[formData.ScheduledTaskID]?.[task.taskId] && '['+ (studentSubMission?.[formData.ScheduledTaskID][task.taskId].length ) +'submission ]' }</h1>
-                                                                        </div>
-                                                                        <br />
-                                                                        {task.taskType && <small>{task.taskType}</small>}
+                                                                <h1 className="font-bold">{task.taskName}</h1>
+                                                                <h1 className="font-bold"> {studentSubMission?.[formData.ScheduledTaskID]?.[task.taskId] && '['+ (studentSubMission?.[formData.ScheduledTaskID][task.taskId].length ) +'submission ]' }</h1>
                                                                 </div>
-                                                                <h1 className="font-semibold">{task.taskDiscription}</h1>
-                                                                </div>
-                                                                <div className="flex p-2">
-                                                                {task.possiblePostpone > 0 && (
-                                                                        <button className="m-1 shadow-lg bg-blue-500 rounded-md p-2 bg-opacity-15">
-                                                                        POSTPONE
-                                                                        </button>
-                                                                )}
-                                                                <button
-                                                                        onClick={() => {
-                                                                        setSubmission(true);
-                                                                        const selectedTask =    studentSubMission &&
-                                                                                                studentSubMission[formData.ScheduledTaskID] &&
-                                                                                                studentSubMission[formData.ScheduledTaskID][task.taskId] &&
-                                                                                                studentSubMission[formData.ScheduledTaskID][task.taskId].length ?
-                                                                                                studentSubMission[formData.ScheduledTaskID][task.taskId][0] :
-                                                                                                task;
-
-                                                                        setSelectedTask(selectedTask);
-                                                                        }}
-                                                                        className="m-1 shadow-lg bg-blue-500 rounded-md p-2 bg-opacity-15 w-20 font-bold"
-                                                                >
-                                                                        OPEN
+                                                                <br />
+                                                                {task.taskType && <small>{task.taskType}</small>}
+                                                        </div>
+                                                        <h1 className="font-semibold">{task.taskDiscription}</h1>
+                                                        </div>
+                                                        <div className="flex p-2">
+                                                        {task.possiblePostpone > 0 && (
+                                                                <button className="m-1 shadow-lg bg-blue-500 rounded-md p-2 bg-opacity-15">
+                                                                POSTPONE
                                                                 </button>
-                                                                </div>
-                                                                </div>
-                                                                ))}
+                                                        )}
+                                                        <button
+                                                                onClick={() => {
+                                                                setSubmission(true);
+                                                        const selectedTask =    studentSubMission &&
+                                                                                studentSubMission[formData.ScheduledTaskID] &&
+                                                                                studentSubMission[formData.ScheduledTaskID][task.taskId] &&
+                                                                                studentSubMission[formData.ScheduledTaskID][task.taskId].length ?
+                                                                                studentSubMission[formData.ScheduledTaskID][task.taskId][0] :
+                                                                                task;
 
-                                        </div>
-
-                                
-                                 <div className="justify-start   block w-full   m-2  ">
-                                    <h1 className="text-blue-500 font-semibold">{formData?.tasks[0]?.taskType} </h1>
-                                       {
-                                                //formData?.tasks[0]?.taskType == "Writing" ?<TextEditor  style={{height:'300px'}}  value={formData?.description} onChange={handleChange} />  :
-                                                formData?.tasks[0]?.taskType == "Writing" ? <VideoMaker name='videolink' onChange={handleChange} value = {formData?.videolink} /> :
-                                                formData?.tasks[0]?.taskType == "Reading" ? <VoiceRecorder name='audioLink' onChange ={handleChange} value={formData?.audioLink} /> :
-                                                formData?.tasks[0]?.taskType == "Speaking" ? <VideoMaker name='videolink' onChange={handleChange} value = {formData?.videolink} /> :''
-                                       }
-                                         <div className=" flex w-[100%] rounded-xl">
-                                        </div>
-                                        <div className=" flex w-full   justify-end">
-                                                <button className="button font-semibold   border p-3 rounded-md text-white w-20 bg-gray-500"> RESET </button>
-                                                <button onClick={submitTask} className="button font-semibold  border p-3 rounded-md text-white w-20 bg-blue-500"> SUBMIT </button>
-                                        </div>  
-                                </div>  
-                                <div>
-                                
+                                                                setSelectedTask(selectedTask);
+                                                                }}
+                                                                className="m-1 shadow-lg bg-blue-500 rounded-md p-2 bg-opacity-15 w-20 font-bold"
+                                                        >
+                                                                OPEN
+                                                        </button>
+                                                        </div>
+                                                        </div>
+                                                        ))}
 
                                 </div>
+
+                                 
+                                 
+                                <div className=" flex w-full  p-3  justify-end">
+                                        <button className="button font-semibold m-1   border p-3 rounded-md text-white w-20 bg-gray-500"> RESET </button>
+                                        <button onClick={submitTask} className="button m-1 font-semibold  border p-3 rounded-md text-white w-20 bg-blue-500"> SUBMIT </button>
+                                </div> 
+
+                                 
                             
                 </div>
         )

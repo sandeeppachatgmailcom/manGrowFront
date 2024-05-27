@@ -15,22 +15,22 @@ import { ToastContainer, toast } from "react-toastify";
 import useGetLogin from "../../../useCases/useGetLogin";
 
 
-const SubmiSsionModal = ({ ScheduledTaskID, task, onclose,studentSubMission }: { ScheduledTaskID: string, task: Task_model, onclose: any ,studentSubMission:any}) => {
+const SubmiSsionModal = ({ program, ScheduledTaskID, task, onclose, studentSubMission }: { program: object, ScheduledTaskID: string, task: Task_model, onclose: any, studentSubMission: any }) => {
   useGetLogin();
   const [formData, setFormData] = useState({})
   const dispatch = useDispatch()
   const user = useSelector((state) => state.activeUser.user)
- 
-  
-   
-  
-  
-  
-  useEffect(() => {
-     
-    const taskId = task?.taskId;
-    const scheduledTask = user?.submission?.[ScheduledTaskID]?.[taskId]?.[0]?user?.submission?.[ScheduledTaskID]?.[taskId]?.[0]:{};
 
+
+
+
+
+
+  useEffect(() => {
+
+    const taskId = task?.taskId;
+    const scheduledTask = user?.submission?.[ScheduledTaskID]?.[taskId]?.[0] ? user?.submission?.[ScheduledTaskID]?.[taskId]?.[0] : {};
+    console.log(program, 'programName')
     setFormData({
       ...task,
       tasklink: scheduledTask ? scheduledTask?.tasklink : ''
@@ -38,7 +38,7 @@ const SubmiSsionModal = ({ ScheduledTaskID, task, onclose,studentSubMission }: {
   }, [task])
   useEffect(() => {
     // !tempUser.submission ?  tempUser?.submission[ScheduledTaskID] = tempsubmission
-     console.log(formData, 'formData')
+    console.log(formData, 'formData')
   }, [formData])
 
 
@@ -53,14 +53,15 @@ const SubmiSsionModal = ({ ScheduledTaskID, task, onclose,studentSubMission }: {
 
   const onSaveClick = async () => {
     const tempsubmission = {
+
       taskName: task.taskName,
       taskSub: task.taskSub,
       taskType: task.taskType,
       tasklink: formData?.tasklink,
       taskId: task.taskId,
-      submissionDate:task.subMissionDate ,
-      submittedDate:task.taskDate ,
-      mark : {
+      submissionDate: task.subMissionDate,
+      submittedDate: task.taskDate,
+      mark: {
         "1": true,
         "2": true,
         "3": true,
@@ -72,33 +73,42 @@ const SubmiSsionModal = ({ ScheduledTaskID, task, onclose,studentSubMission }: {
         "9": true,
         "10": true,
       },
-      comment:'',
-      verified:false
+      comment: '',
+      verified: false
     }
-    
+
     const tempUser: UserEntity_Model | any = JSON.parse(JSON.stringify(user))
-    if (!tempUser.submission) { tempUser.submission = {};  }
+    if (!tempUser.submission) { tempUser.submission = {}; }
+
     if (!tempUser.submission[ScheduledTaskID]) tempUser.submission[ScheduledTaskID] = {}
-    if (!tempUser.submission[ScheduledTaskID][task.taskId]) { console.log( tempUser ,'first'), tempUser.submission[ScheduledTaskID][task.taskId] =  []   };
-    if (task?.taskId == tempsubmission.taskId) tempUser.submission[ScheduledTaskID][task?.taskId][0]=tempsubmission;
-    
-    dispatch(login(tempUser))
-    
-    const saveuser = await axiosApi.post(userApi.saveBasicProfile,tempUser)
-    console.log(saveuser,'saved result') 
-    if(saveuser.data.status){
-       const mess=   toast.success(saveuser.data.message)
+    if (!tempUser.submission[ScheduledTaskID]['program']) tempUser.submission[ScheduledTaskID]['program'] = program
+    if (!tempUser.submission[ScheduledTaskID][task.taskId]) { console.log(tempUser, 'first'), tempUser.submission[ScheduledTaskID][task.taskId] = [] };
+    if (task?.taskId == tempsubmission.taskId) tempUser.submission[ScheduledTaskID][task?.taskId][0] = tempsubmission;
+
+
+    if (tempsubmission.tasklink.length) {
+      dispatch(login(tempUser))
+
+      const saveuser = await axiosApi.post(userApi.saveBasicProfile, tempUser)
+      console.log(saveuser, 'saved result')
+      if (saveuser.data.status) {
+        const mess = toast.success(saveuser.data.message)
+      }
     }
+    else{
+      toast.error('no task to submit')
+    }
+
     const data = user.subMission ? user.subMission : {}
     onclose(false)
   }
 
-   
+
 
 
   return (
     <div className={`fixed inset-0 z-50 overflow-auto   flex justify-center items-center`}>
-      <ToastContainer  />
+      <ToastContainer />
       <div className="modal-overlay fixed w-full h-full bg-gray-900 opacity-55"></div>
 
       <div className="     mx-auto rounded shadow-lg z-50 overflow-y-auto">
@@ -121,12 +131,12 @@ const SubmiSsionModal = ({ ScheduledTaskID, task, onclose,studentSubMission }: {
 
 
               <div className="flex w-[500px]   rounded-full">
-                {  
+                {
                   // task?.taskType == "writing" ?<TextEditor  style={{height:'300px'}}  value={task?.description}  />  :
-                  task?.taskType == "writing" ? <GeneralTask data={formData} verified = {formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData?.tasklink}  /> :
-                    task?.taskType == "listening" ? <GeneralTask data={formData}   verified = {formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData?.tasklink}   /> :
-                      task?.taskType == "Speaking" ?  <GeneralTask data={formData}   verified = {formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData?.tasklink}   /> :
-                        task?.taskType == "OneToOne" ?  <GeneralTask data={formData}   verified = {formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick}   value={formData?.tasklink}   /> : ''
+                  task?.taskType == "writing" ? <GeneralTask data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
+                    task?.taskType == "listening" ? <GeneralTask data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
+                      task?.taskType == "Speaking" ? <GeneralTask data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
+                        task?.taskType == "OneToOne" ? <GeneralTask data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> : ''
                 }
               </div>
 
