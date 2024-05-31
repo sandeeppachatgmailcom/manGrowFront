@@ -36,7 +36,8 @@ export const utilityApis: UtilsApis_route = {
     listActiveStudemts:'/utils/getActiveTrainers',
     listActiveEvents:'/utils/listActiveEvents',
     listAllTasks:'/utils/listAllTask',
-    listAllDesignation:'/utils/getAllDesignation'
+    listAllDesignation:'/utils/getAllDesignation',
+    listGetActiveUsers:'utils/getActiveUsers'
     
 };
 
@@ -50,4 +51,8 @@ export const studentApi ={
     getStudentsTask :"/student/postStudentsTask",
     sumbitTask:"/student/submitTask"
 
+}
+export const chatApi  ={
+    intiateConversation : '/chat/intiateConversation ',
+    sendMessage:'/chat/sendMessage ',
 }

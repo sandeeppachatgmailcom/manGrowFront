@@ -13,7 +13,7 @@ const ManageTaskComponent :React.FC = ()=>{
     const [menuIndex,setMenuIndex] = useState(0)
     const [selectItem,setSelectItem] = useState()
     const content = 5
-    
+   
     useEffect(()=>{
         setTaskList(tempTask)
     },[tempTask])

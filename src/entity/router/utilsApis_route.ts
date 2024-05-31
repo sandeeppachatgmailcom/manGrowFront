@@ -5,5 +5,6 @@ export interface UtilsApis_route{
     listActiveStudemts:string,
     listActiveEvents:string,
     listAllTasks:string,
-    listAllDesignation:string
+    listAllDesignation:string,
+    listGetActiveUsers:string
 }

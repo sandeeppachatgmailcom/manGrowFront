@@ -21,9 +21,12 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
     const [task, setTask] = useState()
     const [seletedMenu, setSelectedMenu] = useState('All')
     const [fullMenu, setFullMenu] = useState([])
+    const endDate = new Date()
+    endDate.setDate(endDate.getDate() + 30);
+    
     const data = {email:user.email,
         startDate: new Date(),
-        endDate: '2024-05-30' 
+        endDate: endDate.toISOString().split('T')[0] 
     }
     const [value, onChange] = useState(new Date());
     useEffect(() => {
@@ -31,8 +34,9 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
     const divlign = ' rounded  mt-1 '
     
     const getPending = async ()=>{
-        const pending = await axiosApi.post(trainerApi.getPending,data)
         
+        const pending = await axiosApi.post(trainerApi.getPending,data)
+       
         setPending(pending.data)
         setFullMenu(pending.data)
     }
@@ -93,11 +97,11 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
 
 
     return (
-        <div  className={`xl:flex md:flex lg:flex sm:block overflow-hidden content-start mx-auto h-100 opacity-90 ${darkTheme.theme}`}>
+        <div  className={`xl:flex     sm:block overflow-hidden content-start mx-auto h-100 opacity-90 ${darkTheme.theme}`}>
 
-            <div className={`xl:w-1/6 md:w-2/6 sm:w-full  ${darkTheme.theme + divlign} bg-opacity-30  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`}>
+            <div className={`xl:w-1/6   w-full  ${darkTheme.theme + divlign} bg-opacity-30  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`}>
                 <div >
-                <h6 className="font-bold text-2xl text-orange-500 ">Trainer</h6>
+                
                     <Profile />
                 </div>
                 <div className="bg-transparent ">
@@ -117,14 +121,14 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
                     </div>
                 })}
 
-                
+                 
             </div>
-                <Typing/>
-                <AudioTask/>
+                {/* <Typing/>
+                <AudioTask/> */}
             </div>
-            <div className={`xl:w-1/6 md:w-1/6 sm:w-full ${darkTheme.theme + divlign} bg-blue-800 bg-opacity-5 m-1  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
+            <div className={`xl:w-1/6  w-full ${darkTheme.theme + divlign} bg-blue-800 bg-opacity-5 m-1  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
                 <ChatBox/>
-                <SingleChat nameObj ={{name:'chandhini'}}/>  
+                
             </div>
 
         </div>

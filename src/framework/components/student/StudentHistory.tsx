@@ -37,23 +37,14 @@ const StudentHistory = ()=>{
                     <CircleChartimport/>
                 </div>
                 <div ref={parentDivRef}   className="flex relative rounded-xl h-full     p-1 overflow-scroll justify-between m-1 w-full">
-                    <div className="absolute top-10 left-2 w-20 flex items-center h-full cursor-pointer"   onClick={() => {
-                            setScrollPosition(prevScrollPosition => prevScrollPosition + 30); // Update scroll position
-                            }} >
-                        moveLeft 
-                    </div>   
+                      
                     <div  style={{ transform: `translateX(-${scrollPosition}px)` } }  className="flex w-full px-5  ">
                         <MarkList/>
                         < WritingScoreGraph taskType='listening'/>
                         < WritingScoreGraph taskType='writing'/>
                         < WritingScoreGraph taskType='OneToOne'/>
                     </div>
-                        <div className="absolute top-10 right-2 w-20  flex items-center h-full cursor-pointer"   onClick={() => {
-                            const rightArrowEvent = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-                            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));; // Update scroll position
-                            }} >
-                        Right 
-                    </div>
+                        
                 </div>
            </div>
          

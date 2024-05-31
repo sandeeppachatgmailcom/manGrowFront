@@ -12,12 +12,20 @@ import Modal from "../../../interfaces/pages/modalOnLoad"
 import useGetActiveTask from "../../../useCases/useGetActiveTask"
 import useGetActivePrograms from "../../../useCases/useGetActivePrograms"
 import { Event_Model } from "../../../entity/response/events"
+import useGetDesignation from "../../../useCases/useGetDesignation"
+import { DesignationModel } from "../../../entity/response/designation_model"
+import { ToastContainer, toast } from "react-toastify"
 
 const Task_Comp:React.FC  = ({selectedTask,onChange,index})=>{
     const [postPone,setPostpone] = useState(0)
     const enumTask = useEnumToArray(enumtaskTypes)
     const tempTask:Task_model[] = useGetActiveTask()
     const programs:Event_Model[]  = useGetActivePrograms()
+    const designation :[]= useGetDesignation()
+    const combDesignation = designation?.map((item:DesignationModel)=>{
+        return {id:item.id,name:item.Designation}
+    }) 
+
     const task = tempTask?.map((task)=>{
         return  {name:task.taskName,id:task.taskId} 
     })
@@ -64,8 +72,7 @@ const Task_Comp:React.FC  = ({selectedTask,onChange,index})=>{
         if(name=='active'){
             e.target.checked? value=true:value=false
         }
-        else if(name=='repeat'){
-            e.target.checked? value=true:value=false
+        else if(name=='repeat'){            e.target.checked? value=true:value=false
         } 
         else if(name=='Validation'){
             e.target.checked? value=true:value=false
@@ -79,13 +86,34 @@ const Task_Comp:React.FC  = ({selectedTask,onChange,index})=>{
         })
     }
      
+
+    const validateTask = (task:Task_model)=>{
+        console.log(task.validateBy,task )
+        const DoesNotIncludes = ['','Select','select','validateBy',"nextTastId"]
+            if(task.Validation && DoesNotIncludes.includes(task?.validateBy.trim() as string) ) return {message:'Assign validator designation' ,status:false} 
+            if(task.series && DoesNotIncludes.includes(task?.nextTaskId.trim() as string) ) return {message:'Assign next connected Task' ,status:false}
+            if(task.taskType && DoesNotIncludes.includes(task?.taskType.trim() as string) ) return {message:'Assign valid task type' ,status:false}
+            
+            else return {status:true}
+    }
+    
     const saveTask =async ()=>{
-        setHang(true) 
-        const save =await axiosApi.post(adminApis.createTask,formData)
-        console.log(save.data,'saved result')
-        setHang(false)
-        setFormData(save.data)
-        onChange(index,formData)
+        const isValid = validateTask(formData)
+        console.log(isValid)
+        if(isValid.status)
+            {
+                setHang(true) 
+                const save =await axiosApi.post(adminApis.createTask,formData)
+                setHang(false)
+                setFormData(save.data)
+                toast.success(isValid.message)
+                onChange(index,formData)
+            }
+            else{
+                toast.error(isValid.message)
+            }
+                
+        
     } 
     const handleRecurringProgramList = (programid)=>{
          
@@ -95,7 +123,7 @@ const Task_Comp:React.FC  = ({selectedTask,onChange,index})=>{
                 ...formData,
                 associatedPrograms:[...tempList] 
             })
-        console.log(formData,'formData')
+        
     }
     useEffect(()=>{
         setFormData(blank)
@@ -112,12 +140,13 @@ const Task_Comp:React.FC  = ({selectedTask,onChange,index})=>{
                 ...formData,
                 associatedPrograms:[...tempList] 
             })
-        console.log(formData,'formData')
+        
     }
 
     return(
     <div className="w-full block      ">
         {hang?<Modal/>:''}
+        <ToastContainer/>
         <div className=" flex p-1 m-2  rounded-md shadow-md  w-full ">
             <div className=" block p-1 m-2  rounded-md shadow-md  xl:w-3/6 ">
                 <div className="flex bg-opacity-5 items-center h-10 m-2 ">
@@ -152,8 +181,8 @@ const Task_Comp:React.FC  = ({selectedTask,onChange,index})=>{
                         <div>
                             {formData?.Validation?
                             (<div className="flex items-center w-full"> 
-                            <h1 className="w-1/2"> CORDINATOR</h1>
-                            <DropdownMenu name='validateBy' value={formData?.validateBy} onChange={handleChange} items={[{name:'trainer',id:'trainer'},{name:'cordinator',id:'cordinator'}]} />
+                            <h1 className="w-1/2"> VALIDATE BY </h1>
+                            {combDesignation? <DropdownMenu name='validateBy' value={formData?.validateBy ?   formData?.validateBy   : 'Select'} onChange={handleChange} items={combDesignation} /> :''  } 
                             </div>) :''}
                         </div>
                     
