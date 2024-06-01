@@ -31,7 +31,7 @@ const StudentHistory = ()=>{
         
 }
 
-    return  <div className="block w-full rounded-xl  h-[1000px]   overflow-y-scroll ">
+    return  <div className="block w-full rounded-xl  h-[100%]   overflow-y-scroll ">
         <div className="  rounded-lg block bg-opacity-5 P-1 m-1 w-100 ">
                 <div className="flex bg-green-800 bg-opacity-5  rounded-xl h-full p-1 justify-center m-1 w-full" >
                     <CircleChartimport/>

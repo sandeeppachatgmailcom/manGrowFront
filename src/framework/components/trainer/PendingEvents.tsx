@@ -140,7 +140,7 @@ const PendingEvents = (props: PendingEventsComponent) => {
          
         
         return (
-                <div>
+                <div className="p-1 flex flex-col">
                         {formData?.type == 'taskCreation' ?
                         <div className={`${formData && formData?.ScheduledTaskID ? 'bg-blue-600 bg-opacity-10' : ' '} overflow-hidden w-full  h-[${height}] border border-opacity-25  block   hover:shadow-sm hover:shadow-gray-500 border-gray-300 focus:bg-opacity-55 focus:bg-gray-600  rounded-xl `} >
 

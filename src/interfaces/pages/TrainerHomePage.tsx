@@ -12,7 +12,8 @@ import PendingEvents from "../../framework/components/trainer/PendingEvents";
 import axiosApi from "../../framework/api/axios";
 import { trainerApi, utilityApis } from "../../entity/constants/api";
 import { TrainerHome_Page } from "../../entity/pages/TrainerHomePage";
-
+import { ClassNames } from "@emotion/react";
+import 'react-calendar/dist/Calendar.css';
 const TrainerHomePage = (_props:TrainerHome_Page) => {
     
     const darkTheme = useSelector((state:any) => state.theme) 
@@ -42,9 +43,8 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
     }
     
     useEffect(()=>{
-       
-        getPending()
-        getTask()
+       getPending()
+       getTask()
     },[])
     const getTask = async () => {
         const task = await axiosApi.get(utilityApis.listAllTasks)
@@ -97,9 +97,9 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
 
 
     return (
-        <div  className={`xl:flex     sm:block overflow-hidden content-start mx-auto h-100 opacity-90 ${darkTheme.theme}`}>
+        <div  className={`xl:flex     sm:block overflow-scroll content-start mx-auto h-[100%] opacity-90 ${darkTheme.theme}`}>
 
-            <div className={`xl:w-1/6   w-full  ${darkTheme.theme + divlign} bg-opacity-30  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`}>
+            <div className={`xl:w-2/12 h-[100%]  w-full  ${darkTheme.theme + divlign} bg-opacity-30  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`}>
                 <div >
                 
                     <Profile />
@@ -109,16 +109,16 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
                      
                 </div>
             </div>
-            <div   className={`block xl:w-4/6 h-full w-full overflow-hidden   ${darkTheme.theme} ${divlign} `}>
-                <div   className={`block w-full bg-transparent ` }>
+            <div   className={`block xl:w-7/12 m-1 p-1  h-[100%]  w-full overflow-hidden   ${darkTheme.theme} ${divlign} `}>
+                <div   className={`block w-full bg-transparent h-[5%] overflow-hidden ` }>
                      <TrainerMenuPanel setSelectedMenu={setSelectedMenu} /> 
-                     </div>   
-                <div     className= {`block    w-full sm:w-full overflow-scroll h-[900px]  md:w-full  xl:w-full xl:m-1 xl:mt-2     ${darkTheme.theme} ${divlign} `}>
+                </div>   
+                <div     className= {`flex flex-col    w-full  overflow-y-scroll h-[95%]   overflow-x-hidden rounded-xl    xl:mt-2 `}>
                 {pending && pending.map((pending:any)=>{
                     
-                    return <div className="    p-1     ">
+                    return <>
                         <PendingEvents task={task}  pending = {pending} />
-                    </div>
+                    </>
                 })}
 
                  
@@ -126,7 +126,7 @@ const TrainerHomePage = (_props:TrainerHome_Page) => {
                 {/* <Typing/>
                 <AudioTask/> */}
             </div>
-            <div className={`xl:w-1/6  w-full ${darkTheme.theme + divlign} bg-blue-800 bg-opacity-5 m-1  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
+            <div className={`xl:w-3/12  h-[100%] w-full ${darkTheme.theme + divlign} bg-blue-800 bg-opacity-5 m-1  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
                 <ChatBox/>
                 
             </div>

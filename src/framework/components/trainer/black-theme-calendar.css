@@ -1,0 +1,27 @@
+/* src/black-theme-calendar.css */
+
+.react-calendar.black-theme {
+  background-color: rgba(235, 235, 235, 0);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.048);
+}
+
+.react-calendar.black-theme .react-calendar__navigation button {
+  color: white;
+}
+
+.react-calendar.black-theme .react-calendar__tile {
+  background: rgba(0, 0, 0, 0);
+  color: white;
+}
+
+.react-calendar.black-theme .react-calendar__tile--active {
+  background: grey;
+  color: white;
+}
+
+.react-calendar.black-theme .react-calendar__tile--now {
+  background: darkgrey;
+  color: white;
+}
+

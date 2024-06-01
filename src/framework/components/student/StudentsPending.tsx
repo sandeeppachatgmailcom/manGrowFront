@@ -38,7 +38,7 @@ const StudentsPending:StudentsPending_Component = ( ) => {
         fetchTask();
     },[user])
    return (
-    <div className=" w-full   rounded-lg  h-100 bg-opacity-10 px-2 py-2 w-100 ">
+    <div className=" w-full   rounded-lg  h-[100%] bg-opacity-10 px-2 py-2 w-100 ">
       {formData && formData.map((item)=>{
         return (<div key={item.ScheduledTaskID} className='m-2 rounded-lg '>
                 <StudentTask pending = {item} />

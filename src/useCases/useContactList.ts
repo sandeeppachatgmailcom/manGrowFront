@@ -3,36 +3,38 @@ import axiosApi from "../framework/api/axios";
 import { utilityApis } from "../entity/constants/api";
 
 const useContactList = (searchText: string) => {
+  console.log(searchText,'temp 1111')
   const [user,setUser] = useState([]);
+  const [initalData,setInitalData] = useState([]);
   //const [tempData,setTempData] = useState()  
   const fetchUser=async ()=>{
     const data = await axiosApi.get(utilityApis.listGetActiveUsers)
-    setUser(data.data)
+    setInitalData(data.data)
+    let tempList = data.data?.filter((item) =>
+      item?.firstName?.toLowerCase().startsWith(searchText.toLowerCase())
+    );
+    console.log(data.data,tempList,'tempList')
+    setUser(tempList)
   } 
+
+  useEffect(() => {
+    let tempList = initalData?.filter((item) =>
+      item?.firstName?.toLowerCase().startsWith(searchText.toLowerCase())
+    );
+     
+    setUser(tempList)
+   }, [searchText]);
 
   useEffect(() => {
    fetchUser();
   }, []);
  return user
 
-    // const searchContacts = (searchText: string) => {
-    // const lowerSearchText = searchText.toLowerCase(); // Lowercase search text
-    // const results = [];
+    
+    
+   
 
-    // function traverse(node: any, currentWord = '') {
-    //   if (node.isEnd) {
-    //     results.push(currentWord);
-    //   }
-
-    //   for (const char in node.children) {
-    //     traverse(node.children[char], currentWord + char);
-    //   }
-    // }
-    //traverse(user.root);
-    //return results.filter((word) => word.startsWith(lowerSearchText));
- //   };
-
- // return searchContacts(searchText);
+//  return searchContacts(searchText);
 };
 
 export default useContactList;

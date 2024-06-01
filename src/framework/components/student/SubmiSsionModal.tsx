@@ -10,7 +10,7 @@ import { UserEntity_Model } from "../../../entity/response/userModel";
 import { login } from "../../ReduxStore/activeUser";
 import axiosApi from "../../api/axios";
 import { userApi } from "../../../entity/constants/api";
-import GeneralTask from "../trainer/generalTaskSubmisssion";
+import GeneralTask from "../trainer/GeneralTaskSubmisssion";
 import { ToastContainer, toast } from "react-toastify";
 import useGetLogin from "../../../useCases/useGetLogin";
 

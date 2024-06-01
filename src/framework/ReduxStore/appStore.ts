@@ -3,6 +3,7 @@ import themeSlice from "./themeSlice";
 import activeUser from "./activeUser";
 import companyInfo from "./companyInfo";
 import adminMenuSlice from "./adminMenu";
+import activeChatuser from "./activeChatuser";
 
 
 const appStore = configureStore({
@@ -10,7 +11,8 @@ const appStore = configureStore({
         theme:themeSlice,
         activeUser:activeUser,
         company:companyInfo,
-        adminSubMenu:adminMenuSlice 
+        adminSubMenu:adminMenuSlice ,
+        activeChatUser:activeChatuser
     }
 })
 

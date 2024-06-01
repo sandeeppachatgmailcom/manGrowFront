@@ -1,4 +1,4 @@
-import { useEffect, } from 'react';
+import { useEffect, useState, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
  
@@ -19,11 +19,29 @@ function Header(props:Header_Component) {
   const activeUser = useSelector((state:any) => state.activeUser.user)
   const company = useSelector((state:any) => state.company.info.companyName)
   const navigate = useNavigate()
-  const toggleDarkMode = () => {
-    dispatch(toggleTheme())
-    console.log(theme, 'theme')
+  const [defaultTheme, setDefaultTheme] = useState(
+    // Check for initial state based on browser preference (optional):
+    localStorage.getItem('theme') || // Check localStorage if available
+    (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ? 'dark'
+      : 'light' // Default to light theme if unavailable
+  );
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleMediaChange = () => {setDefaultTheme(mediaQuery.matches ? 'dark' : 'light');console.log('yes i know')};
+    mediaQuery.addEventListener('change', handleMediaChange);
 
+    return () => mediaQuery.removeEventListener('change', handleMediaChange);
+  }, []);
+
+  const toggleDarkMode = () => {
+    dispatch(toggleTheme(defaultTheme))
+    console.log(window.matchMedia('(prefers-color-scheme: dark)'),'it starts here')
   }
+  useEffect(()=>{
+    console.log(theme, defaultTheme,)
+    toggleDarkMode()
+  },[defaultTheme])
 
   
  
@@ -59,7 +77,7 @@ function Header(props:Header_Component) {
         {/* <ProfileImageBox height='50px' width='50px' /> */}
         <h6 className={` px-4 `}>
           {Object.keys(activeUser).length
-            ? <button onClick={()=>{ if(Object.keys(activeUser).length && activeUser.otpVerified) navigate('/')}} type="button"  > {activeUser.firstName} </button>
+            ? <button onClick={()=>{ if(Object.keys(activeUser).length && activeUser.otpVerified) navigate(`/${activeUser.role}`)}} type="button"  > {activeUser.firstName} </button>
             : ''}
         </h6>
         
@@ -67,7 +85,7 @@ function Header(props:Header_Component) {
           <FaPowerOff />
         </button>
         <button
-          onClick={() => toggleDarkMode()}
+          onClick={() => defaultTheme == 'dark' ?setDefaultTheme('light'):setDefaultTheme('dark') }
           className={`rounded-full w-10 h-10 flex items-center justify-center bg-gray-800   ${theme.theme} focus:outline-none`}
         >
           {darkTheme ? "🌤" : "🌙"}

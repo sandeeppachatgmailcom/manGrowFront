@@ -41,7 +41,9 @@ const ProfilePage = (_props:Profile_Page) => {
     useEffect(()=>{
         !Object.keys(user).length?getUser():''
     } ,[])
-
+    useEffect(()=>{
+        setFormData(user)
+    },[user])
 
    
     
