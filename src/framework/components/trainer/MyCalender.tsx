@@ -12,7 +12,7 @@ function MyCalender() {
   const calendarClassName = theme.themeDark === true ? 'react-calendar black-theme' : 'react-calendar';
 
   return (
-    <div>
+    <div className='flex h-[100%] w-[100%]'>
       <Calendar
         onChange={onChange}
         value={value}

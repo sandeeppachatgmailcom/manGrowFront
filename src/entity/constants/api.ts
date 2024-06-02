@@ -44,7 +44,9 @@ export const utilityApis: UtilsApis_route = {
 export const trainerApi: TrainerApi_route ={
     getPending:'/trainer/postTrainerPendingEvents',
     saveScheduledTask:'/trainer/postScheduleTask',
-    updateMarkToCollection:'/trainer/updateMarkToCollection'
+    updateMarkToCollection:'/trainer/updateMarkToCollection',
+    getTrainerBasedBatchSummary:'/trainer/getTrainerBasedBatchSummary',
+    getWeeklyStudentssummary:'trainer/getWeeklyStudentssummary'
 }
 
 export const studentApi ={

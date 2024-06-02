@@ -31,63 +31,10 @@ const WritingScoreGraph = ({taskType}) => {
                     }
                    
                 }
-                //let totalMark = taskCount*10;
-                
             }
         }
     }
-    console.log(markData,'markData')  
-    const data = [
-        {
-          name: "Page A",
-          Writing: 4000,
-          listening: 2400,
-          speaking:5000,
-          amt: 2400,
-        },
-        {
-          name: "Page B",
-          Writing: 6000,
-          listening: 2400,
-          speaking:3000,
-             amt: 2210,
-        },
-        {
-          name: "Page C",
-          Writing: 3000,
-          listening: 1400,
-          speaking:2000,
-             amt: 2290,
-        },
-        {
-          name: "Page D",
-          Writing: 1000,
-          listening: 5400,
-          speaking:8000,
-            amt: 2000,
-        },
-        {
-          name: "Page E",
-          Writing: 5000,
-          listening: 1400,
-          speaking:6000,
-             amt: 2181,
-        },
-        {
-          name: "Page F",
-          Writing: 6000,
-          listening: 3400,
-          speaking:5000,
-            amt: 2500,
-        },
-        {
-          name: "Page G",
-          Writing: 7000,
-          listening: 4400,
-          speaking:6000,
-             amt: 2100,
-        },
-      ];
+   
     return (
         <div className=" bg-green-200 m-1 rounded-xl bg-opacity-10 p-3 w-full" >
             <div className="w-full flex justify-center ">{taskType}</div>

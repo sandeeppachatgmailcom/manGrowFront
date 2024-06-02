@@ -22,9 +22,9 @@ const VideoCallRoom: React.FC<Modal_Component> = ({ isOpen, onClose, children, u
     }, 1000)
 
     return (
-        <div className={`  bg-opacity-30 fixed inset-0 z-50 overflow-auto   flex justify-center items-center`}>
+        <div className={`  bg-opacity-60 fixed inset-0 z-50 overflow-auto   flex justify-center items-center`}>
 
-            <div className={`   bg-gray-600 bg-opacity-60    modal-overlay fixed     w-full h-full`}></div>
+            <div className={`   bg-gray-600 bg-opacity-80    modal-overlay fixed     w-full h-full`}></div>
             <div className="modal-container h-[100%]  w-full    rounded shadow-lg z-50 ">
                 <div className="modal-content py-4 text-left px-6 h-[100%]">
                     <div className="flex flex-col justify-between items-center h-[100%]">
