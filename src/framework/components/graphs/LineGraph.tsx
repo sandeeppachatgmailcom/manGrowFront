@@ -45,7 +45,7 @@ const LineGraph=({graphData})=> {
         <LineChart
           width={500}
           height={300}
-          data={dummy}
+          data={data}
           margin={{
             top: 5,
             right: 30,
@@ -53,12 +53,12 @@ const LineGraph=({graphData})=> {
             bottom: 5,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="Week" />
-          <YAxis />
+          <CartesianGrid strokeDasharray="8 8" />
+          <XAxis dataKey="Xvalue" />
+          <YAxis dataKey="students"/>
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="students" stroke="#cccccc" strokeDasharray="5 5" />
+          <Line type="monotone"  dataKey="students" stroke="#FFFFFF" />
            
         </LineChart>
       </ResponsiveContainer>

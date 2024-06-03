@@ -9,9 +9,8 @@ const useWeeklyStudentsDetails=()=>{
         try {
             const data:{Week:string,students:number} = await axiosApi.get(trainerApi.getWeeklyStudentssummary)
     
-        const temp = data?.data?.map((item:any)=>{ return {Week:item?._id,students:item?.count}})
-        console.log(temp,data?.data,'++++++++++++++++++++++++++++++++++++++++++++++++++')
-
+        const temp = data?.data?.map((item:any)=>{ return {Xvalue:item?._id,students:item?.count}})
+        temp.sort((a,b)=>a.Week-b.Week)
         setResult(temp)
     } catch (error) {
             

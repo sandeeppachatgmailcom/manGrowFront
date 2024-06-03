@@ -22,19 +22,19 @@ const VideoCallRoom: React.FC<Modal_Component> = ({ isOpen, onClose, children, u
     }, 1000)
 
     return (
-        <div className={`  bg-opacity-60 fixed inset-0 z-50 overflow-auto   flex justify-center items-center`}>
+        <div className={`  bg-opacity-10 fixed inset-0 z-50 overflow-auto   flex justify-center items-center`}>
 
-            <div className={`   bg-gray-600 bg-opacity-80    modal-overlay fixed     w-full h-full`}></div>
+            <div className={`   bg-gray-600 bg-opacity-50    modal-overlay fixed     w-full h-full`}></div>
             <div className="modal-container h-[100%]  w-full    rounded shadow-lg z-50 ">
                 <div className="modal-content py-4 text-left px-6 h-[100%]">
                     <div className="flex flex-col justify-between items-center h-[100%]">
-                        <div className="flex  w-full flex-wrap justify-center items-center rounded-xl h-[75%]  ">
+                        <div className="flex  w-full flex-wrap flex-col justify-center items-center rounded-xl h-[75%]  ">
                             <button onClick={() => onClose(false)} className="flex items-start w-full rounded-xl cursor-pointer  justify-start p-3   bg-opacity-85 m-1  h-20">
                                 <CgArrowBottomRightR className='h-20' />
                             </button>
                             <div className='flex flex-wrap justify-center '>
                                 {Array(10).fill(null).map((_, index) => (
-                                    <div className='m-1 w-2/12'>
+                                    <div className='m-1 w-2/12 h-80'>
                                         <IndividualVideoTile key={index} user={user} />
                                     </div>
                                 ))}

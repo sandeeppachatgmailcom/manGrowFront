@@ -5,11 +5,24 @@ import CircleChart from "../graphs/CircleGraph"
 import { useEffect, useState } from "react";
 import LineGraph from "../graphs/LineGraph";
 import useWeeklyStudentsDetails from "../../../useCases/useWeeklyStudentsDetails";
+import usedesignationWiseEventProgress from "../../../useCases/usedesignationWiseEventProgress";
+
 
 const TrainerDashBoard = ()=>{
 const batchData:[] = useGetTrainerBasedBatchSummary()
 const weeklySummary = useWeeklyStudentsDetails()
+const TaskProgress:[] = usedesignationWiseEventProgress()
 const [batches,setBatches] = useState({})
+const [progress,setProgress] =useState([])
+
+useEffect(()=>{
+    console.log(TaskProgress)
+    const data =  TaskProgress?.map((task)=>{
+        return {Xvalue:task.eventName + task.scheduledDate.split('T')[0],students:(task.attendees.length ) *100}
+    })
+    setProgress(data)
+},[TaskProgress])
+
 
 useEffect(()=>{
      
@@ -52,10 +65,10 @@ useEffect(()=>{
                 <button className="m-2 flex  bg-blue-500 bg-opacity-35 rounded-xl w-2/12  h-10 text-center items-center justify-center">BATCH</button>
             </div>
 
-            <div className="p-1 flex  flex-wrap  bg-blue-800 rounded-xl bg-opacity-15 w-full h-[100%]">
+            <div className="p-1 flex  flex-wrap  bg-blue-300 rounded-xl bg-opacity-10 w-full h-[100%]">
             
             <div className="flex flex-col h-[100%] overflow-y-scroll    w-full flex-wrap">
-                <div className="flex flex-col h-[50%] overflow-y-scroll    w-full flex-wrap">
+                <div className="flex flex-col h-[30%] overflow-y-scroll    w-full flex-wrap">
                     {Object.keys(batches).length &&  Object.keys(batches)?.map((batch)=>{
                         console.log(batches[batch],'batches[batch]?.summary')
                         return <div key={batch} className="rounded-xl w-3/12  m-1 flex flex-col h-80   items-center   justify-center"> 
@@ -64,9 +77,15 @@ useEffect(()=>{
                         </div>
                     })}
                 </div>
-                <div className="flex    flex-col h-[30%] bg-gray-100 bg-opacity-10  rounded-xl overflow-y-scroll    w-full  p-2">
+                <div className="flex  m-1  flex-col h-[30%] bg-blue-500 bg-opacity-50     rounded-xl overflow-y-scroll    w-full  p-2">
                     <h1> Weekly Students summary</h1> <br />
                  <LineGraph graphData={weeklySummary} />
+                 
+                </div>
+                <div className="flex  m-1  flex-col h-[30%]  bg-blue-500 bg-opacity-50      rounded-xl overflow-y-scroll    w-full  p-2">
+                    <h1> Task Progress Summary</h1> <br />
+                
+                 <LineGraph graphData={progress} />
                 </div>
             </div>
 

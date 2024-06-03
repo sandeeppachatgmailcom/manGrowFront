@@ -3,5 +3,6 @@ export interface TrainerApi_route{
     saveScheduledTask:string
     updateMarkToCollection:string,
     getTrainerBasedBatchSummary:string,
-    getWeeklyStudentssummary:string
+    getWeeklyStudentssummary:string,
+    designationWiseEventProgress:string
 }

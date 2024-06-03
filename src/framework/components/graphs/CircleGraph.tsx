@@ -30,7 +30,7 @@ const CircleChart = ({ data }) => {
 
 
     return (
-        <div className=' bg-gray-100 bg-opacity-10  rounded-xl  overflow-scroll h-[100%] flex w-full'>
+        <div className=' bg-blue-500 bg-opacity-50  rounded-xl  overflow-scroll h-[100%] flex w-full'>
             {!data.length ?
                 <div className='flex   justify-center items-center   h-[100%] w-[100%]'>
                     <h1 className=''>No students</h1>

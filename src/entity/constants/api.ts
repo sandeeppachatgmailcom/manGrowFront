@@ -46,7 +46,8 @@ export const trainerApi: TrainerApi_route ={
     saveScheduledTask:'/trainer/postScheduleTask',
     updateMarkToCollection:'/trainer/updateMarkToCollection',
     getTrainerBasedBatchSummary:'/trainer/getTrainerBasedBatchSummary',
-    getWeeklyStudentssummary:'trainer/getWeeklyStudentssummary'
+    getWeeklyStudentssummary:'trainer/getWeeklyStudentssummary',
+    designationWiseEventProgress:'trainer/designationWiseEventProgress'
 }
 
 export const studentApi ={

@@ -1,18 +1,12 @@
 import { Suspense, lazy, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import Profile from "../../framework/components/utilComponents/profile";
-import Calendar from 'react-calendar'
-//import 'react-calendar/dist/Calendar.css';
-import Typing from "../../framework/components/task/TaskTyping";
-import AudioTask from "../../framework/components/task/audioTask";
 import ChatBox from "../../framework/components/chatBox/chatBox";
-import SingleChat from "../../framework/components/header/SingleChat";
 import TrainerMenuPanel from "../../framework/components/trainer/TrainerMenuPanel";
 import PendingEvents from "../../framework/components/trainer/PendingEvents";
 import axiosApi from "../../framework/api/axios";
 import { trainerApi, utilityApis } from "../../entity/constants/api";
 import { TrainerHome_Page } from "../../entity/pages/TrainerHomePage";
-import { ClassNames } from "@emotion/react";
 const TrainelazyrDashBoard =lazy(()=>import ("../../framework/components/trainer/TrainerDashBoard")) 
 
 
