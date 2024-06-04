@@ -11,6 +11,8 @@ import ApproveStaff from "../../framework/components/Admin/StaffApproval";
 import Events from "../../framework/components/Admin/Events";
 import ManageTaskComponent from "../../framework/components/Admin/ManageTaskComponent";
 import Task_Comp from "../../framework/components/Admin/TaskComponent";
+import AdminDashBoard from "../../framework/components/Admin/AdminDashBoard";
+import MyCalender from "../../framework/components/trainer/MyCalender";
 
 
 const  AdminHomePage : React.FC = () => {
@@ -23,29 +25,29 @@ const  AdminHomePage : React.FC = () => {
     const divlign = ''
 
     return (
-        <div className={`xl:flex w-full   lg:flex block content-start mx-auto h-100  ${darkTheme.theme}`}>
+        <div className={`xl:flex     sm:block overflow-scroll content-start mx-auto h-[100%] opacity-90 ${darkTheme.theme}`}>
 
-            <div className={`xl:w-1/6 block sm:w-full bg-gray-400  bg-opacity-5 m-1  rounded-xl mt-2 p-2`}>
+            <div className={`xl:w-2/12 w-full  ${darkTheme.theme + divlign} xl:h-[100%]  border-gray-300   rounded-xl mt-2 p-2`}>
                 <div >
                     <h6 className="font-bold text-2xl text-blue-500 ps-2">Admin</h6>
                     <Profile />
                 </div>
-                <div className="bg-transparent ">
-                    <Calendar defaultView='month' value={value} />
-
+                <div className="flex w-full">
+                     <MyCalender   />   
                 </div>
             </div>
-            <div className={`block h-100 xl:w-4/6 m-2 p-1  sm:w-full md-w-full bg-gray-400  bg-opacity-5 }`}>
+            <div className={`block xl:w-7/12 m-1 p-1  h-[100%]  w-full overflow-hidden   ${darkTheme.theme} ${divlign} `}>
                 <AdminSubmenu />
                 <div className=" flex mt-2 ">
                 {selectedSubMenu == 'batches' ? <AdminContent /> :
                     selectedSubMenu == 'approve' ? <ApproveStaff /> :
                         selectedSubMenu == 'programs' ? <Events /> : 
-                            selectedSubMenu == 'task'?<ManageTaskComponent />:""
+                            selectedSubMenu == 'task'?<ManageTaskComponent />:
+                            selectedSubMenu == 'dashBoard'?<AdminDashBoard />:""
                 }
                 </div>
             </div>
-            <div className={`xl:w-1/6 sm:w-full bg-gray-400 m-1  bg-opacity-5  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
+            <div className={`xl:w-3/12  h-[100%] w-full ${darkTheme.theme + divlign} bg-blue-800 bg-opacity-5 m-1  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
                 <ChatBox />
                 {/* <SingleChat nameObj ={{name:'chandhini'}} />  */}
 

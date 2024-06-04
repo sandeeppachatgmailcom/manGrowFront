@@ -1,10 +1,10 @@
 import {LineChart,Line,XAxis,YAxis,CartesianGrid,Tooltip,Legend } from "recharts";
 import { useSelector } from "react-redux";
   
-const MarkList = () => {
-   const user = useSelector((state:any)=>state.activeUser.user)
+const MarkList = ({user}) => {
+   //const user = useSelector((state:any)=>state.activeUser.user)
    let markData = []
-   console.log(user,'-------------------------------------------')
+ 
     if(user.submission){
         for (let key in user.submission){
             if(key !='program'){
@@ -17,7 +17,7 @@ const MarkList = () => {
                             if(user.submission[key][task][0]?.mark[mark]){
                                 tempMark +=Number(mark)
                             }
-                            console.log(tempMark,'tempMarktempMark')
+                            
                         }
                     }
                 }
@@ -27,12 +27,12 @@ const MarkList = () => {
                     mark:tempMark/taskCount,
                     amt:10
                 }
-                console.log(marklisttemp,'marklisttemp')
+               
                 markData.push(marklisttemp)
             }
         }
     }
-    console.log(markData,'markData')  
+   
   
     return (
         <div className=" bg-green-200 rounded-xl bg-opacity-10 p-3 m-1 w-full" >

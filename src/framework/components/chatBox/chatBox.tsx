@@ -11,7 +11,7 @@ import useContactList from "../../../useCases/useContactList";
 import SingleChat from "./SingleChat";
 import { ChatBox_Component } from "../../../entity/components/common/ChatBox";
 
-const ChatBox = (_props: ChatBox_Component) => {
+const ChatBox = ({SetStudent}:any) => {
   const [real, setReal] = useState([]);
   const currentChatUser = useSelector((state) => state.activeChatUser.user);
   const [conversation, setConversation] = useState({});
@@ -24,6 +24,7 @@ const ChatBox = (_props: ChatBox_Component) => {
   const [initialSocket, setInitialSocket] = useState(false);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const dispatch = useDispatch();
+  const [selectedUser,setSelectedUser] = useState('')
 
   useEffect(() => {
     const newSocket = io('ws://localhost:4000');
@@ -116,7 +117,7 @@ const ChatBox = (_props: ChatBox_Component) => {
       <div className="border mt-2 border-opacity-20 border-gray-500 p-1 rounded-xl overflow-scroll h-[30%]">
         
         {contact?.map((item) => (
-          <div key={item.email} onClick={() => { item.firstName === user.firstName ? setUser({}) : getConversation(item.email); setUser(item); }} className={`${!checkOnline(item.email)?'text-opacity-50':'' } bg-gray-500 bg-opacity-10 rounded-sm `}>
+          <div key={item.email} onClick={() => { item.firstName === user.firstName ? setUser({}) : getConversation(item.email); setUser(item); setSelectedUser(item.email); item.role == 'student'? SetStudent({status:true,user:item.email}) : SetStudent({status:false,user:item.email}) }} className={`${!checkOnline(item.email)?'text-opacity-50':'' } rounded-lg cursor-pointer bg-opacity-30 ${item.email == selectedUser ? 'bg-blue-400':'bg-gray-500'} rounded-sm `}>
             <div className="m-1 h-[50px] flex text-start justify-between">
               <div className="flex items-start p-2">
                 <div className={`${!checkOnline(item.email)?'bg-opacity-40':'' } w-10 me-2 shadow-md h-[100%] rounded-full bg-blue-500   overflow-hidden`}>
@@ -125,7 +126,7 @@ const ChatBox = (_props: ChatBox_Component) => {
                 <div className={`${checkOnline(item.email) ? 'text-green-400' : 'text-red-400'}`}>
                   <MdOnlinePrediction className="h-full" />
                 </div>
-                <button className="text-1xl">{item?.firstName}</button>
+                <button onClick={()=>{}} className={`text-1xl `}>{item?.firstName}</button>
               </div>
               <div className="flex">
                 <button className="mx-3 text-green-500"><IoChatbubbleEllipsesOutline /></button>

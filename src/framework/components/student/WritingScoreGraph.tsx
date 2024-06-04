@@ -2,10 +2,10 @@ import {LineChart,Line,XAxis,YAxis,CartesianGrid,Tooltip,Legend } from "recharts
 import useGetStudentsPending from "../../../useCases/useGetStudentsPending";
 import { useSelector } from "react-redux";
   
-const WritingScoreGraph = ({taskType}) => {
-   const user = useSelector((state:any)=>state.activeUser.user)
+const WritingScoreGraph = ({taskType,user}) => {
+   
    let markData = []
-   console.log(user,'-------------------------------------------')
+   
     if(user.submission){
         for (let key in user.submission){
             if(key !='program'){
@@ -23,7 +23,7 @@ const WritingScoreGraph = ({taskType}) => {
                                     mark:tempMark/taskCount,
                                     amt:10
                                 }
-                                console.log(marklisttemp,'marklisttemp')
+                               
                                 markData.push(marklisttemp)
                             }
                            

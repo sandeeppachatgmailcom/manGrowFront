@@ -12,7 +12,8 @@ export const userApi: UserApi_route = {
     resetPasswordwithOtp: '/auth/resetPassword',
     saveBasicProfile: '/auth/saveBasicInfo',
     forgotPassword: '/auth/forgotPassword',
-    getSubmissionDetails:'/auth/getSubmissionDetails'
+    getSubmissionDetails:'/auth/getSubmissionDetails',
+    
 };
 
 export const publicApi: Record<string, string> = {
@@ -37,7 +38,9 @@ export const utilityApis: UtilsApis_route = {
     listActiveEvents:'/utils/listActiveEvents',
     listAllTasks:'/utils/listAllTask',
     listAllDesignation:'/utils/getAllDesignation',
-    listGetActiveUsers:'utils/getActiveUsers'
+    listGetActiveUsers:'utils/getActiveUsers',
+    studentsTaskProgressRatio:'/utils/studentsTaskProgressRatio',
+    getuserDetailsByEmail : '/utils/getuserDetailsByEmail'
     
 };
 
