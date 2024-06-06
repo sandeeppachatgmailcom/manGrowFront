@@ -7,6 +7,9 @@ export interface UserApi_route {
     saveBasicProfile:string,
     forgotPassword:string,
     getSubmissionDetails:string,
+    getBatchWiseStudentsList: string,
+    getDesignationWiseStaffList:string
+    
     
 
 }

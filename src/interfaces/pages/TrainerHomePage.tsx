@@ -27,7 +27,7 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
     endDate.setDate(endDate.getDate() + 30);
 
     useEffect(()=>{
-        console.log(studentDashBoard,'studentDashBoardstudentDashBoardstudentDashBoardstudentDashBoard')
+        
     },[studentDashBoard])
     const data = {
         email: user.email,

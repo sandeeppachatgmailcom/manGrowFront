@@ -13,6 +13,8 @@ export const userApi: UserApi_route = {
     saveBasicProfile: '/auth/saveBasicInfo',
     forgotPassword: '/auth/forgotPassword',
     getSubmissionDetails:'/auth/getSubmissionDetails',
+    getBatchWiseStudentsList: '/auth/getBatchWiseStudentsList',
+    getDesignationWiseStaffList:'/auth/getDesignationWiseStaffList'
     
 };
 

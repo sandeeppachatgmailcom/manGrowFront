@@ -46,10 +46,7 @@ useEffect(()=>{
 },[batchData])
     return(
         <div className="flex  flex-col w-full h-[100%] rounded-xl bg-blue-500 bg-opacity-5" >
-            <div className=" P-1 flex items-center  h-20     w-full rounded-xl  bg-blue-500 bg-opacity-15">
-                <button className="m-2 flex  bg-blue-500 bg-opacity-35 rounded-xl w-2/12  h-10 text-center items-center justify-center">BATCH</button>
-                <button className="m-2 flex  bg-blue-500 bg-opacity-35 rounded-xl w-2/12  h-10 text-center items-center justify-center">BATCH</button>
-            </div>
+            
 
             <div className="p-1 flex  flex-wrap  bg-blue-300 rounded-xl bg-opacity-10 w-full h-[100%]">
             

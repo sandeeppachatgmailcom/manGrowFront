@@ -30,7 +30,7 @@ const CircleChart = ({ data }) => {
     console.log(data,'/graphdatamodel')
     return (
         <div className='    rounded-xl  overflow-scroll h-[100%] flex w-full'>
-            {!data.length ?
+            {!data?.length ?
                 <div className='flex   justify-center items-center   h-[100%] w-[100%]'>
                     <h1 className=''>No students</h1>
                 </div> :
@@ -43,7 +43,7 @@ const CircleChart = ({ data }) => {
                             cy="50%"
                             labelLine={false}
                             label={renderCustomizedLabel}
-                            outerRadius={80}
+                            outerRadius={100}
                             fill="#8884d8"
                             dataKey="value"
 

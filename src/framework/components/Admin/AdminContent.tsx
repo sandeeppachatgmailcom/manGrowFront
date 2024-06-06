@@ -48,7 +48,7 @@ const AdminContent :React.FC<{}> = (props:AdminContent_Component) => {
     
 
     return (
-        <div className={`${darkTheme} xl:flex sm:block bg-blue-500 bg-opacity-10 shadow-md   w-full   border-opacity-90 rounded-xl`}>
+        <div className={`${darkTheme} xl:flex sm:block bg-blue-500 bg-opacity-10 shadow-md border     w-full     rounded-xl`}>
             <div className='xl:w-1/6  m-1 rounded border-r-2 border-gray-500 border-opacity-15  '>
                  
                 <div className='w-full xl:block flex   m-1 rounded sm:flex lg:flex md:flex  sm:flex-wrap flex-wrap ' >
@@ -60,8 +60,6 @@ const AdminContent :React.FC<{}> = (props:AdminContent_Component) => {
                     }):''}
                     
                 </div>
-               
-                
                 <div className='flex  bottom-0 start-0  ' >
                         {(() => {
                             const count = Math.ceil(batch.length / 5)
@@ -74,10 +72,8 @@ const AdminContent :React.FC<{}> = (props:AdminContent_Component) => {
                         )()
                         }
                 </div>
-                
             </div>
-            <div className='w-full   rounded-lg   '>
-                
+            <div className='w-full    rounded-lg   '>
                 { menu==activebatch?.batchName? <Batch setActiveBatch={setActiveBatch} activebatchs ={activebatch } />:''} 
             </div>
         </div>

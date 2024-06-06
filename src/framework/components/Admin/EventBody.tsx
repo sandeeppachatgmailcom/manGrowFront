@@ -89,7 +89,7 @@ const EventBody =({event,onChange }:EventBody_Component)=>{
 
     
     return(
-        <div className="block  xl:flex w-full  rounded      ">
+        <div className="block  xl:flex w-full  rounded  overflow-hidden    h-[100%] p-1     ">
             <ToastContainer/>   
             <div className=" flex flex-col w-full xl:w-1/2 ">
                 <div className='w-full flex m-1   p-2 items-center justify-between   h-[70px]'>
@@ -124,7 +124,7 @@ const EventBody =({event,onChange }:EventBody_Component)=>{
                     </div>
                 </div>
             </div>
-            <div className=" block w-full xl:w-1/2 p-2 ">
+            <div className="  flex flex-col w-full xl:w-1/2   ">
              
                 <div className='w-full xl:block flex m-1    p-2 items-center justify-between   h-100 '>
                     <div className="xl:flex block items-center">

@@ -51,9 +51,9 @@ useEffect(()=>{
     return (
          
              
-                <div className="block xl:flex bg-blue-500 bg-opacity-20  rounded-lg mt-1 p-1 w-full">
-                    <div className="   block m-1 lg:w-full  xl:w-2/6 w-full    md:w-full  overflow-hidden  me-1  border-e-2    border-gray-300 border-opacity-20 ">
-                        <div className="flex flex-wrap md:flex-col      ">
+                <div className="block h-[50%] xl:flex  bg-opacity-20   border border-opacity-10 border-blue-300 rounded-lg mt-1 p-1 w-full">
+                    <div className="      block m-1 lg:w-full  xl:w-2/6 w-full     md:w-FULL  overflow-scroll  me-1  border-e-2    border-gray-300 border-opacity-20 ">
+                        <div className="flex flex-wrap md:flex-col   m-1     ">
                         {user && user?.map((item :any, index :number) => {
                         if (index > (((pageCount-1)*5)) && index <= pageCount*5)  return <div  onClick={() =>{setMenu(index);console.log(item);setSelectedStaff(item)   } } className={menu == index ? ` items-center shadow-blue-500 shadow-md  w-full xl:w-5/6  text-blue-800 xl:rounded-e-full   bg-blue-200 flex m-1  font-bold   p-2  `  : ' w-[90%] justify-start p-2 items-center text-left  flex m-1 rounded h-[60px] cursor-pointer '} >
                                     <div  style={{backgroundImage:`url(${item.profileImage})`,backgroundPosition:'center',backgroundSize:'cover'}}  className="justify-self-center bg-gray-500 bg-opacity-15 m-1 h-10 w-10 rounded-full shadow-gray-400 ">
@@ -81,7 +81,7 @@ useEffect(()=>{
                             </div>
                         </div>
                     </div>
-                    <div className="  md:flex-col w-full flex justify-center items-center sm:w-full  md:w-ful lg:w-4/6 xl:w-4/6  shadow-blue-200 rounded-s-none border-gray-300 border-opacity-70      rounded-xl">
+                    <div className="  m-1    md:flex-col w-full flex justify-center items-center sm:w-full  md:w-ful lg:w-4/6 xl:w-4/6  shadow-blue-200 rounded-s-none border-gray-300 border-opacity-70      rounded-xl">
                         { selectedStaff? <AdminStaffApproval staff={selectedStaff}/>:''}
                     </div>
     

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { Suspense, lazy, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import Profile from "../../framework/components/utilComponents/profile";
 import Calendar from 'react-calendar'
@@ -11,11 +11,12 @@ import ApproveStaff from "../../framework/components/Admin/StaffApproval";
 import Events from "../../framework/components/Admin/Events";
 import ManageTaskComponent from "../../framework/components/Admin/ManageTaskComponent";
 import Task_Comp from "../../framework/components/Admin/TaskComponent";
-import AdminDashBoard from "../../framework/components/Admin/AdminDashBoard";
+
 import MyCalender from "../../framework/components/trainer/MyCalender";
+import Resume from "./Resume";
+const AdminDashBoard = lazy(() => import('../../framework/components/Admin/AdminDashBoard'))
 
-
-const  AdminHomePage : React.FC = () => {
+const AdminHomePage: React.FC = () => {
     const darkTheme = useSelector((state: any) => state.theme)
     const selectedSubMenu = useSelector((state: any) => (state.adminSubMenu.menuName))
     const [value, onChange] = useState(new Date());
@@ -33,19 +34,22 @@ const  AdminHomePage : React.FC = () => {
                     <Profile />
                 </div>
                 <div className="flex w-full">
-                     <MyCalender   />   
+                    <MyCalender />
                 </div>
             </div>
-            <div className={`block xl:w-7/12 m-1 p-1  h-[100%]  w-full overflow-hidden   ${darkTheme.theme} ${divlign} `}>
+            <div className={`block xl:w-7/12 m-1 p-1  h-[100%] w-full overflow-scroll      `}>
                 <AdminSubmenu />
-                <div className=" flex mt-2 ">
-                {selectedSubMenu == 'batches' ? <AdminContent /> :
-                    selectedSubMenu == 'approve' ? <ApproveStaff /> :
-                        selectedSubMenu == 'programs' ? <Events /> : 
-                            selectedSubMenu == 'task'?<ManageTaskComponent />:
-                            selectedSubMenu == 'dashBoard'?<AdminDashBoard />:""
-                }
-                </div>
+               
+                    <div className=" flex mt-2 h-[90%]   overflow-y-scroll ">
+                        {selectedSubMenu == 'batches' ? <AdminContent /> :
+                            selectedSubMenu == 'approve' ? <ApproveStaff /> :
+                                selectedSubMenu == 'programs' ? <Events /> :
+                                    selectedSubMenu == 'task' ? <ManageTaskComponent /> :
+                                        selectedSubMenu == 'dashBoard' ? <Suspense>   <AdminDashBoard />   </Suspense>: "" 
+                                            // selectedSubMenu == 'resume' ?   <Resume/> : "" 
+                        }
+                    </div>
+              
             </div>
             <div className={`xl:w-3/12  h-[100%] w-full ${darkTheme.theme + divlign} bg-blue-800 bg-opacity-5 m-1  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
                 <ChatBox />

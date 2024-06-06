@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import useWeeklyStudentsDetails from "../../../useCases/useWeeklyStudentsDetails";
 import RoundedPropotionalGraph from "../graphs/RoundedPropotionalGraph"
+import useGetBatchWiseStudents from "../../../useCases/useGetBatchWiseStudents";
+import CircleChart from "../graphs/CircleGraph";
+import useGetDesignationWiseStaffCount from "../../../useCases/useGetDesignationWiseStaffCount";
 
 
 
 
 
-const AdminDashBoard =  ({ })=>{
+const AdminDashBoard =  ({})=>{
     // const data = [
     //     {
     //       name: 'Page A',
@@ -62,7 +65,26 @@ const AdminDashBoard =  ({ })=>{
     //     },
     //   ];
       const [data,setData] = useState([])
+      const [batchSummary,setBatchSummary] = useState([])
+      const [desiSummary,setDesiSummary] = useState([])
+      
       const tempData = useWeeklyStudentsDetails()
+      const btchSummary = useGetBatchWiseStudents()
+      const employeeSummary = useGetDesignationWiseStaffCount()
+      
+      useEffect(()=>{
+        const data = employeeSummary?.map((item)=>{ return {name:item.Designation, value:item.staffCount} })
+        setDesiSummary(data)
+      },[employeeSummary])
+      
+      useEffect(()=>{
+        console.log(desiSummary,batchSummary,'**************************')
+      })
+      
+      useEffect(()=>{
+        const data =  btchSummary?.map((item)=>{return {name:item._id, value:item.count}} )
+        setBatchSummary(data)
+      },[btchSummary])
       useEffect(()=>{
         if(tempData){
         const temp = tempData?.map((item:any)=>{
@@ -73,9 +95,19 @@ const AdminDashBoard =  ({ })=>{
 
      
     return(
-        <div className= {`h-auto p-3  rounded-xl bg-opacity-15 m-1  flex w-full  `}>
-            <div className="flex p-3 shadow-2xl w-full h-auto  rounded-2xl bg-opacity-5  ">
+        <div className= {`h-[100%] p-3  rounded-xl bg-opacity-15 m-1    flex w-full flex-col  `}>
+            <div className="flex p-3 shadow-2xl w-full h-[30%]    rounded-2xl bg-opacity-5  ">
             <RoundedPropotionalGraph data={data} />
+            </div>
+            <div className="flex flex-wrap p-3 shadow-2xl w-full  mt-3 h-[100%] lg:h-[50%]    rounded-2xl bg-opacity-5  ">
+              <div className="flex w-full  md:w-3/6 rounded-xl bg-blue-950 bg-opacity-5   shadow-xl h-[100%] ">
+                  <CircleChart   data={batchSummary}  />  
+              </div>
+              <div className="flex w-full  md:w-3/6 rounded-xl bg-blue-950 bg-opacity-5  shadow-xl h-[100%] ">
+                  <CircleChart   data={desiSummary}  />  
+              </div>
+              
+
             </div>
         </div>
     )
