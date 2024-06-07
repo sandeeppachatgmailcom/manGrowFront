@@ -9,6 +9,7 @@ import TrainerHomePage from "../../interfaces/pages/TrainerHomePage";
 import ResetCredential from "../../interfaces/pages/ResetCredential";
 import Task_Comp from "../components/Admin/TaskComponent";
 import ManageTaskComponent from "../components/Admin/ManageTaskComponent";
+import Role from "../../interfaces/pages/Role";
 
 const appRouter  = createBrowserRouter([
     {
@@ -18,6 +19,10 @@ const appRouter  = createBrowserRouter([
             {
                 path:'/user',
                 element: <ProfilePage/>
+            },
+            {
+                path:'/role',
+                element: <Role/>
             },
             {
                 path:'/signUp',
@@ -55,9 +60,11 @@ const appRouter  = createBrowserRouter([
             {
                 path:'/',
                 element:<ProfilePage/>
-            }
+            } 
+             
         ] 
-    }
+    },
+     
 ]);
 
 export default appRouter;

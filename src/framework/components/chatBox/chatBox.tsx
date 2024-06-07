@@ -9,11 +9,18 @@ import { io } from 'socket.io-client';
 import { updateChatUser } from "../../ReduxStore/activeChatuser";
 import useContactList from "../../../useCases/useContactList";
 import SingleChat from "./SingleChat";
-import { ChatBox_Component } from "../../../entity/components/common/ChatBox";
+import { FaUserGraduate } from "react-icons/fa6";
+import { GiPoliceOfficerHead } from "react-icons/gi";
+import { FaChessKing } from "react-icons/fa";
+import Profile from "../utilComponents/profile";
+import { IoPersonAddSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import Role from "../../../interfaces/pages/Role";
 
 const ChatBox = ({SetStudent}:any) => {
+  const multipleUser = useSelector((state)=>state.multiUser.show)
   const [real, setReal] = useState([]);
-  const currentChatUser = useSelector((state) => state.activeChatUser.user);
+  const currentChatUser = useSelector((state)=> state.activeChatUser.user);
   const [conversation, setConversation] = useState({});
   const activeUser = useSelector((state: any) => state.activeUser.user);
   const [user, setUser] = useState({});
@@ -25,6 +32,7 @@ const ChatBox = ({SetStudent}:any) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const dispatch = useDispatch();
   const [selectedUser,setSelectedUser] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
     const newSocket = io('ws://localhost:4000');
@@ -98,17 +106,33 @@ const ChatBox = ({SetStudent}:any) => {
     setConversation(chat.data.conversation);
     setReal(chat?.data?.messages);
   };
-
+ const opennewTab = ()=>{
+   
+    window.open('http://localhost:5173/role', '_blank');
+  
+}
   const searchUser = (e) => {
     const { value } = e.target;
     setSearchText(value);
-    console.log(value,'ssssss')
+    
 
   };
 
   return (
     <div className="shadow-lg p-2 flex flex-col overflow-scroll h-full rounded-xl">
-      <div className="w-full h-[10%] flex border border-opacity-20 border-gray-500 rounded-xl p-1">
+     {multipleUser?
+      <div className="w-full items-center justify-center shadow-2xl h-[40%] flex-col flex border-8 overflow-scroll bg-blue-600 bg-opacity-15 border-opacity-20  border-gray-500 rounded-3xl rounded-tr-none p-1">
+        
+          <button onClick={opennewTab} className="items-center justify-center text-1xl w-1/2 p-2 h-[50%] flex-col flex m-1 rounded-xl bg-gray-500 bg-opacity-15">
+          <IoPersonAddSharp className="h-[50%] w-[50%] m-1 p-1" />
+          
+          </button>
+       
+       
+      </div>
+      :
+      <>
+      <div className="w-full h-[10%] flex border border-opacity-20 border-gray-500 rounded-xl  p-1">
         <input ref={searchInput} onChange={searchUser} value={searchText} className="p-4 focus:outline-none focus:outline-gray-600 rounded-xl h-full w-full bg-transparent" type="text" />
         <button className="w-20 h-full p-5">
           <FaSearchengin className="h-full w-full" />
@@ -136,6 +160,8 @@ const ChatBox = ({SetStudent}:any) => {
           </div>
         ))}
       </div>
+      </>
+    }
       <div className="h-[60%]   mt-5 overflow-scroll border border-opacity-10 p-1 border-gray-500 rounded-xl bg-opacity-15">
         {Object.keys(user).length ?
           <SingleChat onChange={setReal} sendMessage={sendMessage} chatHead={conversation} user={user} userChat={real} />

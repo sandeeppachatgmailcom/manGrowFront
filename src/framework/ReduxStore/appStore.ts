@@ -4,7 +4,7 @@ import activeUser from "./activeUser";
 import companyInfo from "./companyInfo";
 import adminMenuSlice from "./adminMenu";
 import activeChatuser from "./activeChatuser";
-
+import multipleUser from "./multipleUser";
 
 const appStore = configureStore({
     reducer:{
@@ -12,7 +12,8 @@ const appStore = configureStore({
         activeUser:activeUser,
         company:companyInfo,
         adminSubMenu:adminMenuSlice ,
-        activeChatUser:activeChatuser
+        activeChatUser:activeChatuser,
+        multiUser:multipleUser
     }
 })
 

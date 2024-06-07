@@ -32,7 +32,7 @@ const CircleChart = ({ data }) => {
         <div className='    rounded-xl  overflow-scroll h-[100%] flex w-full'>
             {!data?.length ?
                 <div className='flex   justify-center items-center   h-[100%] w-[100%]'>
-                    <h1 className=''>No students</h1>
+                    <h1 className=''>no data</h1>
                 </div> :
 
                 <ResponsiveContainer width="100%" height="100%">

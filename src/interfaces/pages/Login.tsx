@@ -44,31 +44,33 @@ function Login(_props:Login_Page ) {
       try {
         e.preventDefault();
         console.log(formData,userApi.login,'formDatasssssssssssssss','await axiosApi.post(userApi.login,formData ) ')
+        console.log(document.cookie.split(';').map((item)=>item.split('=')).filter((token)=>token[0].trim().startsWith('man')))
+              
         const responce = await axiosApi.post(userApi.login,formData) 
         console.log(responce ,'responce.data.password,responce,')
-      if(!responce.data.active){
-             toast.error(responce.data.message)
-        }
-        else{
-          if(!responce.data.otpVerified) responce.data.resetPaaword=false;
-          dispatch(login(responce.data))
-          
-          // if(responce.data.role=='admin'){
-          //   navigate('/Admin')
-          // }
-          // else if(responce.data.role=='student'){
-          //   navigate('/Student')
-          // }
-          // else if(responce.data.role=='user'){
-          //   navigate('/user')
-          // }
-          // else if(responce.data.role=='trainer'){
-          //   navigate('/Trainer')
-          // }
-         
-        }
-        console.log(responce,'response')
-        
+        if(!responce.data.active){
+          toast.error(responce.data.message)
+     }
+     else{
+       if(!responce.data.otpVerified) responce.data.resetPaaword=false;
+       dispatch(login(responce.data))
+       
+       // if(responce.data.role=='admin'){
+       //   navigate('/Admin')
+       // }
+       // else if(responce.data.role=='student'){
+       //   navigate('/Student')
+       // }
+       // else if(responce.data.role=='user'){
+       //   navigate('/user')
+       // }
+       // else if(responce.data.role=='trainer'){
+       //   navigate('/Trainer')
+       // }
+      
+     }
+     console.log(responce,'response')
+     
       } catch (error:any) {
         if(!error?.responce){
           console.log('no error message')
@@ -88,7 +90,7 @@ function Login(_props:Login_Page ) {
           navigate('/Student')
         }
         else if(activeUser.role=='user'){
-          navigate('/user')
+         // navigate('/user')
         }
         else if(activeUser.role=='trainer'){
           navigate('/Trainer')

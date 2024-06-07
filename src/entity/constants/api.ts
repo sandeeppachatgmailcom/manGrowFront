@@ -7,7 +7,7 @@ import { TrainerApi_route } from '../router/TrainerApi_route';
 export const userApi: UserApi_route = {
     signUp: '/auth/create',
     login: '/auth/login',
-    getlogin: '/auth/getlogin',
+    getlogin: '/auth/getmylogin',
     validateOtp: '/auth/validateOtp',
     resetPasswordwithOtp: '/auth/resetPassword',
     saveBasicProfile: '/auth/saveBasicInfo',

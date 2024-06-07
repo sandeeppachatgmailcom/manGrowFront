@@ -6,20 +6,20 @@ import { useNavigate } from "react-router-dom"
 import MenuBar from "../../framework/components/header/MenuBar"
 import axios from "axios"
 import axiosApi from "../../framework/api/axios"
-import { login } from "../../framework/ReduxStore/activeUser"
+import { login, logout } from "../../framework/ReduxStore/activeUser"
 import { publicApi, userApi } from "../../entity/constants/api"
 import Academics from "../../framework/components/user/Academics"
 
 import { ToastContainer, toast } from "react-toastify"
 import useCompareObjects from "../../useCases/useCompareObjects"
-import { Profile_Page } from "../../entity/pages/Profile_Page"
+ 
 
 
    
 
 
  
-const ProfilePage = (_props:Profile_Page) => {
+const ProfilePage = (_props:any) => {
     const theme = useSelector((state:any) => state.theme.theme)
     const darkTheme = useSelector((state:any) => state.theme)
     const user = useSelector((state:any) => state.activeUser.user)
@@ -34,16 +34,44 @@ const ProfilePage = (_props:Profile_Page) => {
         const address =await axios.get(`${publicApi.getPincode}${formData.pincode}`)
         setAddress(address.data[0].PostOffice)
     }
-    const getUser = async ()=>{
-        const responce = await axiosApi.get(userApi.getlogin,formData ) 
-        responce.data.success!==false? dispatch(login(responce.data)):navigate('/signin')
+    const getUser = async ()=>{ 
+
+
+        
+        const role = document?.cookie
+  .split(';')
+  .flatMap(item => item.split('='))
+  .find(token => token.startsWith('man=')) // More efficient check
+  ?.split('=')[1] || false;
+         
+        if(role){
+            const responce = await axiosApi.get(userApi.getlogin+`/${role.trim()}`,formData ) 
+            console.log(responce.data, 'testing by sandeep')
+            responce.data.success ==true? dispatch(login(responce.data)):navigate('/signin')
+        }
+        else{
+            navigate('/signin')
+        }
+        
+        
+         
     }
-    useEffect(()=>{
-        !Object.keys(user).length?getUser():''
-    } ,[])
-    useEffect(()=>{
-        setFormData(user)
-    },[user])
+    const divert =async ()=>{
+        if(document.cookie.split(';').map((item)=>item.split('=')).filter((token)=>token[0].trim().startsWith('man')).length > 1)  {
+                    console.log(user,'user---sasi---------->')
+                    navigate('/role')
+                  }
+                  else{
+                    !Object.keys(user).length?getUser():''
+                  }
+    }
+   
+   
+     divert()
+
+    // useEffect(()=>{
+    //     if(Object.keys(user).length ) setFormData(user)
+    // },[user])
 
    
     
@@ -67,9 +95,7 @@ const ProfilePage = (_props:Profile_Page) => {
         try {
            console.log(changes,'changes')
             if(!changes){
-                 
                 const savedUser = await axiosApi.post(userApi.saveBasicProfile,formData)
-                 
                 if(!savedUser.data.status){
                     toast.error(savedUser.data.message)    
                 }
@@ -88,43 +114,42 @@ const ProfilePage = (_props:Profile_Page) => {
 
 
     useEffect(()=>{
-        
         if(formData?.pincode?.length>5) {
             loadAddress()
         }
     },[formData])
 
-    useEffect(() => {
-         setFormData({
-            ...formData,
-            academics:[{
-                course:'SSLC',
-                startYear:2002,
-                endYear:2003,
-                mark:55,
-                institute:'GVHSS Calicut'
-            },{
-                course:'+2',
-                startYear:2003,
-                endYear:2005,
-                mark:70,
-                institute:'GVHSS Calicut'
-            },{
-                course:'Diploma in computer Science',
-                startYear:2005,
-                endYear:2009,
-                mark:60,
-                institute:'Institute electronics and telecommunication engineers- New delhi '
-            }] 
+    // useEffect(() => {
+    //      setFormData({
+    //         ...formData,
+    //         academics:[{
+    //             course:'SSLC',
+    //             startYear:2002,
+    //             endYear:2003,
+    //             mark:55,
+    //             institute:'GVHSS Calicut'
+    //         },{
+    //             course:'+2',
+    //             startYear:2003,
+    //             endYear:2005,
+    //             mark:70,
+    //             institute:'GVHSS Calicut'
+    //         },{
+    //             course:'Diploma in computer Science',
+    //             startYear:2005,
+    //             endYear:2009,
+    //             mark:60,
+    //             institute:'Institute electronics and telecommunication engineers- New delhi '
+    //         }] 
         
-         })
-    }, [user])
+    //      })
+    // }, [user])
 
     
 
     return (
         <>
-        {user?
+        {Object.keys(user).length?
         <div className="xl:flex w-sm-block w-100 xl:w-full md:flex lg:flex " >
              <div className="xl:block md:w-1/4  sm:w-full xl:w-1/6 justify-start items-start p-2 bg-blue-500 bg-opacity-5  border-gray-300 border-opacity-45 rounded-xl mt-2">
                 <MenuBar/>   
@@ -312,7 +337,7 @@ const ProfilePage = (_props:Profile_Page) => {
 
             </div>
            
-        </div>:''}
+        </div>:'' }
         </>
 
     )

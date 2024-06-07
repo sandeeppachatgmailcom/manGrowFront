@@ -14,7 +14,7 @@ const useGetLogin = ()=>{
 
 
     const getLogin =async ()=>{
-        const tempuser = await  axiosApi.get(userApi.getlogin, ) 
+        const tempuser = await  axiosApi.get(userApi.getlogin) 
         dispatch(login(tempuser.data))
     }
 

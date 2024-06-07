@@ -108,8 +108,6 @@ const validatePassword = (password:string) => {
     <div className= {` ${darkTheme.theme}  xl:flex lg:flex md:block sm:block  justify-center xl:w-full items-center m-3 h-[100%] `}>
         {modal?<Modal/>:''}
        <div className="xl:flex justify-center sm:w-full sm:block  md:w-full  "> 
-             
-
        </div>
       <div className={`${darkTheme.theme } h-[100%] max-w-md w-full space-y-8  p-5 rounded-xl`}>
       <div className={` ${darkTheme.theme } h-[80%] max-w-md w-full space-y-8 border border-gray-600 border-opacity-30 p-5 rounded-xl`}>
