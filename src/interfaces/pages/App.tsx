@@ -1,15 +1,17 @@
-import  { useEffect,   } from 'react'; 
-import { Outlet, useNavigate } from 'react-router-dom';
+
+import { Outlet,   } from 'react-router-dom';
 import Header from '../../framework/components/header/Header'; 
 import { Provider, useSelector } from 'react-redux';
 import appStore from '../../framework/ReduxStore/appStore';  
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { App_page } from '../../entity/pages/app_page';
 import ErrorBoundary from '../../framework/components/Error/ErrorBoundary';
+
 const App = (_props:App_page) => {
-  const navigate = useNavigate()
+
+  
    const theme =useSelector((state:any) => state.theme.theme)
-   const user = useSelector((state:any)=> state.activeUser.user)
+   
    
   return (
      <GoogleOAuthProvider clientId="150250688028-3q3h69aphbc5q7i82f4n6if7or9d3c2d.apps.googleusercontent.com">

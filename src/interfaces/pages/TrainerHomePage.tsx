@@ -14,6 +14,7 @@ const StudentLazyDashBoard = lazy(()=> import("../../framework/components/studen
 
 import 'react-calendar/dist/Calendar.css';
 import MyCalender from "../../framework/components/trainer/MyCalender";
+import useGetLogin from "../../useCases/useGetLogin";
 
 const TrainerHomePage = (_props: TrainerHome_Page) => {
     const [studentDashBoard,setStudentDashBoard] = useState({})
@@ -25,6 +26,7 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
     const [fullMenu, setFullMenu] = useState([])
     const endDate = new Date()
     endDate.setDate(endDate.getDate() + 30);
+    useGetLogin('manGrowtrainer')
 
     useEffect(()=>{
         

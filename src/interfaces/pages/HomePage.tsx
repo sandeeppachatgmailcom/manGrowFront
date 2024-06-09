@@ -3,32 +3,25 @@ import { useSelector } from "react-redux"
 import Profile from "../../framework/components/utilComponents/profile";
 import ChatBox from "../../framework/components/chatBox/chatBox";
 import StudentsPending from "../../framework/components/student/StudentsPending";
-// import MantineCalendar from "../../framework/components/trainer/Calender";
 import { Home_Page } from "../../entity/pages/homePage";
 import StudentHistory from "../../framework/components/student/StudentHistory";
 import MarkList from "../../framework/components/student/MarkList";
-// import 'react-calendar/dist/Calendar.css';
-
 import MyCalender from "../../framework/components/trainer/MyCalender";
+import useGetLogin from "../../useCases/useGetLogin";
 
 
 const HomePage = (_props: Home_Page) => {
+    //useGetLogin('manGrowstudent')
     const [menu,setMenu] = useState(1)
     const darkTheme = useSelector((state: any) => state.theme)
-
-
     const activeUser = useSelector((state: any) => state.activeUser.user)
-    useEffect(() => {
-        console.log(darkTheme.theme)
-    }, [darkTheme])
+     
     const divlign = '   rounded  mt-1 '
 
     return (
-        <div className="xl:flex block h-[100%] overflow-hidden   w-full p-2">
-
+        <div className="xl:flex block h-[100%] overflow-scroll   w-full p-2">
             <div className={`xl:w-2/12 w-full  ${darkTheme.theme + divlign} xl:h-[100%]  border-gray-300   rounded-xl mt-2 p-2`}>
                 <div className="bg-transparent " >
-                   
                     <Profile />
                 </div>
                 <div className="">

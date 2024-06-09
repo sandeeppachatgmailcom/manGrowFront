@@ -51,10 +51,10 @@ useEffect(()=>{
             <div className="p-1 flex  flex-wrap  bg-blue-300 rounded-xl bg-opacity-10 w-full h-[100%]">
             
             <div className="flex flex-col h-[100%] overflow-y-scroll    w-full flex-wrap">
-                <div className="flex flex-col h-[30%] overflow-y-scroll    w-full flex-wrap">
+                <div className="flex flex-col h-[35%] overflow-y-scroll    w-full flex-wrap">
                     {Object.keys(batches).length &&  Object.keys(batches)?.map((batch)=>{
                         
-                        return <div key={batch} className="rounded-xl w-3/12 bg-blue-800 bg-opacity-30 m-1 flex flex-col h-80   items-center   justify-center"> 
+                        return <div key={batch} className="rounded-xl w-3/12 bg-blue-800 bg-opacity-30 m-1 flex flex-col h-[100%]    items-center   justify-center"> 
                             <CircleChart data={batches[batch]?.summery}/>
                             <h1 className="text-white">{batch.toUpperCase() } { batches[batch]?.student  ? batches[batch].student + ' students' : ''}</h1>
                         </div>

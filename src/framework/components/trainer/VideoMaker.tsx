@@ -32,6 +32,7 @@ const VideoMakerexpired = (props) => {
   const [mediaRecorder, setMediaRecorder] = useState(null);
 
   const handleStartRecording = async () => {
+    
     const stream = webcamRef.current.stream;
     const options = { mimeType: 'video/webm; codecs=vp9' };
     const recorder = new MediaRecorder(stream, options);
@@ -105,7 +106,7 @@ const VideoMakerexpired = (props) => {
         
         <div className="flex justify-center absolute bottom-4 w-full">
           {status === 'idle' ? (
-            <button className="h-[100px] w-30 bg-transparent rounded-full text-blue-600" onClick={handleStartRecording}>
+            <button className="h-[100px] w-30 bg-transparent rounded-full text-yellow-600" onClick={handleStartRecording}>
               <FontAwesomeIcon icon={faCircleDot} style={{ height: '40px', width: '40px' }} />
             </button>
           ) : status === 'recording' ? (

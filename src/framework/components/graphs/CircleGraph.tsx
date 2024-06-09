@@ -29,7 +29,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 const CircleChart = ({ data }) => {
     console.log(data,'/graphdatamodel')
     return (
-        <div className='    rounded-xl  overflow-scroll h-[100%] flex w-full'>
+        <div className='    rounded-xl  overflow-scroll h-[90%] flex w-full'>
             {!data?.length ?
                 <div className='flex   justify-center items-center   h-[100%] w-[100%]'>
                     <h1 className=''>no data</h1>

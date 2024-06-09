@@ -19,19 +19,19 @@ const VideoCall = ({user})=>{
     return(
         <div className="h-[100%] w-full flex flex-col">
             {room ?<VideoCallRoom user ={user} onClose={setRoom}/>:''}
-            <div className="flex w-full flex-col  items-center rounded-xl bg-blue-950 justify-center overflow-hidden  bg-opacity-35 m-1 p-1  h-[65%]">
+            <div className="flex w-full flex-col  items-center rounded-xl bg-blue-950 justify-center overflow-hidden  bg-opacity-5 m-1 p-1  h-[65%]">
                 <button onClick={()=>setRoom(true)} className="flex items-start w-full rounded-xl cursor-pointer  justify-start p-3  bg-opacity-35 m-1  h-[5%]">
                     {!room?<BsBoxArrowInUpLeft />:''}
                 </button>
             
                 <button className="   rounded-full h-[80%]   w-[40%] p-1 ">
                 
-                    {!user?.profileImage?.length ?<FaUserTie className=" h-[100%] w-[100%] bg-blue-950 bg-opacity-25 text-white-200 border-4 rounded-full border-white  p-2 text-opacity-35" />:<div className="h-[100%] w-[100%] rounded-full" style={{ backgroundImage: `url(${user?.profileImage})`, backgroundPosition: 'center', backgroundSize: 'cover' }} />  }
+                    {!user?.profileImage?.length ?<FaUserTie className=" h-[100%] w-[100%] bg-blue-950 bg-opacity-15 text-white-200 border-4 rounded-full border-white  p-2 text-opacity-35" />:<div className="h-[100%] w-[100%] rounded-full" style={{ backgroundImage: `url(${user?.profileImage})`, backgroundPosition: 'center', backgroundSize: 'cover' }} />  }
                     
                 </button>
 
         </div>
-        <div className="flex w-full justify-center rounded-xl bg-blue-950 bg-opacity-35 m-1  h-[25%]">
+        <div className="flex w-full justify-center rounded-xl bg-blue-950 bg-opacity-5 m-1  h-[25%]">
                 <div className=" items-center justify-center flex  rounded-full overflow-hidden p-1 ">
                     {mute?  <HiMiniSpeakerWave onClick={()=>setMute(!mute)} className=" border-4 ms-1   rounded-full border-blue-400 text-blue-500 w-[100%] h-[70%] p-3" />
                     : 

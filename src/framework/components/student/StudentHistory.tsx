@@ -18,7 +18,7 @@ const StudentHistory = ({onChane,useremail})=>{
 
     const parentDivRef = useRef()
     const studentProgress = useStudentProgressSummary({email:user?.email})||[]
-     useGetLogin();
+     useGetLogin('manGrowstudent');
      const [pendingGraphData,setPendingGraphData] = useState([])      
        
         useEffect(()=>{
@@ -50,8 +50,8 @@ const StudentHistory = ({onChane,useremail})=>{
     return  <div className="block w-full rounded-xl  h-[100%]   overflow-y-scroll ">
         {user?  user?.role == 'student' &&  
         <div className="  rounded-lg block bg-opacity-5 P-1 m-1 w-100 ">
-                <div className="flex  bg-blue-500 bg-opacity-15   h-[250px] rounded-xl  p-1 justify-center m-1 w-full" >
-                    <div className=" flex w-2/12 rounded-xl">
+                <div className="flex      h-[250px] rounded-xl  p-1 justify-center m-1 w-full" >
+                    <div className=" flex w-6/12 rounded-xl ">
                     <CircleChart   data={pendingGraphData}  />  
                     </div>
                 </div>
@@ -71,7 +71,6 @@ const StudentHistory = ({onChane,useremail})=>{
          <div className="    rounded-lg block xl:flex flex-wrap justify-between  bg-opacity-5   w-100 ">
         {user?.submission &&  Object.keys(user?.submission).length>0 ?
         <>
-         
          {  Object.keys(user?.submission).map((submission)=>{
             return <div className=" shadow-md  p-1 flex flex-wrap bg-gray-400 items-start    bg-opacity-5 xl:w-5/12   w-full m-1 rounded-md">
                 <h1 className="font-bold m-2 " >{user?.submission[submission].program.eventName.toUpperCase()} </h1>   <br />
