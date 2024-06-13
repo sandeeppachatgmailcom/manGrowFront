@@ -1,116 +1,142 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MdVideoCameraBack, MdOnlinePrediction } from "react-icons/md";
 import { IoChatbubbleEllipsesOutline, IoCall } from "react-icons/io5";
 import { FaSearchengin } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import axiosApi from "../../api/axios";
 import { chatApi } from "../../../entity/constants/api";
-import { io } from 'socket.io-client';
+import { Socket, io } from 'socket.io-client';
 import { updateChatUser } from "../../ReduxStore/activeChatuser";
 import useContactList from "../../../useCases/useContactList";
 import SingleChat from "./SingleChat";
-import { FaUserGraduate } from "react-icons/fa6";
-import { GiPoliceOfficerHead } from "react-icons/gi";
-import { FaChessKing } from "react-icons/fa";
-import Profile from "../utilComponents/profile";
 import { IoPersonAddSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import Role from "../../../interfaces/pages/Role";
+import { FcVideoCall } from "react-icons/fc";
+import { toggleMultiUser } from "../../ReduxStore/multipleUser";
+import peer from "../../services/peer";
 
-const ChatBox = ({ SetStudent }: any) => {
+const ChatBox = ({ setStudent }: any) => {
   const multipleUser = useSelector((state) => state.multiUser.show)
+  const [videoCallMessage, setVideoCallMessage] = useState()
   const [real, setReal] = useState([]);
   const currentChatUser = useSelector((state) => state.activeChatUser.user);
   const [conversation, setConversation] = useState({});
   const activeUser = useSelector((state: any) => state.activeUser.user);
+  const [videoCallList, setVideoCallList] = useState([])
   const [user, setUser] = useState({});
   const [searchText, setSearchText] = useState('');
   const searchInput = useRef();
-  const [socket, setSocket] = useState(null);
+  const [socket, setSocket] = useState<Socket>(null);
   const contact = useContactList(searchText);
+  const [usersList, setUsersList] = useState([])
   const [initialSocket, setInitialSocket] = useState(false);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const dispatch = useDispatch();
   const [selectedUser, setSelectedUser] = useState('')
   const navigate = useNavigate()
+  const [incomingCall, setIncominCall] = useState(false)
+  const [remoteOffer,setRemoteOffer] = useState()
 
+
+
+
+  // new spcket connection established and assigned to a state 
   useEffect(() => {
-    const newSocket = io('ws://localhost:4000');
+    const newSocket = io("localhost:4000") ;
     setSocket(newSocket);
     setInitialSocket(true);
-
     return () => {
       newSocket.disconnect();
     };
   }, []);
-
+  // always update the list of onlineuserd , ueseeffect will work when ever change founde the varibales in dependancy
   useEffect(() => {
-    if (!Object.keys(activeUser).length) {
+
+    const userList = contact?.map(user => ({
+      ...user,
+      online: onlineUsers.some(online => user.email === online.userId)
+    })).sort((a, b) => b.online - a.online);
+    console.log('userlist--', userList)
+    if (userList?.length) {
+      setUsersList(userList);
+    }
+  }, [onlineUsers, contact, socket]);
+  //updating users list to identify call waiting 
+  useEffect(() => {
+    const userList = usersList.map((user) => ({
+      ...user,
+      incomingCall: videoCallList.some(caller => user.email === caller.email),
+    }));
+
+    setUsersList(userList);
+  }, [videoCallList]);
+  const handleAddUser =()=>{
+  }
+  // handling the logout and new connection when user changes 
+  useEffect(() => {
+
+    if (!Object.keys(activeUser)?.length) {
       socket?.emit("logout");
     } else {
       socket?.emit("addUser", { userid: activeUser.email });
     }
   }, [activeUser, socket]);
-
+  // updating the user oncall
   useEffect(() => {
-    console.log(user)
+
     dispatch(updateChatUser(user));
   }, [user, dispatch]);
-
-  const checkOnline = (email) => {
-    return onlineUsers.some(online => email === online.userId);
+  const handleUsersOnline = (message:any) => {
+    setOnlineUsers(message);
   };
-
-  useEffect(() => {
-    if (initialSocket) {
-      socket?.emit("addUser", { userid: activeUser.email });
-      setInitialSocket(false);
+  const handleSendMessage = (message:any) => {
+    if (message.receiverId === activeUser.email) {
+      setReal(prevReal => [message, ...prevReal]);
+    }
+  };
+  const handleIncomingCall = async (message:any) => {
+    try {
+      const calledUser = usersList.filter((item) => item.email == message.message.data.senderId)
+      setUser(calledUser[0])
+      setIncominCall(true)
+      setVideoCallMessage(message)
+      setVideoCallList((prevList) => [message, ...prevList]);
+    } catch (error) {
+      
     }
 
-    const handleUsersOnline = (message) => {
-      setOnlineUsers(message);
-    };
+  }
+   const endCurrentCall = (message:any) => {
 
-    const handleAddUser = (message) => {
-
-    };
-
-    const handleSendMessage = (message) => {
-      if (message.receiverId === activeUser.email) {
-        console.log(message, 'message received here');
-        setReal(prevReal => [message, ...prevReal]);
-      }
-    };
-
-    socket?.on("usersOnline", handleUsersOnline);
-    socket?.on("addUser", handleAddUser);
-    socket?.on("send-message", handleSendMessage);
-    socket?.on("incomingCall",(message)=>{
-      
-      const user = contact.filter((item)=> { console.log(item.email,'55555555'); return item.email == message.senderId} ) 
-      console.log(user,'incoming call')
-      setUser(user)
-      setSelectedUser(user.email)
-    } )
-
-    return () => {
-      socket?.off("usersOnline", handleUsersOnline);
-      socket?.off("addUser", handleAddUser);
-      socket?.off("send-message", handleSendMessage);
-    };
-  }, [socket, initialSocket, activeUser.email]);
-
-  const sendMessage = (message) => {
-    console.log(message, 'my new Message');
-    socket?.emit("send-message", message);
+    const result = usersList.filter((item) => item.email == message.senderId)
+    const calledUser = result[0];
+    console.log(calledUser);
+    setUser(calledUser)
+    setIncominCall(false)
+  }
+  const checkOnline = (email:any) => {
+    return onlineUsers.some(online => email === online.userId);
   };
-
-  const dialACall = (message)=>{
-    console.log(message,'messsage')
-    socket.emit("dialACall",message)
+  const endCall = (message:any) => {
+    socket.emit("endCall", message)
+  }
+  const giveCallResPonce = (offer,user)=>{
+    console.log(offer,user,'offer,useroffer,useroffer,user')
+    socket.emit('CallResPonce',{offer,user})
   }
 
-  const getConversation = async (receiverEmail) => {
+  const handleCallResponce = (message)=>{
+    console.log(message,'takeCallResponce')
+    setRemoteOffer(message)
+    
+  }
+  const sendMessage = (message:any) => {
+    socket?.emit("send-message", message);
+  };
+  const dialACall = (message:any) => {
+    socket.emit("dialACall", { message })
+  }
+  const getConversation = async (receiverEmail:any) => {
     const data = {
       senderId: activeUser.email,
       receiverId: receiverEmail
@@ -120,12 +146,42 @@ const ChatBox = ({ SetStudent }: any) => {
     setReal(chat?.data?.messages);
   };
   const opennewTab = () => {
+
     window.open('http://localhost:5173/role', '_blank');
+    dispatch(toggleMultiUser())
   }
-  const searchUser = (e) => {
+  const searchUser = (e:any) => {
     const { value } = e.target;
     setSearchText(value);
   };
+  
+  useEffect(() => {
+    if (initialSocket) {
+      socket?.emit("addUser", { userid: activeUser.email });
+      setInitialSocket(false);
+    }
+
+    socket?.on("usersOnline", handleUsersOnline);
+    socket?.on("addUser", handleAddUser);
+    socket?.on("send-message", handleSendMessage);
+    socket?.on("incomingCall", handleIncomingCall)
+    socket?.on("endCurrentCall", endCurrentCall)
+    socket?.on("answerTheCall",handleAnswerCall)
+    socket?.on("takeCallResponce" ,handleCallResponce)
+    return () => {
+      socket?.off("usersOnline", handleUsersOnline);
+      socket?.off("addUser", handleAddUser);
+      socket?.off("send-message", handleSendMessage);
+      socket?.off("incomingCall",endCurrentCall)
+      socket?.off("endCurrentCall", endCurrentCall)
+      socket?.off("answerTheCall",handleAnswerCall)
+      socket?.off("CallResponce", handleCallResponce)
+    };
+  }, [socket, initialSocket, activeUser.email, usersList]);
+
+const handleAnswerCall =useCallback(()=>{
+
+},[socket])
 
   return (
     <div className="shadow-lg p-2 flex flex-col overflow-scroll h-full rounded-xl">
@@ -149,19 +205,22 @@ const ChatBox = ({ SetStudent }: any) => {
           </div>
           <div className="border mt-2 border-opacity-20 border-gray-500 p-1 rounded-xl overflow-scroll h-[30%]">
 
-            {contact?.map((item) => (
-              <div key={item.email} onClick={() => { item.firstName === user.firstName ? setUser({}) : getConversation(item.email); setUser(item); setSelectedUser(item.email); item.role == 'student' ? SetStudent({ status: true, user: item.email }) : SetStudent({ status: false, user: item.email }) }} className={`${!checkOnline(item.email) ? 'text-opacity-50' : ''} rounded-xl cursor-pointer bg-opacity-30 ${item.email == selectedUser ? 'bg-blue-400' : 'bg-gray-500 bg-opacity-5 '} rounded-sm `}>
-                <div className="m-1 h-[50px] flex text-start justify-between">
-                  <div className="flex items-start p-2">
-                    <div className={`${!checkOnline(item.email) ? 'bg-opacity-40' : ''} w-10 me-2 shadow-md h-[100%] rounded-full bg-blue-500   overflow-hidden`}>
+            {usersList?.map((item) => (
+              <div key={item?.email} onClick={() => { item.firstName === user.firstName ? setUser({}) : getConversation(item?.email); setUser(item); setSelectedUser(item?.email); item.role == 'student' && activeUser.role != 'student' ? setStudent({ status: true, user: item?.email }) : setStudent({ status: false, user: item?.email }) }} className={`${!checkOnline(item?.email) ? 'text-opacity-50' : ''} rounded-xl cursor-pointer bg-opacity-30 ${item.email == selectedUser ? 'bg-blue-400' : 'bg-gray-500 bg-opacity-5 '} rounded-sm `}>
+                <div className="m-1 h-[50px] w-full items-center flex text-start justify-between">
+                  <div className="flex w-7/12 h-[100%]  items-start p-2">
+                    <div className={`${!item?.online ? 'bg-opacity-40' : ''}    w-10 me-2 shadow-md h-[100%] rounded-full bg-blue-500   overflow-hidden`}>
                       <div className="h-[100%] w-[100%] rounded-full" style={{ backgroundImage: `url(${item?.profileImage})`, backgroundPosition: 'center', backgroundSize: 'cover' }} />
                     </div>
-                    <div className={`${checkOnline(item.email) ? 'text-green-400' : 'text-red-400'}`}>
+                    <div className={`${item?.online ? 'text-green-400' : 'text-red-400'}`}>
                       <MdOnlinePrediction className="h-full" />
                     </div>
                     <button onClick={() => { }} className={`text-1xl `}>{item?.firstName}</button>
                   </div>
-                  <div className="flex">
+                  <div className="w-2/12 flex   overflow-hidden items-center h-full">
+                    {user?.email == item?.email ? <FcVideoCall className="animate-pulse h-[100%] w-[100%]" /> : ''}
+                  </div>
+                  <div className="flex w-3/12">
                     <button className="mx-3 text-green-500"><IoChatbubbleEllipsesOutline /></button>
                     <button className="mx-3 text-green-500"><MdVideoCameraBack /></button>
                   </div>
@@ -172,8 +231,9 @@ const ChatBox = ({ SetStudent }: any) => {
         </>
       }
       <div className="h-[60%]   mt-5 overflow-scroll border border-opacity-10 p-1 border-gray-500 rounded-xl bg-opacity-15">
-        {Object.keys(user).length ?
-          <SingleChat onChange={setReal} startCall={dialACall} sendMessage={sendMessage} chatHead={conversation} user={user} userChat={real} />
+
+        {Object.keys(user)?.length ?
+          <SingleChat giveCallResPonce={giveCallResPonce} remoteStreamOffer ={remoteOffer} videoCallMessage={videoCallMessage} incomingCall={incomingCall} onChange={setReal} endCall={endCall} startCall={dialACall} sendMessage={sendMessage} chatHead={conversation} user={user} userChat={real} />
           : ''}
       </div>
     </div>

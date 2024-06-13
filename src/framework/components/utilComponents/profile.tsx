@@ -6,7 +6,7 @@ import { Profile_Component } from "../../../entity/components/common/proFileComp
 const Profile = (props:Profile_Component)=>{
     const darkTheme = useSelector((state:any) =>state.theme)
     const user = useSelector((state:any)=>state.activeUser.user)
-    console.log(user,'user')
+     
     const navigate = useNavigate()
     const handleAccountInfo = ()=>{
         navigate('/profile')

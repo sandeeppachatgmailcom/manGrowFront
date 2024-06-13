@@ -30,7 +30,7 @@ const appRouter  = createBrowserRouter([
             },
             {
                 path:'/signin',
-                element:<Login/>
+                element:<Login />
             },
             {
                 path:'/profile',
@@ -59,7 +59,7 @@ const appRouter  = createBrowserRouter([
             ,
             {
                 path:'/',
-                element:<ProfilePage/>
+                element:<ProfilePage />
             } 
              
         ] 

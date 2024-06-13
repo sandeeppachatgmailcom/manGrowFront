@@ -14,9 +14,10 @@ const StudentLazyDashBoard = lazy(()=> import("../../framework/components/studen
 
 import 'react-calendar/dist/Calendar.css';
 import MyCalender from "../../framework/components/trainer/MyCalender";
-import useGetLogin from "../../useCases/useGetLogin";
+import useGetLogin from "../../useCases/useGetLogin"; 
 
 const TrainerHomePage = (_props: TrainerHome_Page) => {
+    useGetLogin('manGrowtrainer')
     const [studentDashBoard,setStudentDashBoard] = useState({})
     const darkTheme = useSelector((state: any) => state.theme)
     const user = useSelector((state: any) => state.activeUser.user)
@@ -26,11 +27,9 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
     const [fullMenu, setFullMenu] = useState([])
     const endDate = new Date()
     endDate.setDate(endDate.getDate() + 30);
-    useGetLogin('manGrowtrainer')
-
-    useEffect(()=>{
-        
-    },[studentDashBoard])
+    
+     
+    
     const data = {
         email: user.email,
         startDate: new Date(),
@@ -131,7 +130,7 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
                  
             </div>
             <div className={`xl:w-3/12  h-[100%] w-full ${darkTheme.theme + divlign} bg-blue-800 bg-opacity-5 m-1  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
-                <ChatBox SetStudent ={setStudentDashBoard} />
+                <ChatBox setStudent ={setStudentDashBoard} />
 
             </div>
 

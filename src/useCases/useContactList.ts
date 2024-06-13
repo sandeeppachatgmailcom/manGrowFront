@@ -3,38 +3,42 @@ import axiosApi from "../framework/api/axios";
 import { utilityApis } from "../entity/constants/api";
 
 const useContactList = (searchText: string) => {
-  console.log(searchText,'temp 1111')
-  const [user,setUser] = useState([]);
-  const [initalData,setInitalData] = useState([]);
-  //const [tempData,setTempData] = useState()  
-  const fetchUser=async ()=>{
-    const data = await axiosApi.get(utilityApis.listGetActiveUsers)
-    setInitalData(data.data)
+   
+  const [user, setUser] = useState([]);
+  const [initalData, setInitalData] = useState([]);
+  //const [tempData,setTempData] = useState()
+  const fetchUser = async () => {
+     
+    const data = await axiosApi.get(utilityApis.listGetActiveUsers);
+     
+    setInitalData(data.data);
     let tempList = data.data?.filter((item) =>
       item?.firstName?.toLowerCase().startsWith(searchText.toLowerCase())
     );
-    console.log(data.data,tempList,'tempList')
-    setUser(tempList)
-  } 
+    
+    setUser(tempList);
+  };
 
   useEffect(() => {
-    let tempList = initalData?.filter((item) =>
-      item?.firstName?.toLowerCase().startsWith(searchText.toLowerCase())
-    );
-     
-    setUser(tempList)
-   }, [searchText]);
+      
+      let tempList = initalData?.filter((item) =>
+        item?.firstName?.toLowerCase().startsWith(searchText.toLowerCase())
+      );
+      
+      setUser(tempList);
+    
+  }, [searchText]);
+useEffect(()=>{
+  
+},[user])
+
 
   useEffect(() => {
-   fetchUser();
+    fetchUser();
   }, []);
- return user
+  return user;
 
-    
-    
-   
-
-//  return searchContacts(searchText);
+  //  return searchContacts(searchText);?
 };
 
 export default useContactList;

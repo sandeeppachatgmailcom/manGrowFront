@@ -7,15 +7,16 @@ import { MdLightMode } from "react-icons/md";
 import { MdDarkMode } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
 import { switchDarkTheme, toggleTheme } from '../../ReduxStore/themeSlice';
-import { logout } from '../../ReduxStore/activeUser';
+ 
 import { Header_Component } from '../../../entity/components/common/header';
 import { toggleMultiUser } from '../../ReduxStore/multipleUser';
+import { login } from '../../ReduxStore/activeUser';
 //import ProfileImageBox from './ProfileImage';
 
 function Header(props: Header_Component) {
 
   const dispatch = useDispatch()
-  const [adduser, setAdduser] = useState(false)
+  const [logout, setLogout] = useState(false)
   const theme = useSelector((state: any) => state.theme.theme)
   const darkTheme = useSelector((state: any) => state.theme.themeDark)
   const activeUser = useSelector((state: any) => state.activeUser.user)
@@ -47,6 +48,11 @@ function Header(props: Header_Component) {
     toggleDarkMode()
   }, [defaultTheme])
 
+  useEffect(()=>{
+    if(logout){
+      Object.keys(activeUser).length ==0 ?navigate('/signin') :''
+    }
+  },[activeUser,logout])
 
 
 
@@ -64,17 +70,24 @@ function Header(props: Header_Component) {
 
     if (activeUser.role == 'student') {
       deleteCookie('manGrowstudent')
+      setLogout(true)
+      dispatch(login({}))
+       
     }
     else if (activeUser.role == 'trainer') {
       deleteCookie('manGrowtrainer')
+      setLogout(true)
+      dispatch(login({}))
     }
     else if (activeUser.role == 'admin') {
       deleteCookie('manGrowadmin')
+      setLogout(true)
+       
     }
     else
       deleteCookie('manGrow')
-    dispatch(logout())
-
+      dispatch(login({}))
+       
   }
 
 

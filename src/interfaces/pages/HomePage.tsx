@@ -8,14 +8,16 @@ import StudentHistory from "../../framework/components/student/StudentHistory";
 import MarkList from "../../framework/components/student/MarkList";
 import MyCalender from "../../framework/components/trainer/MyCalender";
 import useGetLogin from "../../useCases/useGetLogin";
+import { useNavigate } from "react-router-dom";
 
 
 const HomePage = (_props: Home_Page) => {
-    //useGetLogin('manGrowstudent')
+    const navigate = useNavigate()
+    useGetLogin('manGrowstudent')
     const [menu,setMenu] = useState(1)
     const darkTheme = useSelector((state: any) => state.theme)
     const activeUser = useSelector((state: any) => state.activeUser.user)
-     
+    
     const divlign = '   rounded  mt-1 '
 
     return (
@@ -45,8 +47,8 @@ const HomePage = (_props: Home_Page) => {
                 
             </div>
             <div className={`xl:w-3/12 w-full  ${darkTheme.theme} ${divlign} xl:h-[100%]      border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
-                <ChatBox />
-                {/* <SingleChat nameObj ={{name:'chandhini'}}/> */}
+            <ChatBox setStudent ={()=>{}} />
+                
             </div>
         </div>
     )

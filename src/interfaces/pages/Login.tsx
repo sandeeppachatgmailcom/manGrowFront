@@ -11,9 +11,10 @@ import { userApi } from "../../entity/constants/api";
 import { Login_Page } from "../../entity/pages/login_Page";
 import useHandleRouter from "../../useCases/useHandleRouter";
 import LoginGraph from "../../framework/components/utilComponents/LoginCommon";
+import useGetLogin from "../../useCases/useGetLogin";
 
 
-function Login(_props: Login_Page) {
+function Login({role}) {
   const imagePath = '../src/images/sugc.png'
   const [formData, setFormData] = useState<any>({
     name: '',
@@ -38,8 +39,12 @@ function Login(_props: Login_Page) {
     });
   };
 
+    
 
+ 
+  
 
+ 
   const handleLogin = async (e: any) => {
     try {
       e.preventDefault();

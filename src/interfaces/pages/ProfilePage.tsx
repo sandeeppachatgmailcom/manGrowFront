@@ -60,8 +60,11 @@ const ProfilePage = (_props: any) => {
         if (document.cookie.split(';').map((item) => item.split('=')).filter((token) => token[0].trim().startsWith('man')).length > 1) {
             navigate('/role')
         }
-        else if (!Object.keys(user).length) {
+        else if (document.cookie.split(';').map((item) => item.split('=')).filter((token) => token[0].trim().startsWith('man')).length   == 1) {
             getUser()
+        }
+        else if (!Object.keys(user).length) {
+            navigate('/signin')
         }
         else {
             console.log(user.role,'saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')

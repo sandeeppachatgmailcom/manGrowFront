@@ -14,16 +14,19 @@ import ManageTaskComponent from "../../framework/components/Admin/ManageTaskComp
 
 import MyCalender from "../../framework/components/trainer/MyCalender";
 import useGetLogin from "../../useCases/useGetLogin";
+import { useNavigate } from "react-router-dom";
  
 const AdminDashBoard = lazy(() => import('../../framework/components/Admin/AdminDashBoard'))
 
 const AdminHomePage: React.FC = () => {
     const darkTheme = useSelector((state: any) => state.theme)
     const selectedSubMenu = useSelector((state: any) => (state.adminSubMenu.menuName))
-    const [value, onChange] = useState(new Date());
+    const activeUser = useSelector((state)=>state.activeUser.user) 
+    const navigate = useNavigate() 
     useGetLogin('manGrowadmin')
+    
     useEffect(() => {
-        console.log(darkTheme.theme)
+        
     }, [darkTheme])
     const divlign = ''
 
@@ -41,8 +44,7 @@ const AdminHomePage: React.FC = () => {
             </div>
             <div className={`block xl:w-7/12 m-1 p-1  h-[100%] w-full overflow-scroll      `}>
                 <AdminSubmenu />
-               
-                    <div className=" flex mt-2 h-[90%]   overflow-y-scroll ">
+                     <div className=" flex mt-2 h-[90%]   overflow-y-scroll ">
                         {selectedSubMenu == 'batches' ? <AdminContent /> :
                             selectedSubMenu == 'approve' ? <ApproveStaff /> :
                                 selectedSubMenu == 'programs' ? <Events /> :
@@ -54,7 +56,7 @@ const AdminHomePage: React.FC = () => {
               
             </div>
             <div className={`xl:w-3/12  h-[100%] w-full ${darkTheme.theme + divlign} bg-blue-800 bg-opacity-5 m-1  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
-                <ChatBox />
+            <ChatBox setStudent ={()=>{}} />
                 {/* <SingleChat nameObj ={{name:'chandhini'}} />  */}
 
             </div>

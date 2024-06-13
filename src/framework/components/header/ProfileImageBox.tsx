@@ -18,7 +18,7 @@ const ProfileImageBox = ({ height, width, changebutton }:ProfileImageBox_Compone
         setFormData(activeUser);
     }, [activeUser]);
     useEffect(()=>{
-        console.log(activeUser,formData,'activeUseractiveUseractiveUser')
+        
     },[])
 
     const uploadImage = async (e:any) => {

@@ -14,14 +14,15 @@ const Role = ()=>{
     const navigate = useNavigate()
     const activeUser = useSelector((state)=>state.activeUser.user)
     const getLogin =async (role)=>{
-        console.log(userApi.getlogin+`/${role}`,'userApi.getlogin+`/${role}`')
+        console.log(userApi.getlogin+`/${role}`, '888888888888888')
         const tempuser = await axiosApi.get(userApi.getlogin+`/${role}`) 
-        console.log(tempuser,'tempuser')
+        console.log(tempuser,'888888888888888')
         if(tempuser.data.success){
             dispatch(login(tempuser.data))
             if(Object.keys(tempuser.data).length && tempuser.data.otpVerified) navigate(`/${tempuser.data.role}`)
         }
         else{
+            console.log(tempuser.data, 'tempuser.datatempuser.data')
             navigate('/signin')
         }
     }
@@ -33,9 +34,11 @@ const Role = ()=>{
             const data = {
                 role:role
             }
+            
             console.log(data)
 
             const verifyRole =await getLogin(role) 
+            console.log(verifyRole,'verifyRole')
             if(role != verifyRole.data || 'ok' ){
                 console.log(document.cookie.split(';').map((item)=>item.split('=')).filter((token)=>token[0].trim().startsWith('man')))
                 

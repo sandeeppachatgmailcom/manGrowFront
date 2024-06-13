@@ -9,11 +9,10 @@ import { IoSend } from "react-icons/io5";
 import { UserEntity_Model } from "../../../entity/response/userModel";
 import axiosApi from "../../api/axios";
 import { chatApi } from "../../../entity/constants/api";
-import { memo } from 'react';
-import { FaUserTie } from "react-icons/fa6";
+import { memo } from 'react'; 
 import VideoCall from "./VideoCall";
 import TextDisplay from "./TextDisplayer";
-const tempSingleChat = ({ onChange, sendMessage, user, userChat, chatHead, startCall }: { onChange: () => {}, sendMessage: (message: {}) => {}, chatHead: {}, user: {}, userChat: object[] }) => {
+const tempSingleChat = ({remoteStreamOffer, giveCallResPonce,videoCallMessage ,onChange, sendMessage, user, userChat,incomingCall, chatHead,endCall , startCall }: { onChange: () => {}, sendMessage: (message: {}) => {}, chatHead: {}, user: {}, userChat: object[] }) => {
     const activeUser: UserEntity_Model = useSelector((state) => state.activeUser.user)
     const [data, setData] = useState([])
     const [videoCall,setVideoCall] = useState(false)
@@ -24,13 +23,15 @@ const tempSingleChat = ({ onChange, sendMessage, user, userChat, chatHead, start
         receiverId: user?.email,
         senderId: activeUser.email,
         conversationId: chatHead?.converationId
-
     })
     useEffect(() => {
         setData(userChat)
          
     }, [userChat])
-
+    useEffect(()=>{
+        incomingCall?setVideoCall(true):setVideoCall(false)
+        console.log(user,'use incoming call ')
+    },[incomingCall])
     const sendData = async () => {
         const obj =
         {
@@ -41,8 +42,7 @@ const tempSingleChat = ({ onChange, sendMessage, user, userChat, chatHead, start
             senderId: activeUser.email,
             conversationId: chatHead?.converationId
         }
-        console.log(obj, 'Click reached')
-
+      
         if (newData?.senderMessage?.trim().length) {
 
             const message = await axiosApi.post(chatApi.sendMessage, obj)
@@ -63,16 +63,28 @@ const tempSingleChat = ({ onChange, sendMessage, user, userChat, chatHead, start
             })
         }
     }
-    const dialCall = ()=>{
+    const dialCall = (offer,stream)=>{
         const data ={
             receiverId:user?.email,
-            senderId:activeUser.email
+            senderId:activeUser.email,
+            message:'',
+            recievedStatus:false,
+            sendCallStatus:true,
         }
-        startCall(data)
-
+        console.log(offer,stream)
+        startCall({data,stream,offer})
     }
 
-
+    const endTheCall = ()=>{
+        const data ={
+            receiverId:user?.email,
+            senderId:activeUser.email,
+            message:'',
+            recievedStatus:false,
+            sendCallStatus:false,
+        }
+        endCall(data)
+    }
 
     const handleChage = (e: any) => {
         const { name, value } = e.target;
@@ -83,9 +95,6 @@ const tempSingleChat = ({ onChange, sendMessage, user, userChat, chatHead, start
         console.log(name, value, 'name, value')
     }
 
-
-
-
     return (
         <div className="w-full block rounded-xl p-2     h-[100%] ">
             <div className="h-[15%] flex justify-between">
@@ -93,11 +102,11 @@ const tempSingleChat = ({ onChange, sendMessage, user, userChat, chatHead, start
                     <div  className=" me-2 shadow-md border  h-10 w-10    rounded-full bg-blue-500   overflow-hidden ">
                     <div className="h-[100%] w-[100%] rounded-full" style={{ backgroundImage: `url(${user?.profileImage})`, backgroundPosition: 'center', backgroundSize: 'cover' }} /> 
                     </div>
-                    <button className="text-1xl w-10/12 h-[100%] text-2xl  items-center  flex " >{user?.firstName}</button>
+                    <button className="text-1xl w-10/12 h-[100%] text-2xl break-words  items-center  flex " >{user?.firstName}</button>
                 </div>
-                <div className="flex w-1/4">
+                <div className="flex w-2/4">
                     <button onClick={()=>setVideoCall(false)} className="mx-3 text-green-500" > <IoChatbubbleEllipsesOutline className="h-10 w-10" /> </button>
-                    <button onClick={()=>{setVideoCall(true) ;dialCall() }} className="mx-3 text-green-500" >  <MdVideoCameraBack className="h-10 w-10" />  </button>
+                    <button onClick={()=>{setVideoCall(true); }} className="mx-3 text-green-500" >  <MdVideoCameraBack className="h-10 w-10" />  </button>
                     
                 </div>
             </div>
@@ -106,7 +115,7 @@ const tempSingleChat = ({ onChange, sendMessage, user, userChat, chatHead, start
                 <TextDisplay activeUser ={activeUser} user = {user} userChat={userChat} />
             </div>:
             <div className="h-[70%] flex-col overflow-y-scroll          rounded-xl    flex  p-1">
-                <VideoCall user = {user}/>
+                <VideoCall remoteStreamOffer={remoteStreamOffer} giveCallResPonce = {giveCallResPonce}  videoCallMessage={videoCallMessage} endCall={endTheCall}  incomingCall={incomingCall} dialCall={dialCall} user = {user}/>
             </div>}
 
             <div className="h-[15%] rounded-xl  bg-gray-600  flex p-2 bg-opacity-5">
