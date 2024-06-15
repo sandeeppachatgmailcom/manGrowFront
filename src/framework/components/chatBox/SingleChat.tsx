@@ -12,7 +12,8 @@ import { chatApi } from "../../../entity/constants/api";
 import { memo } from 'react'; 
 import VideoCall from "./VideoCall";
 import TextDisplay from "./TextDisplayer";
-const tempSingleChat = ({remoteStreamOffer, giveCallResPonce,videoCallMessage ,onChange, sendMessage, user, userChat,incomingCall, chatHead,endCall , startCall }: { onChange: () => {}, sendMessage: (message: {}) => {}, chatHead: {}, user: {}, userChat: object[] }) => {
+import VideoCallPeerjs from "./videoCallPeerjs";
+const tempSingleChat = ({socket, remoteStreamOffer, giveCallResPonce,videoCallMessage ,onChange, sendMessage, user, userChat,incomingCall, chatHead,endCall , startCall }: { onChange: () => {}, sendMessage: (message: {}) => {}, chatHead: {}, user: {}, userChat: object[] }) => {
     const activeUser: UserEntity_Model = useSelector((state) => state.activeUser.user)
     const [data, setData] = useState([])
     const [videoCall,setVideoCall] = useState(false)
@@ -28,10 +29,10 @@ const tempSingleChat = ({remoteStreamOffer, giveCallResPonce,videoCallMessage ,o
         setData(userChat)
          
     }, [userChat])
+    
     useEffect(()=>{
-        incomingCall?setVideoCall(true):setVideoCall(false)
-        console.log(user,'use incoming call ')
-    },[incomingCall])
+        if(user?.activeCall) setVideoCall(true)
+    },[user])
     const sendData = async () => {
         const obj =
         {
@@ -107,7 +108,6 @@ const tempSingleChat = ({remoteStreamOffer, giveCallResPonce,videoCallMessage ,o
                 <div className="flex w-2/4">
                     <button onClick={()=>setVideoCall(false)} className="mx-3 text-green-500" > <IoChatbubbleEllipsesOutline className="h-10 w-10" /> </button>
                     <button onClick={()=>{setVideoCall(true); }} className="mx-3 text-green-500" >  <MdVideoCameraBack className="h-10 w-10" />  </button>
-                    
                 </div>
             </div>
             {!videoCall?
@@ -115,7 +115,8 @@ const tempSingleChat = ({remoteStreamOffer, giveCallResPonce,videoCallMessage ,o
                 <TextDisplay activeUser ={activeUser} user = {user} userChat={userChat} />
             </div>:
             <div className="h-[70%] flex-col overflow-y-scroll          rounded-xl    flex  p-1">
-                <VideoCall remoteStreamOffer={remoteStreamOffer} giveCallResPonce = {giveCallResPonce}  videoCallMessage={videoCallMessage} endCall={endTheCall}  incomingCall={incomingCall} dialCall={dialCall} user = {user}/>
+                {/* <VideoCallPeerjs socket={socket}  user={user}/>  */}
+                <VideoCall socket={socket}  user={user}/>
             </div>}
 
             <div className="h-[15%] rounded-xl  bg-gray-600  flex p-2 bg-opacity-5">

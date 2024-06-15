@@ -11,85 +11,151 @@ import { MdAddIcCall } from "react-icons/md";
 import { BsBoxArrowInUpLeft } from "react-icons/bs";
 import ReactPlayer from 'react-player'
 import VideoCallRoom from "../../../interfaces/pages/VideoCallRoom";
-import peer from "../../services/peer";
-const VideoCall = ({ remoteStreamOffer, giveCallResPonce, videoCallMessage, user, dialCall, incomingCall, endCall }) => {
+import PeerService from "../../services/peer"; 
+import { useSelector } from "react-redux";
+import { Socket } from "socket.io-client";
+const VideoCall = ({user,socket}:{user:any,socket:Socket}) => {
     const [mute, setMute] = useState(true)
     const [speakerMute, setSpeakerMute] = useState(true)
     const [camview, setCamview] = useState(true)
     const [call, setCall] = useState(false)
     const [room, setRoom] = useState(false)
-    const [myStream, setMyStream] = useState()
-    const [remoteStream, setRemoteStream] = useState()
+    const  activeUser = useSelector((state:any)=> state.activeUser.user)
+    const peer = new PeerService() 
+    const [remoteSocketId, setRemoteSocketId] = useState(null);
+    const [myStream, setMyStream] = useState();
+    const [remoteStream, setRemoteStream] = useState();
+     
+    const handleUserJoined = useCallback(({ email, id }) => {
+        console.log(`Email ${email} joined room ${id}`);
+        setRemoteSocketId(user.email);
+      }, []);
+      const handleCallUser = useCallback(async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: true,
+        });
+        const offer = await peer.getOffer();
+        console.log(peer.peer,'peeeeeeeeeeeeeeeeeeeeee')
+        console.log('calling....',remoteSocketId, offer)
+        socket.emit("user:call", { from:activeUser.email ,to: remoteSocketId, offer });
+        setMyStream(stream);
+      }, [remoteSocketId, socket]);
 
-    const handleoutGoingCall = async () => {
 
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-        console.log(stream)
-        setMyStream(stream)
-        const offer = await peer.getOffer()
+      const handleIncommingCall = useCallback(
+        async ({ from, offer }) => {
+         console.log('handling call from here ')  
+          setRemoteSocketId(from);
+          const stream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+            video: true,
+          });
+          setMyStream(stream);
+          
+      
+          try {
+            await peer.setRemoteDescription(new RTCSessionDescription(offer));
+            const ans = await peer.getAnswer(offer);
 
-        dialCall(offer, stream)
+           // await peer.setLocalDescription(ans);
+            console.log(peer.peer, 'passed')
+            console.log('Answer created', ans);
+             
+            socket.emit("call:accepted", { from: activeUser.email, to: from, ans });
+          } catch (error) {
+            console.error("Error creating or setting answer: ", error);
+          }
+        },
+        [socket]
+      );
+      
+      const sendStreams = useCallback(() => {
+        for (const track of myStream.getTracks()) {
+          console.log(track,'tracktrack')
+          peer.peer.addTrack(track, myStream);
+        }
+      }, [myStream]);
+    
+      const handleCallAccepted = useCallback(
+        ({ from, ans }) => {
+          console.log('------------------>>>>>>><<<<<<<<<----------------')
+          peer.setLocalDescription(ans);
+          console.log("Call Accepted!");
+          sendStreams();
+          handleNegoNeeded()
+        },
+        [sendStreams]
+      );
+    
+      const handleNegoNeeded = useCallback(async () => {
+        console.log('nego started ',remoteSocketId)
+        const offer = await peer.getOffer();
+        socket.emit("peer:nego:needed", { from:activeUser.email ,offer, to: remoteSocketId });
+      }, [remoteSocketId, socket]);
+    
+      useEffect(() => {
+        peer.peer.addEventListener("negotiationneeded", handleNegoNeeded);
+        return () => {
+          peer.peer.removeEventListener("negotiationneeded", handleNegoNeeded);
+        };
+      }, [handleNegoNeeded]);
+    
+      const handleNegoNeedIncomming = useCallback(
+        async ({ from, offer }) => {
+          console.log('nego recevd ',from,offer)
+          const ans = await peer.getAnswer(offer);
+          socket.emit("peer:nego:done", {  from:activeUser.email ,to: from, ans });
+        },
+        [socket]
+      );
+    
+      const handleNegoNeedFinal = useCallback(async ({ans}) => {
+        await peer.setLocalDescription(ans);
+      }, []);
+    
+      useEffect(() => {
+            socket.emit("room:join", { email:activeUser.email, room });
+            peer.peer.addEventListener("track", async (ev) => {
+            const remoteStream = ev.streams;
+            console.log("GOT TRACKS!!");
+            setRemoteStream(remoteStream[0]);
+        });
+      }, []);
+    useEffect(()=>{
+      console.log(user)
+ 
+    },[user])
 
-    }
-    useEffect(() => {
-        peer.peer.addEventListener('track', async ev => {
-            const remoteStreem = ev.stream
-        })
-    }, [])
-    useEffect(() => {
-        try {
-            (async () => {
-                const remoteStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-                remoteStream.getTracks().forEach(track =>{
-                    peer.addTracks(track,remoteStream)
-                })
-                const stream = await peer.getAnswer(remoteStreamOffer)
-                 
-                setRemoteStream(stream)
-            })()
+
+      useEffect(() => {
+        socket.on("user:joined", handleUserJoined);
+        // socket.on("incomming:call", handleIncommingCall);
+        socket.on("call:accepted", handleCallAccepted);
+        socket.on("peer:nego:needed", handleNegoNeedIncomming);
+        socket.on("peer:nego:final", handleNegoNeedFinal);
+    
+        return () => {
+          socket.off("user:joined", handleUserJoined);
+          // socket.off("incomming:call", handleIncommingCall);
+          socket.off("call:accepted", handleCallAccepted);
+          socket.off("peer:nego:needed", handleNegoNeedIncomming);
+          socket.off("peer:nego:final", handleNegoNeedFinal);
+        };
+      }, [
+        socket,
+        handleUserJoined,
+        // handleIncommingCall,
+        handleCallAccepted,
+        handleNegoNeedIncomming,
+        handleNegoNeedFinal,
+      ]);
     
 
-        } catch (error) {
-            
-        }
-    }, [remoteStreamOffer,peer])
-
-    useEffect(() => {
-        console.log(remoteStream, 'remoteStreamremoteStream')
-        if(remoteStream){
-            
-        }
-    }, [remoteStream])
-
-    const handleEndCall = () => {
-        setMyStream(null)
-        endCall()
-    }
-    const handleIncomingCall = async (videoCallMessage) => {
-        const stream: any = await navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-        setMyStream(stream)
-        peer.setLocalDescription(videoCallMessage?.message?.offer)
-        console.log(videoCallMessage, 'my Tracks')
-        for (const tracks of myStream.getTracks()) {
-            console.log(tracks, 'dddddsdsdsdds')
-            await peer.peer.addTrack(track, myStream);
-        }
-    }
-    const handleNegoNeeded = useCallback(async () => {
-        const offer = await peer.getOffer()
-        giveCallResPonce(offer, user)
-    }, [])
-
-
-    useEffect(() => {
-        incomingCall ? setCamview(false) : setCamview(true)
-        if (videoCallMessage) handleIncomingCall(videoCallMessage.message.offer)
-
-    }, [incomingCall, videoCallMessage])
-    return (
+    return(
         <div className="h-[100%]   w-full rounded-xl border-8 border-gray-500 border-opacity-20 flex flex-col">
-            {room ? <VideoCallRoom user={user} onClose={setRoom} /> : ''}
-            <div className="relative flex w-full flex-col  rounded-xl    items-center overflow-scroll    bg-blue-950 justify-center  border  bg-opacity-5   h-[100%]">
+           {/* {room ? <VideoCallRoom user={user} onClose={setRoom} /> : ''} */}
+            <div className="relative flex w-full flex-col  rounded-xl    items-center overflow-scroll    bg-blue-950 justify-center     bg-opacity-5   h-[100%]">
                 {/* <button onClick={() => setRoom(true)} className="flex relative text-black items-start     w-full   cursor-pointer  justify-start p-3  bg-opacity-35 m-1  h-[5%]">
                     {!room ? <BsBoxArrowInUpLeft /> : ''}
                 </button> */}
@@ -141,16 +207,19 @@ const VideoCall = ({ remoteStreamOffer, giveCallResPonce, videoCallMessage, user
                         }
                     </div>
                     <div className=" items-center justify-center flex  rounded-full overflow-hidden  ">
-
-                        {camview && !incomingCall ? <IoVideocamSharp onClick={() => { setCamview(!camview); !incomingCall ? handleoutGoingCall() : handleEndCall() }} className=" border-4 ms-1   rounded-full border-blue-400 text-blue-500 w-[100%] h-[100%] p-3" />
-                            : !camview && incomingCall ? <IoVideocamOffSharp onClick={() => { setCamview(!camview); handleNegoNeeded() }} className=" border-4 ms-1 animate-pulse  rounded-full border-green-400 text-green-300 w-[100%] h-[100%] p-3" />
-                                : <IoVideocamOffSharp onClick={() => { setCamview(!camview); endCall() }} className=" border-4 ms-1 animate-pulse  rounded-full border-gray-500 text-gray-500 w-[100%] h-[100%] p-3" />
-                        }
+                      {!user.activeCall  ? <IoVideocamSharp onClick={() => { setCamview(!camview);   handleCallUser()   }} className=" border-4 ms-1   rounded-full border-blue-400 text-blue-500 w-[100%] h-[100%] p-3" />
+                            :<div className="flex w-full h-full">
+                              <IoVideocamSharp onClick={() => { setCamview(!camview); handleIncommingCall({from:user.email, offer:user?.offer}) }} className=" border-4 ms-1 animate-pulse  rounded-full border-green-400 text-green-300 w-[100%] h-[100%] p-3" />
+                              <IoVideocamOffSharp onClick={() => { setCamview(!camview); handleNegoNeeded() }} className=" border-4 ms-1 animate-pulse  rounded-full border-red-600 text-red-600 w-[100%] h-[100%] p-3" />
+                            </div>
+                      }
+                         
 
                     </div >
                     <div className=" items-center justify-center flex  rounded-full overflow-hidden   ">
-                        {call ? <IoCall onClick={() => setCall(!call)} className="  border-4 ms-1   rounded-full border-blue-400 text-blue-500 w-[100%] h-[100%] p-3" />
-                            : <MdAddIcCall onClick={() => setCall(!call)} className=" border-4 ms-1   rounded-full border-gray-500  border-gray-500 text-gray-500 w-[100%] h-[100%] p-3" />
+                        {call && !user.activeCall ? <IoCall onClick={() => setCall(!call)} className="  border-4 ms-1   rounded-full border-blue-400 text-blue-500 w-[100%] h-[100%] p-3" />
+                            : !call && !user.activeCall ? <MdAddIcCall onClick={() => setCall(!call)} className=" border-4 ms-1   rounded-full border-gray-500  border-gray-500 text-gray-500 w-[100%] h-[100%] p-3" />
+                            :''
                         }
                     </div >
 
