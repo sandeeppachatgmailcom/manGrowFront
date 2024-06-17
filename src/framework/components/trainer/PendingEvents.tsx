@@ -13,6 +13,7 @@ import { RxDropdownMenu } from "react-icons/rx";
 import useCompareObjects from "../../../useCases/useCompareObjects";
 import { PendingEventsComponent } from "../../../entity/components/trainer/pendingEvents";
 import { dividerClasses } from "@mui/material   ";
+import VoiceRecorder from "./VoiceRecorder";
 
 
 
@@ -248,9 +249,15 @@ const PendingEvents = (props: PendingEventsComponent) => {
                                                 <h1 className="m-3"> {formData?.dayDiscription}</h1>
 
                                         </div>
-                                        <div className="m-2">
+                                        
+                                        {formData?.taskType =='listening' ? 
+                                                <VoiceRecorder data={formData} verified={formData?.verified} name='tasklink' value={formData?.tasklink} /> 
+                                        :formData?.taskType =='speaking' ?
+                                                <VoiceRecorder data={formData} verified={formData?.verified} name='tasklink' value={formData?.tasklink} /> 
+                                        :<div className="m-2">
                                                 <textarea readOnly className="h-[300px] focus:outline-none overflow-scroll focus:outline-blue-800 w-full bg-transparent " name="" value={formData?.tasklink} id=""></textarea>
                                         </div>
+                                         }
                                         <div className=" block xl:flex bg-blue-500 bg-opacity-5 h-20 justify-between">
                                                 <div className="xl:w-2/6 block xl:flex items-center   h-20">
 

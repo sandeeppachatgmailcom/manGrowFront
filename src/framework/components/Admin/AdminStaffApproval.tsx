@@ -101,13 +101,13 @@ const AdminStaffApproval :React.FC<any> = (props) => {
                         <div className="xl:flex w-full items-center flex-wrap   rounded-lg  shadow-gray-400 p-2  ">
 
                             <div className=" xl:flex md:block   w-full justify-between md:p-4">
-                                <div className="flex xl:w-1/2 justify-start p-2  ">
-                                    <label className=" w-2/6" htmlFor=""> approve  </label>
+                                <div className="  flex xl:w-1/2 justify-between p-6 ">
+                                    <label className=" w-3/6" htmlFor=""> approve  </label>
                                     
                                     <div className="w-4/2 text-left" ><ButtonSwitch name='approve' value={!formData.user} onChange={(name:any, value:any) => handleApprove(name, value)} /></div>
 
                                 </div>
-                                <div className="flex   xl:w-1/2 justify-start p-2">
+                                <div className="  flex xl:w-1/2 justify-between p-6">
                                     <label className=" w-2/6" htmlFor=""> Active  </label>
                                     <div className="w-4/2 text-left" ><ButtonSwitch name='Active' value={formData.active} onChange={(name:any, value:any)=> handleSwitchChange(name, value)} /></div>
 
@@ -115,35 +115,33 @@ const AdminStaffApproval :React.FC<any> = (props) => {
 
                             </div>
 
-                            <div className="xl:flex  md:block w-full justify-between md:p-4 ">
-                                <div className="flex xl:w-1/2 justify-start p-2">
+                            <div className="xl:flex  md:block w-full justify-between md:p-6 ">
+                                <div className="  flex xl:w-1/2 justify-between p-2">
                                     <label className=" w-2/6" htmlFor=""> Admin </label>
                                      
                                     <div className="w-4/2 text-left" ><ButtonSwitch name='Admin' value={formData.admin} onChange={(name:any, value:any) => handleSwitchChange(name, value)} /></div>
 
                                 </div>
-
-                                <div className="flex xl:w-1/2 justify-start p-2">
+                                <div className="xl:flex  md:block w-1/2 justify-between md:p-6 ">
                                     <label className=" w-2/6" htmlFor="">  Trainer   </label>
                                      
                                     <div className="w-4/2 text-left" ><ButtonSwitch name='trainer' value={formData.trainer} onChange={(name:any, value:any)=> handleSwitchChange(name, value)} /></div>
 
                                 </div>
-
                             </div>
-                            <div className="xl:flex w-full text-center items-center  justify-between   ">
-                                <div className="flex w-2/6 p-6    justify-start ">
+                            <div className="xl:flex w-full text-center items-center   justify-between   ">
+                                <div className="flex w-3/6 p-6    justify-between   ">
                                     <label className=" " htmlFor=""> Student  </label>
                                    <div className=" m-1 text-left" > <ButtonSwitch name='student' value={formData.student} onChange={(name:any, value:any) => handleSwitchChange(name, value)} /></div>
                                 </div>
                                 
-                               { formData.student?  <div className="flex  xl:w-4/6   items-center justify-between p-2">
+                               { formData.student?  <div className=" flex w-3/6 p-6    justify-between   ">
                                     <label className=" w-2/6 text-sm" htmlFor=""> BATCH  </label>
                                     
                                     {batch? <DropdownMenu name='batchId' value={formData?.batchId  ? formData?.batchId : 'Select'} onChange={handleChange} items={batch} /> :''  } 
                                     
                                 </div>:''}
-                                { formData.trainer?  <div className="flex  xl:w-4/6   items-center justify-between p-2">
+                                { formData.trainer?  <div className="flex w-3/6 p-6    justify-between">
                                     <label className=" w-2/6 text-sm" htmlFor=""> Designation  </label>
                                     
                                     {combDesignation? <DropdownMenu name='designation' value={formData?.designation  ? formData?.designation : 'Select'} onChange={handleChange} items={combDesignation} /> :''  } 

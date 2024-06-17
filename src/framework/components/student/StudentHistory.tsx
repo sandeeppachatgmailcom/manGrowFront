@@ -18,7 +18,7 @@ const StudentHistory = ({onChane,useremail})=>{
 
     const parentDivRef = useRef()
     const studentProgress = useStudentProgressSummary({email:user?.email})||[]
-     useGetLogin('manGrowstudent');
+     //useGetLogin('manGrowstudent');
      const [pendingGraphData,setPendingGraphData] = useState([])      
        
         useEffect(()=>{

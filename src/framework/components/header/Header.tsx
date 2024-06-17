@@ -11,18 +11,17 @@ import { switchDarkTheme, toggleTheme } from '../../ReduxStore/themeSlice';
 import { Header_Component } from '../../../entity/components/common/header';
 import { toggleMultiUser } from '../../ReduxStore/multipleUser';
 import { login } from '../../ReduxStore/activeUser';
+
 //import ProfileImageBox from './ProfileImage';
 
-function Header(props: Header_Component) {
+function Header() {
 
   const dispatch = useDispatch()
   const [logout, setLogout] = useState(false)
-  const theme = useSelector((state: any) => state.theme.theme)
   const darkTheme = useSelector((state: any) => state.theme.themeDark)
   const activeUser = useSelector((state: any) => state.activeUser.user)
   const company = useSelector((state: any) => state.company.info.companyName)
   const navigate = useNavigate()
-  const muti = useSelector((state) => state.multiUser.show)
   const [defaultTheme, setDefaultTheme] = useState(
 
     // Check for initial state based on browser preference (optional):

@@ -10,17 +10,13 @@ import { updateChatUser } from "../../ReduxStore/activeChatuser";
 import useContactList from "../../../useCases/useContactList";
 import SingleChat from "./SingleChat";
 import { IoPersonAddSharp } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 import { FcVideoCall } from "react-icons/fc";
 import { toggleMultiUser } from "../../ReduxStore/multipleUser";
-import classPeer from "../../services/peer";
-import { connectSocket, disconnectSocket } from "../../ReduxStore/socket";
 
-const ChatBox = ({ setStudent }: any) => {
+  const ChatBox = ({ setStudent }: any) => {
   const multipleUser = useSelector((state) => state.multiUser.show)
   const [videoCallMessage, setVideoCallMessage] = useState()
   const [real, setReal] = useState([]);
-  const currentChatUser = useSelector((state) => state.activeChatUser.user);
   const [conversation, setConversation] = useState({});
   const activeUser = useSelector((state: any) => state.activeUser.user);
   const [videoCallList, setVideoCallList] = useState([])
@@ -33,7 +29,7 @@ const ChatBox = ({ setStudent }: any) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const dispatch = useDispatch();
   const [selectedUser, setSelectedUser] = useState('')
-  const navigate = useNavigate()
+ 
   const [incomingCall, setIncominCall] = useState(false)
   const [remoteOffer,setRemoteOffer] = useState()
   const [activeCalls,setActiveCalls] = useState([]) 
@@ -41,9 +37,7 @@ const ChatBox = ({ setStudent }: any) => {
   const [connected, setConnected] = useState<boolean>(false);
   const [socketId, setSocketId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const peer = new classPeer()
-  //const { socket, connected, socketId } = useSelector(state => state.socket);
-  // new spcket connection established and assigned to a state 
+ 
   useEffect(() => {
     const newSocket = io("http://localhost:4000")  
     setSocket(newSocket);
@@ -188,16 +182,8 @@ const ChatBox = ({ setStudent }: any) => {
       const temp = activeCalls
       temp.push({from,offer}); 
       setActiveCalls([...temp])   
-      
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: true,
-      });
        
-      console.log(`Incoming Call`, from, offer);
-      //const ans = await peer.getAnswer(offer);
-      //socket.emit("call:accepted", { to: from, ans });
-    },
+     },
     [socket]
   ); 
 
@@ -207,24 +193,20 @@ const ChatBox = ({ setStudent }: any) => {
       socket?.emit("addUser", { userid: activeUser.email });
       setInitialSocket(false);
     }
-    socket?.on("incomming:call", handleIncommingCall);
-
     socket?.on("usersOnline", handleUsersOnline);
     socket?.on("addUser", handleAddUser);
     socket?.on("send-message", handleSendMessage);
-    
+    socket?.on("user:callRequest",handleIncommingCall)
      
     return () => {
-      socket?.off("incomming:call", handleIncommingCall);
       socket?.off("usersOnline", handleUsersOnline);
       socket?.off("addUser", handleAddUser);
       socket?.off("send-message", handleSendMessage);
-       
+      socket?.off("user:callRequest",handleIncommingCall)
     };
   }, [socket, initialSocket, activeUser.email, usersList]);
 
-const handleAnswerCall =useCallback(()=>{
-},[socket])
+   
 
   return (
     <div className="shadow-lg p-2 flex flex-col overflow-scroll h-full rounded-xl">

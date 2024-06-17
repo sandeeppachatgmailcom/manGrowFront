@@ -51,8 +51,8 @@ useEffect(()=>{
     return (
          
              
-                <div className="block h-[50%] xl:flex  bg-opacity-20   border border-opacity-10 border-blue-300 rounded-lg mt-1 p-1 w-full">
-                    <div className="      block m-1 lg:w-full  xl:w-2/6 w-full     md:w-FULL  overflow-scroll  me-1  border-e-2    border-gray-300 border-opacity-20 ">
+                <div className="block h-[50%] xl:flex  bg-opacity-20 shadow-xl   border border-opacity-10 border-blue-400 rounded-lg mt-1 p-1 w-full">
+                    <div className="      block m-1 lg:w-full  xl:w-3/12 w-full     md:w-full  overflow-scroll  me-1 border-r-blue-600  border-e-2    border-gray-300 border-opacity-20 ">
                         <div className="flex flex-wrap md:flex-col   m-1     ">
                         {user && user?.map((item :any, index :number) => {
                         if (index > (((pageCount-1)*5)) && index <= pageCount*5)  return <div  onClick={() =>{setMenu(index);console.log(item);setSelectedStaff(item)   } } className={menu == index ? ` items-center shadow-blue-500 shadow-md  w-full xl:w-5/6  text-blue-800 xl:rounded-e-full   bg-blue-200 flex m-1  font-bold   p-2  `  : ' w-[90%] justify-start p-2 items-center text-left  flex m-1 rounded h-[60px] cursor-pointer '} >

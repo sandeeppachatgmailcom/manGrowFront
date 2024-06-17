@@ -21,6 +21,7 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
     const [studentDashBoard,setStudentDashBoard] = useState({})
     const darkTheme = useSelector((state: any) => state.theme)
     const user = useSelector((state: any) => state.activeUser.user)
+    console.log(user,'oooooooooooooooooooooooo')
     const [pending, setPending] = useState([])
     const [task, setTask] = useState()
     const [seletedMenu, setSelectedMenu] = useState('All')
@@ -28,22 +29,25 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
     const endDate = new Date()
     endDate.setDate(endDate.getDate() + 30);
     
-     
+     useEffect(()=>{
+        console.log(studentDashBoard)
+     },[studentDashBoard])
     
-    const data = {
-        email: user.email,
-        startDate: new Date(),
-        endDate: endDate.toISOString().split('T')[0]
-    }
+   
     const [value, onChange] = useState(new Date());
     useEffect(() => {
     }, [darkTheme])
     const divlign = ' rounded  mt-1 '
 
     const getPending = async () => {
-
+        const data = {
+            email: user?.email,
+            startDate: new Date(),
+            endDate: endDate.toISOString().split('T')[0]
+        }
+        console.log(user, data , 'this is data')
         const pending = await axiosApi.post(trainerApi.getPending, data)
-        
+        console.log(pending.data,'pending Data ')
         
         setPending(pending.data || [])
         setFullMenu(pending.data)
@@ -52,7 +56,7 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
     useEffect(() => {
         getPending()
         getTask()
-    }, [])
+    }, [user])
     const getTask = async () => {
         const task = await axiosApi.get(utilityApis.listAllTasks)
         const data = task.data.map((item: any) => {
@@ -61,7 +65,6 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
         setTask(data)
     }
     const handleFilter = () => {
-
         if (seletedMenu == 'All') {
             setPending(fullMenu)
         }
@@ -91,10 +94,6 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
         setStudentDashBoard({status:false})
     }, [seletedMenu])
 
-
-
-
-
     return (
         <div className={`xl:flex     sm:block overflow-scroll content-start mx-auto h-[100%] opacity-90 ${darkTheme.theme}`}>
 
@@ -113,7 +112,8 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
                 </div>
 
 
-                {!(seletedMenu == 'dashBoard') ?
+                {!(seletedMenu == 'dashBoard' )  ?
+        
                     <div className={`flex flex-col    w-full  overflow-y-scroll h-[95%]   overflow-x-hidden rounded-xl    xl:mt-2 `}>
                         {pending && pending.map((pending: any) => {
                             return <>

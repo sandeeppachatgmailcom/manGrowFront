@@ -13,10 +13,13 @@ import { userApi } from "../../../entity/constants/api";
 import GeneralTask from "../trainer/GeneralTaskSubmisssion";
 import { ToastContainer, toast } from "react-toastify";
 import useGetLogin from "../../../useCases/useGetLogin";
+import UploadImage from "../utilComponents/UploadImage";
+import UploadImageDocument from "../utilComponents/UploadImage";
+import UploadPdfDocument from "../utilComponents/pdfUploader";
 
 
 const SubmiSsionModal = ({ program, ScheduledTaskID, task, onclose, studentSubMission }: { program: object, ScheduledTaskID: string, task: Task_model, onclose: any, studentSubMission: any }) => {
-  useGetLogin();
+  useGetLogin('manGrowstudent')
   const [formData, setFormData] = useState({})
   const dispatch = useDispatch()
   const user = useSelector((state) => state.activeUser.user)
@@ -43,11 +46,13 @@ const SubmiSsionModal = ({ program, ScheduledTaskID, task, onclose, studentSubMi
 
 
   const handleTaskChange = (e: any) => {
-    const {  value } = e.target;
+    console.log(e,'pweeeeeeeeeeeeeeeeee')
+    const {value} = e.target;
     setFormData({
       ...formData,
       tasklink: value 
     })
+   
   }
 
 
@@ -76,6 +81,8 @@ const SubmiSsionModal = ({ program, ScheduledTaskID, task, onclose, studentSubMi
       comment: '',
       verified: false
     }
+
+    console.log(tempsubmission,'tempsubmissiontempsubmissiontempsubmission')
 
     const tempUser: UserEntity_Model | any = JSON.parse(JSON.stringify(user))
     if (!tempUser.submission) { tempUser.submission = {}; }
@@ -109,14 +116,15 @@ const SubmiSsionModal = ({ program, ScheduledTaskID, task, onclose, studentSubMi
   return (
     <div className={`fixed inset-0 z-50 overflow-auto   flex justify-center items-center`}>
       <ToastContainer />
-      <div className="modal-overlay fixed w-full h-full bg-gray-900 opacity-55"></div>
+      <div className="modal-overlay fixed w-full h-full   bg-gray-900 opacity-55"></div>
 
-      <div className="     mx-auto rounded shadow-lg z-50 overflow-y-auto">
+      <div className="     mx-auto rounded shadow-lg z-50  w-6/12 overflow-y-auto">
         <div className="modal-content  py-4 text-left px-6">
           <div className="flex  justify-between items-center pb-3">
-            <div className=" justify-center  items-center h-full">
+            <div className=" justify-center    w-[100%] items-center h-full">
+              
+              <div className="bg-gray-800 border-8 border-blue-500 border-opacity-10  rounded-b-none rounded-xl p-3 bg-opacity-50 text-white">
               <h1 className='text-2xl text-white' >Submission is on progress !!! </h1>
-              <div className="bg-gray-800 rounded-xl p-3 bg-opacity-50 text-white">
                 <div className="flex  justify-end">
                   <button onClick={() => onclose(false)} > <FaPowerOff className=" h-5 m-3 text-blue-500 w-5" /> </button>
                   <div className="animate-spin -z-10 rounded-full h-10 w-10 border-t-2 absolute  border-b-3 border-white">
@@ -127,14 +135,18 @@ const SubmiSsionModal = ({ program, ScheduledTaskID, task, onclose, studentSubMi
                 <h1 className="font-semibold  " >{task.taskDiscription} </h1>
                 <h1 className="  " >{task.taskLink} </h1>
                 <h1 className=" " >{task.validateBy}</h1>
+              
               </div>
 
 
-              <div className="flex w-[500px]   rounded-full">
+              <div className="flex w-[100%] h-[500px]   rounded-xl">
                 {
-                  // task?.taskType == "writing" ?<TextEditor  style={{height:'300px'}}  value={task?.description}  />  :
-                  task?.taskType == "writing" ? <VideoMaker data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
-                    task?.taskType == "listening" ? <VoiceRecorder data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
+                   //task?.taskType == "writing" ?<TextEditor  style={{height:'300px'}}  value={task?.description}  />  :
+                  //  task?.taskType == "writing" ? <GeneralTask data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
+                 //  task?.taskType == "writing" ? <UploadImageDocument  onChange={handleTaskChange}  onSaveClick={onSaveClick} height = {'100%'} width = {'100%'} changebutton={true} value={formData?.tasklink} /> :
+                   task?.taskType == "writing" ? <UploadPdfDocument onChange={handleTaskChange}  onSaveClick={onSaveClick} height = {'100%'} width = {'100%'} changebutton={true} value={formData?.tasklink} /> :
+                   
+                   task?.taskType == "listening" ? <VoiceRecorder data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
                       task?.taskType == "Speaking" ? <VoiceRecorder data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
                         task?.taskType == "OneToOne" ? <VideoMaker data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> : ''
                 }

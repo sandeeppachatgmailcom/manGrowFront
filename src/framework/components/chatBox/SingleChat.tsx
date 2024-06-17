@@ -31,7 +31,10 @@ const tempSingleChat = ({socket, remoteStreamOffer, giveCallResPonce,videoCallMe
     }, [userChat])
     
     useEffect(()=>{
+       
+         
         if(user?.activeCall) setVideoCall(true)
+            else setVideoCall(false)
     },[user])
     const sendData = async () => {
         const obj =
@@ -48,10 +51,7 @@ const tempSingleChat = ({socket, remoteStreamOffer, giveCallResPonce,videoCallMe
 
             const message = await axiosApi.post(chatApi.sendMessage, obj)
             sendMessage(obj)
-            // console.log(message.data)
-            // setData([
-            //     message.data ,...data
-            // ])
+           
             onChange([message.data, ...data])
 
             setNewData({
@@ -72,7 +72,7 @@ const tempSingleChat = ({socket, remoteStreamOffer, giveCallResPonce,videoCallMe
             recievedStatus:false,
             sendCallStatus:true,
         }
-        console.log(offer,stream)
+     
         startCall({data,stream,offer})
     }
 
@@ -110,14 +110,15 @@ const tempSingleChat = ({socket, remoteStreamOffer, giveCallResPonce,videoCallMe
                     <button onClick={()=>{setVideoCall(true); }} className="mx-3 text-green-500" >  <MdVideoCameraBack className="h-10 w-10" />  </button>
                 </div>
             </div>
-            {!videoCall?
+             
+            {videoCall == true?
+            <div className="h-[70%] flex-col overflow-y-scroll          rounded-xl    flex  p-1">
+            {/* <VideoCallPeerjs socket={socket}  user={user}/>  */}
+                <VideoCall socket={socket}  user={user}/>
+            </div>:
             <div className="h-[70%] overflow-y-scroll   rounded-xl flex flex-col-reverse p-3">
                 <TextDisplay activeUser ={activeUser} user = {user} userChat={userChat} />
-            </div>:
-            <div className="h-[70%] flex-col overflow-y-scroll          rounded-xl    flex  p-1">
-                {/* <VideoCallPeerjs socket={socket}  user={user}/>  */}
-                <VideoCall socket={socket}  user={user}/>
-            </div>}
+        </div>}
 
             <div className="h-[15%] rounded-xl  bg-gray-600  flex p-2 bg-opacity-5">
                 <div className="w-full h-[100%]    flex rounded-xl">
