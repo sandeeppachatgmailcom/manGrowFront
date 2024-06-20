@@ -72,6 +72,9 @@ const EventBody =({event,onChange }:EventBody_Component)=>{
         if(name=='active'){
             e.target.checked? value=true:value=false
         }
+        if(name=='review'){
+            e.target.checked? value=true:value=false
+        }
         if(name == 'timeFixed')
             e.target.checked ?value = true:value=false
         console.log(e.target,'e.target',name,value, e.target.checked)
@@ -89,9 +92,9 @@ const EventBody =({event,onChange }:EventBody_Component)=>{
 
     
     return(
-        <div className="block  xl:flex w-full  rounded  overflow-hidden    h-[100%] p-1     ">
+        <div className="block  xl:flex w-full  rounded  overflow-scroll    h-[100%] p-1     ">
             <ToastContainer/>   
-            <div className=" flex flex-col w-full xl:w-1/2 ">
+            <div className=" flex flex-col w-full xl:w-1/2 h-[100%] ">
                 <div className='w-full flex m-1   p-2 items-center justify-between   h-[70px]'>
                     <label className=' w-2/4 h-full align-middle items-center ' htmlFor="">Event Name </label>
                     <div className={`w-2/4 uppercase  border-none h-full flex  `}>
@@ -123,6 +126,12 @@ const EventBody =({event,onChange }:EventBody_Component)=>{
                         {venue? <DropdownMenu name='audienceType' value={formData?.audienceType  ? formData?.audienceType : ''} onChange={handleChange} items={enumAudienceType} />:''}
                     </div>
                 </div>
+                <div className="w-full flex m-1   p-2 items-center justify-between   h-100 ">
+                        <label className=' w-2/4 h-100' htmlFor="">Review    </label>
+                        <div className='justify-between flex align-middle w-2/4 items-center '>
+                            <Switch name="review" checked={formData?.review==true?true:false}  onChange={(e)=>handleChange(e)} />
+                        </div> 
+                    </div>       
             </div>
             <div className="  flex flex-col w-full xl:w-1/2   ">
              

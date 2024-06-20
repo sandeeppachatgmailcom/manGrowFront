@@ -21,7 +21,6 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
     const [studentDashBoard,setStudentDashBoard] = useState({})
     const darkTheme = useSelector((state: any) => state.theme)
     const user = useSelector((state: any) => state.activeUser.user)
-    console.log(user,'oooooooooooooooooooooooo')
     const [pending, setPending] = useState([])
     const [task, setTask] = useState()
     const [seletedMenu, setSelectedMenu] = useState('All')
@@ -29,10 +28,7 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
     const endDate = new Date()
     endDate.setDate(endDate.getDate() + 30);
     
-     useEffect(()=>{
-        console.log(studentDashBoard)
-     },[studentDashBoard])
-    
+      
    
     const [value, onChange] = useState(new Date());
     useEffect(() => {
@@ -41,21 +37,27 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
 
     const getPending = async () => {
         const data = {
+            designation:user.designation,
             email: user?.email,
             startDate: new Date(),
             endDate: endDate.toISOString().split('T')[0]
         }
-        console.log(user, data , 'this is data')
-        const pending = await axiosApi.post(trainerApi.getPending, data)
-        console.log(pending.data,'pending Data ')
         
-        setPending(pending.data || [])
-        setFullMenu(pending.data)
+        if (data.email){
+            console.log(data,'data from ')
+         const pending = await axiosApi.post(trainerApi.getPending, data)
+         console.log(pending.data,'pending.data')
+         setPending(pending.data || [])
+         setFullMenu(pending.data)
+        }
+        
+       
     }
 
     useEffect(() => {
+        if(user){
         getPending()
-        getTask()
+        getTask()}
     }, [user])
     const getTask = async () => {
         const task = await axiosApi.get(utilityApis.listAllTasks)
@@ -97,13 +99,13 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
     return (
         <div className={`xl:flex     sm:block overflow-scroll content-start mx-auto h-[100%] opacity-90 ${darkTheme.theme}`}>
 
-            <div className={`xl:w-2/12 w-full  ${darkTheme.theme + divlign} xl:h-[100%]  border-gray-300   rounded-xl mt-2 p-2`}>
+            <div className={`xl:w-2/12 w-full  ${darkTheme.theme + divlign} xl:h-[100%]   border-gray-300   rounded-xl mt-2 p-2`}>
                 <div className="bg-transparent " >
                    
                     <Profile />
                 </div>
                 <div className="flex w-full">
-                     <MyCalender   />   
+                     {/* <MyCalender   />    */}
                 </div>
             </div>
             <div className={`block xl:w-7/12 m-1 p-1  h-[100%]  w-full overflow-hidden   ${darkTheme.theme} ${divlign} `}>
@@ -114,20 +116,21 @@ const TrainerHomePage = (_props: TrainerHome_Page) => {
 
                 {!(seletedMenu == 'dashBoard' )  ?
         
-                    <div className={`flex flex-col    w-full  overflow-y-scroll h-[95%]   overflow-x-hidden rounded-xl    xl:mt-2 `}>
-                        {pending && pending.map((pending: any) => {
+                    <div className={`flex flex-col    w-full  overflow-y-scroll h-[85%]    p-2  overflow-x-hidden rounded-xl    xl:mt-2 `}>
+                        {pending && pending.map((pendings: any) => {
                             return <>
-                                <PendingEvents task={task} pending={pending} />
+                                <PendingEvents task={task} pending={pendings} />
+
                             </>
                         })}
                     </div>
-                    :<div className={`flex flex-col    w-full  overflow-y-scroll h-[95%]   overflow-x-hidden rounded-xl    xl:mt-2 `}>
+                    :<div className={`flex flex-col    w-full  overflow-y-scroll h-[85%]   overflow-x-hidden rounded-xl    xl:mt-2 `}>
                         <Suspense fallback={<div>Loading......</div>}>
                             {studentDashBoard.status? <StudentLazyDashBoard onChane={setStudentDashBoard} useremail = {studentDashBoard.user}/> : <TrainelazyrDashBoard/>}
                         </Suspense>
                     </div>
                 }
-                 
+               
             </div>
             <div className={`xl:w-3/12  h-[100%] w-full ${darkTheme.theme + divlign} bg-blue-800 bg-opacity-5 m-1  border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
                 <ChatBox setStudent ={setStudentDashBoard} />

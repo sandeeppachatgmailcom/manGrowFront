@@ -1,4 +1,4 @@
-import useGetLogin from "../../../useCases/useGetLogin"
+
 import { useEffect, useRef, useState } from "react"
 import { MdVerified } from "react-icons/md";
 import MarkList from "./MarkList";
@@ -8,14 +8,14 @@ import useGetStudentsPending from "../../../useCases/useGetStudentsPending";
 import useStudentProgressSummary from "../../../useCases/useStudentProgressSummary";
 import CircleChart from "../graphs/CircleGraph";
 import useGetUserByemail from "../../../useCases/useGetUserByemail";
+import { UserEntity_Model } from "../../../entity/response/userModel";
 
-const StudentHistory = ({onChane,useremail})=>{
-    useEffect(()=>{
-        
+const StudentHistory = ({onChane,useremail}:{onChane:()=>{},useremail:string})=>{
+    
+   
+    const user: UserEntity_Model | void = useGetUserByemail(useremail);
 
-    },[useremail])
-    const user = useGetUserByemail(useremail) 
-
+     
     const parentDivRef = useRef()
     const studentProgress = useStudentProgressSummary({email:user?.email})||[]
      //useGetLogin('manGrowstudent');
@@ -69,15 +69,18 @@ const StudentHistory = ({onChane,useremail})=>{
            </div>
          :''}
          <div className="    rounded-lg block xl:flex flex-wrap justify-between  bg-opacity-5   w-100 ">
-        {user?.submission &&  Object.keys(user?.submission).length>0 ?
+        {user?.submission &&  Object.keys(user?.submission).length>0  ?
         <>
          {  Object.keys(user?.submission).map((submission)=>{
-            return <div className=" shadow-md  p-1 flex flex-wrap bg-gray-400 items-start    bg-opacity-5 xl:w-5/12   w-full m-1 rounded-md">
-                <h1 className="font-bold m-2 " >{user?.submission[submission].program.eventName.toUpperCase()} </h1>   <br />
-                    <div className="block w-full m-1 item-start bg-opacity-5 p-1 ">
+            return  <>
+            {!user?.submission[submission].program.review ?<div className=" shadow-md  p-1 flex flex-wrap bg-gray-400 items-start    bg-opacity-5 xl:w-5/12   w-full m-1 rounded-md">
+                    <h1 className="font-bold m-2 " >{user?.submission[submission].program.eventName.toUpperCase()} </h1>   <br />
+                    <div className="block w-full m-1 item-start bg-opacity-5 p-1  ">
                     
                         {Object.keys(user?.submission[submission]).map((item)=>{
+                            
                             if(item !='program'){
+                                 
                             return <div className=" shadow-md m-1 items-center w-full flex p-1 ">
                                 <div className="flex w-3/12  ">
                                     <h1 className="text-sm items-center font-bold  "> {user?.submission[submission][item][0]?.taskName}</h1>
@@ -98,7 +101,10 @@ const StudentHistory = ({onChane,useremail})=>{
                         }) }
                     </div>
                 
-            </div>
+            </div>:"" }
+            
+            </>
+            
         }) }
           <div className="flex h-[100px] rounded-xl  p-1 justify-center m-1 w-full" >
                     

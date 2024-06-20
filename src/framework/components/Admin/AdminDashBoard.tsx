@@ -9,7 +9,7 @@ import useGetDesignationWiseStaffCount from "../../../useCases/useGetDesignation
 
 
 
-const AdminDashBoard =  ({})=>{
+const AdminDashBoard =  (_props:any)=>{
     // const data = [
     //     {
     //       name: 'Page A',
@@ -73,13 +73,9 @@ const AdminDashBoard =  ({})=>{
       const employeeSummary = useGetDesignationWiseStaffCount()
       
       useEffect(()=>{
-        const data = employeeSummary?.map((item)=>{ return {name:item.Designation, value:item.staffCount} })
+        const data  = employeeSummary?.map((item)=>{ return {name:item.Designation, value:item.staffCount} })
         setDesiSummary(data)
       },[employeeSummary])
-      
-      useEffect(()=>{
-        console.log(desiSummary,batchSummary,'**************************')
-      })
       
       useEffect(()=>{
         const data =  btchSummary?.map((item)=>{return {name:item._id, value:item.count}} )

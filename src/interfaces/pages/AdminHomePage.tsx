@@ -39,7 +39,7 @@ const AdminHomePage: React.FC = () => {
                     <Profile />
                 </div>
                 <div className="flex w-full">
-                    <MyCalender />
+                    {/* <MyCalender /> */}
                 </div>
             </div>
             <div className={`block xl:w-7/12 m-1 p-1  h-[100%] w-full overflow-scroll      `}>

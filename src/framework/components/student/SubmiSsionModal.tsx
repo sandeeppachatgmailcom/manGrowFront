@@ -58,12 +58,12 @@ const SubmiSsionModal = ({ program, ScheduledTaskID, task, onclose, studentSubMi
 
   const onSaveClick = async () => {
     const tempsubmission = {
-
       taskName: task.taskName,
       taskSub: task.taskSub,
       taskType: task.taskType,
       tasklink: formData?.tasklink,
       taskId: task.taskId,
+      verifiedBy:task.validateBy,
       submissionDate: task.subMissionDate,
       submittedDate: task.taskDate,
       mark: {
@@ -78,6 +78,7 @@ const SubmiSsionModal = ({ program, ScheduledTaskID, task, onclose, studentSubMi
         "9": true,
         "10": true,
       },
+      documentValidated:false,
       comment: '',
       verified: false
     }
@@ -142,13 +143,18 @@ const SubmiSsionModal = ({ program, ScheduledTaskID, task, onclose, studentSubMi
               <div className="flex w-[100%] h-[500px]   rounded-xl">
                 {
                    //task?.taskType == "writing" ?<TextEditor  style={{height:'300px'}}  value={task?.description}  />  :
-                  //  task?.taskType == "writing" ? <GeneralTask data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
-                 //  task?.taskType == "writing" ? <UploadImageDocument  onChange={handleTaskChange}  onSaveClick={onSaveClick} height = {'100%'} width = {'100%'} changebutton={true} value={formData?.tasklink} /> :
-                   task?.taskType == "writing" ? <UploadPdfDocument onChange={handleTaskChange}  onSaveClick={onSaveClick} height = {'100%'} width = {'100%'} changebutton={true} value={formData?.tasklink} /> :
-                   
-                   task?.taskType == "listening" ? <VoiceRecorder data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
-                      task?.taskType == "Speaking" ? <VoiceRecorder data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
-                        task?.taskType == "OneToOne" ? <VideoMaker data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> : ''
+                  //  
+                //   task?.taskType == "writing" ? <UploadImageDocument  onChange={handleTaskChange}  onSaveClick={onSaveClick} height = {'100%'} width = {'100%'} changebutton={true} value={formData?.tasklink} /> :
+                // task?.taskType == "writing" ? <GeneralTask data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
+                        
+                    task?.taskType == "writing" ? <UploadPdfDocument onChange={handleTaskChange}  onSaveClick={onSaveClick} height = {'100%'} width = {'100%'} changebutton={true} value={formData?.tasklink} /> :
+                    task?.taskType == "imageDocument" ? <UploadImageDocument  onChange={handleTaskChange}  onSaveClick={onSaveClick} height = {'100%'} width = {'100%'} changebutton={true} value={formData?.tasklink} /> :
+                    task?.taskType == "pdfDocument" ? <UploadPdfDocument onChange={handleTaskChange}  onSaveClick={onSaveClick} height = {'100%'} width = {'100%'} changebutton={true} value={formData?.tasklink} /> :
+                    task?.taskType == "audioDocument" ?<VoiceRecorder data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
+                    task?.taskType == "listening" ? <VoiceRecorder data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
+                    task?.taskType == "reading" ? <VoiceRecorder data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
+                    task?.taskType == "Speaking" ? <VoiceRecorder data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> :
+                    task?.taskType == "OneToOne" ? <VideoMaker data={formData} verified={formData?.verified} name='tasklink' onChange={handleTaskChange} onSaveClick={onSaveClick} value={formData?.tasklink} /> : ''
                 }
               </div>
 

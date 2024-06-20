@@ -12,7 +12,7 @@ const useGetLogin = (role:string)=>{
     const dispatch = useDispatch()
     const getLogin =async ()=>{
         const tempuser = await  axiosApi.get(userApi.getlogin+`/${role}`) 
-        console.log(tempuser,'tttttttttttttttttttt') 
+        
         if(!tempuser.data.success && Object.keys(tempuser.data).length <=2 ) navigate('/signin') 
             
         else if(Object.keys(tempuser.data).length > 2) dispatch(login(tempuser.data))

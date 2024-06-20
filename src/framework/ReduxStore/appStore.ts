@@ -6,6 +6,7 @@ import adminMenuSlice from "./adminMenu";
 import activeChatuser from "./activeChatuser";
 import multipleUser from "./multipleUser";
 import socket from './socket'
+import validationSlice from './validationTypes'
 
 const appStore = configureStore({
     reducer:{
@@ -15,7 +16,8 @@ const appStore = configureStore({
         adminSubMenu:adminMenuSlice ,
         activeChatUser:activeChatuser,
         multiUser:multipleUser,
-        socket:socket
+        socket:socket,
+        validationArray :validationSlice
     }
 })
 

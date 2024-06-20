@@ -23,5 +23,8 @@ export enum enumtaskTypes {
     writing = 'writing',
     reading = 'reading',
     listening = 'listening',
-    OneToOne = 'OneToOne'
+    OneToOne = 'OneToOne',
+    imageDocument='imageDocument',
+    pdfDocument = 'pdfDocument',
+    audioDocument = 'audioDocument' 
 }

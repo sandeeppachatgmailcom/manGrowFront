@@ -74,10 +74,10 @@ useEffect(()=>{
           <audio src={recording.audio.src} controls />
         </div>
       ))}
-      <div className='h-[100%]  flex '>
+      <div className='h-10  flex '>
         {!value ? <AudioRecorder classes={'w-full'}  onRecordingComplete={handleRecordComplete} recorderControls={recorderControls} showVisualizer={true} />:""}
         {recaudio?.length ? (
-          <button onClick={() => props.onSaveClick()} className="h-[100%] w-6/12 ms-1 flex justify-evenly rounded-full shadow-md shadow-gray-100 items-center border bg-gray-300 text-black  w-30 hover:border hover:border-blue-400 hover:text-blue-500 " >
+          <button onClick={() => props.onSaveClick()} className="h-10 w-10   ms-1 flex justify-evenly rounded-full shadow-md shadow-gray-100 items-center border bg-gray-300 text-black  w-30 hover:border hover:border-blue-400 hover:text-blue-500 " >
             <BsFillFloppyFill className='text-green-800'/>
           </button>
         ) : (

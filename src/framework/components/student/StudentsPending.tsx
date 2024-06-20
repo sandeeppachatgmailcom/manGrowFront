@@ -18,15 +18,17 @@ const StudentsPending:StudentsPending_Component = ( ) => {
    const [formData,setFormData] = useState() 
    const user = useSelector((state:any) => state.activeUser.user)
    const endDate = new Date()
-   endDate.setDate(endDate.getDate()+5)  
-   const data = {
-    email:user.email,
-    startDate: new Date().toISOString() ,
-    endDate: endDate.toISOString(),
-    batch:user.batchId
-   }
+   endDate.setDate(endDate.getDate()+30)  
+   
    
     const fetchTask =async  ()=>{
+      const data = {
+        designation:user.designation ,
+        email:user.email,
+        startDate: new Date().toISOString() ,
+        endDate: endDate.toISOString(),
+        batch:user.batchId
+       }
       console.log(data,'data to fetch')
         const task = await axiosApi.post(studentApi.getStudentsTask,data)
         if (task.data){

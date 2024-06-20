@@ -16,7 +16,7 @@ const Role = ()=>{
     const getLogin =async (role)=>{
         console.log(userApi.getlogin+`/${role}`, '888888888888888')
         const tempuser = await axiosApi.get(userApi.getlogin+`/${role}`) 
-        console.log(tempuser,'888888888888888')
+         
         if(tempuser.data.success){
             dispatch(login(tempuser.data))
             if(Object.keys(tempuser.data).length && tempuser.data.otpVerified) navigate(`/${tempuser.data.role}`)

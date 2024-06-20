@@ -9,6 +9,7 @@ import MarkList from "../../framework/components/student/MarkList";
 import MyCalender from "../../framework/components/trainer/MyCalender";
 import useGetLogin from "../../useCases/useGetLogin";
 import { useNavigate } from "react-router-dom";
+import Gallery from "../../framework/components/utilComponents/Gallery";
 
 
 const HomePage = (_props: Home_Page) => {
@@ -27,18 +28,20 @@ const HomePage = (_props: Home_Page) => {
                     <Profile />
                 </div>
                 <div className="">
-                     <MyCalender   />   
+                     {/* <MyCalender   />    */}
                 </div>
             </div>
             <div className={`block xl:w-7/12   w-full h-[100%]   rounded-xl m-2 mt-2 p-2  ${darkTheme.theme} ${divlign} `}>
-            {menu == 1 ?  <h1 className="text-5xl">HISTORY</h1> : <h1 className="text-5xl">PENDING</h1> } 
+            {menu == 1 ?  <h1 className="text-5xl">HISTORY</h1> :menu == 2 ? <h1 className="text-5xl  ">GALLERY</h1>: <h1 className="text-5xl">PENDING</h1> } 
                 <div className=" flex h-20 w-full   justify-end bg-transparent  p-4 rounded-md ">
-                    <button onClick={()=>{setMenu(0)}} className=" h-[50px] font-semibold shadow-md  rounded-md   w-32 bg-blue-700 bg-opacity-15 m-2">PENDINGS </button>
-                    <button onClick={()=>{setMenu(1)}} className=" h-[50px] font-semibold shadow-md  rounded-md   w-32 bg-blue-700 bg-opacity-15 m-2 ">HISTORY </button>
+                    <button onClick={()=>{setMenu(2)}} className={`${menu==2 ?' bg-opacity-85 text-gray-100 ':'bg-opacity-15'    }  h-[50px] font-semibold shadow-md  rounded-md bg-blue-700   w-32  m-2`}>GALLERY </button>
+                    <button onClick={()=>{setMenu(0)}} className={`${menu==0 ?'bg-opacity-85 text-gray-100':'bg-opacity-15'    }  h-[50px] font-semibold shadow-md  rounded-md bg-blue-700   w-32  m-2`}>PENDINGS </button>
+                    <button onClick={()=>{setMenu(1)}} className={`${menu==1 ?'bg-opacity-85 text-gray-100':'bg-opacity-15'    }  h-[50px] font-semibold shadow-md  rounded-md bg-blue-700   w-32  m-2`}>HISTORY </button>
                 </div>
                 <div className=" block  overflow-scroll justify-center h-[85%]    rounded-md ">
                 
                 {menu==0 ?<StudentsPending startDate={new Date()} email={activeUser.email} endDate={new Date()} />:''}
+                {menu==2 ?<Gallery startDate={new Date()} email={activeUser.email} endDate={new Date()} />:''}
                 {menu==1 ?<StudentHistory  useremail={activeUser.email} />:''}
                <div className="h-[100px]">
 
